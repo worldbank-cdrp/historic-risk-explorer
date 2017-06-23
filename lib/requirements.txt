@@ -1,0 +1,2 @@
+-e git://github.com/sat-utils/sat-download.git@master#egg=sat-download
+-e git://github.com/sat-utils/sat-process.git@master#egg=sat-process
