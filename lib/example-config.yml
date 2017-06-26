@@ -1,0 +1,13 @@
+sensor: landsat8
+scenes:
+  - loc: Nsanje
+      pre: LC81670712014347LGN00
+      post: LC81670722015046LGN00
+
+  - loc: Quelimane
+      pre: LC81660722014356LGN00
+      post: LC81660722014356LGN00
+
+  - loc: Phalombe
+      pre: LC81670712015046LGN00
+      post: LC81670712014347LGN00
