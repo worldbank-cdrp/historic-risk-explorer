@@ -15,31 +15,32 @@ class Sensor:
     """
 
     # init the class
-    def __init__(self, name):
+    def __init__(self, name, disaster_scenes):
         self.name = str(name)
-        self.disaster_scenes = ''
-    def downloader(self, scenes):
+        self.scenes = disaster_scenes
+    def downloader(self):
         """
         Returns object with band GeoTIFFs and scene name for provided scenes.
         Will call sensor specific methods from txt file provided.
         """
         temp_folder = mkdtemp()
-        if self.name.lower() == 'sentinal':
+        if self.name.lower() == 'sentinel2':
             downloads = Sentinel2(download_dir=temp_folder)
             # we're interested in false color images, though this could be expanded upon.
             bands_to_down = [8, 4, 3]
-        elif self.name.lower() == 'landsat':
+        elif self.name.lower() == 'landsat8':
             downloads = Landsat8(download_dir=temp_folder)
             bands_to_down = [5, 4, 3]
         else:
             print("sensor not specified")
-        for scene in scenes:
+            # add an error
+        for scene in self.scenes:
             temp_folder = mkdtemp()
-            print("downloading " + scene)
-            # downloads scenes from a list of scenes provided, here pre-post disaster images
-            disaster_scenes = downloads.download(scene[1:], bands=bands_to_down)
-            print(scene + " downloaded")
-        self.disaster_scenes = disaster_scenes
+            disaster_data = [
+                downloads.download(evt, bands=bands_to_down)
+                for evt in scene
+            ]
+        self.disaster_data = disaster_data
     def processor(self):
         """
         Given disaster scenes...
@@ -48,24 +49,25 @@ class Sensor:
         - Last, writes them to ../data folder
         """
         band_names = ['nir', 'red', 'green']
-        for index, item in enumerate(self.disaster_scenes.scenes):
-            files = self.disaster_scenes[index].files[0:3]
-            scene = self.disaster_scenes[index].name
-            scene_GeoImage = GeoImage.open(
-                filenames=files,
-                bandnames=(band_names),
-                nodata=0
-            )
-            print("GeoImage generated for: " + scene)
-            print("Enhancing contrast for: " + scene)
-            for bandnum, band in enumerate(scene_GeoImage.bandnames()):
-                color = scene_GeoImage.bandnames()[bandnum]
-                if color == 'green':
-                    scene_GeoImage[color] = scene_GeoImage[color].autoscale(0, 255, percent=5.0)
-                else:
-                    scene_GeoImage[color] = scene_GeoImage[color].autoscale(0, 255, percent=10.0)
-            GeoTIFF_folder = '../data'
-            GeoTIFF_path = os.path.join(GeoTIFF_folder, scene + '.TIF')
-            scene_GeoImage.autoscale(0, 255).save(GeoTIFF_path, dtype='byte')
-            print(scene + ' written to: ' + GeoTIFF_path)
+        for sat_util_obj in self.disaster_data:
+            for index, item in enumerate(sat_util_obj.scenes):
+                files = sat_util_obj[index].files[0:3]
+                scene = sat_util_obj[index].name
+                scene_GeoImage = GeoImage.open(
+                    filenames=files,
+                    bandnames=(band_names),
+                    nodata=0
+                )
+                print("GeoImage generated for: " + scene)
+                print("Enhancing contrast for: " + scene)
+                for bandnum, band in enumerate(scene_GeoImage.bandnames()):
+                    color = scene_GeoImage.bandnames()[bandnum]
+                    if color == 'green':
+                        scene_GeoImage[color] = scene_GeoImage[color].autoscale(0, 255, percent=5.0)
+                    else:
+                        scene_GeoImage[color] = scene_GeoImage[color].autoscale(0, 255, percent=10.0)
+                GeoTIFF_folder = '../data'
+                GeoTIFF_path = os.path.join(GeoTIFF_folder, scene + '.TIF')
+                scene_GeoImage.autoscale(0, 255).save(GeoTIFF_path, dtype='byte')
+                print(scene + ' written to: ' + GeoTIFF_path)
 

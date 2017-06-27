@@ -4,4 +4,5 @@ numpy==1.13.0
 six==1.10.0
 stestdata==0.0.1
 gippy==1.0.0
+PyYAML==3.12
 

@@ -1,3 +1,4 @@
 .DS_Store
 /lib/src
 lib/.python-version
+**/__pycache__
