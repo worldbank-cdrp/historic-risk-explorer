@@ -2,3 +2,5 @@
 /lib/src
 lib/.python-version
 **/__pycache__
+**/.env
+data/*
