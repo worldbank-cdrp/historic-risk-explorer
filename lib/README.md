@@ -1,6 +1,6 @@
 ## Config
 
-create a _processing-config.yml file that matches the below
+create a '_processing-config.yml' file that matches the below
 
 ```
 sensor: {landsat8 or sentinel2}
