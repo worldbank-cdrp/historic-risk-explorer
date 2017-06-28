@@ -1,1 +1,6 @@
 .DS_Store
+/lib/src
+lib/.python-version
+**/__pycache__
+**/.env
+data/*
