@@ -1,12 +1,11 @@
 # libraries
-#import numpy as np
+# import numpy as np
 from sensors import Sensor
 import yaml
 import sys
-import os
 # disaster_scenes
 config_file = sys.argv[1]
-with open(config_file,'r') as file_stream:
+with open(config_file, 'r') as file_stream:
     config = yaml.load(file_stream)
 disaster_scenes = [[scene['pre'], scene['post']] for scene in config['scenes']]
 sensor_name = config['sensor']
