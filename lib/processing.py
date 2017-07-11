@@ -1,8 +1,7 @@
 # libraries
-# import numpy as np
+import sys
 from sensors import Sensor
 import yaml
-import sys
 # disaster_scenes
 config_file = sys.argv[1]
 with open(config_file, 'r') as file_stream:

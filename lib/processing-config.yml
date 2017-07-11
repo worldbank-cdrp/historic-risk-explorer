@@ -1,7 +1,0 @@
-sensor: landsat8
-scenes:
-  - loc: Nsanje
-    pre:
-      - LC81670712014347LGN00
-    post:
-      - LC81670722015046LGN00

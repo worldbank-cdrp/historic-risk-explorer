@@ -26,7 +26,7 @@ class Sensor:
         temp_folder = mkdtemp()
         if self.name.lower() == 'sentinel2':
             downloads = Sentinel2(download_dir=temp_folder)
-            # we're interested in false color images, though this could be expanded upon.
+            # generates false color imgs
             bands_to_down = [8, 4, 3]
         elif self.name.lower() == 'landsat8':
             downloads = Landsat8(download_dir=temp_folder)
@@ -39,6 +39,7 @@ class Sensor:
             disaster_data = [
                 downloads.download(evt, bands=bands_to_down)
                 for evt in scene
+
             ]
         self.disaster_data = disaster_data
     def processor(self):
@@ -70,4 +71,3 @@ class Sensor:
                 GeoTIFF_path = os.path.join(GeoTIFF_folder, scene + '.TIF')
                 scene_GeoImage.autoscale(0, 255).save(GeoTIFF_path, dtype='byte')
                 print(scene + ' written to: ' + GeoTIFF_path)
-
