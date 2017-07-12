@@ -1,1 +1,15 @@
 .DS_Store
+# imagery processing
+**/src
+lib/.python-version
+**/__pycache__
+**/.env
+data/*
+**/.python-version
+# node
+node_modules
+# no vim swaps
+**/*.swo
+**/*.swp
+.todos.json
+
