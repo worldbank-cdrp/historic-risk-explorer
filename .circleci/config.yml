@@ -8,6 +8,7 @@ jobs:
     steps:
 
       - checkout
+
       - restore_cache:
           key: historic-risk-{{ checksum "yarn.lock" }}
       - run: yarn
@@ -31,22 +32,8 @@ jobs:
           sudo apt-add-repository "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe"
           sudo apt-get update
           sudo apt-get install -t trusty-backports shellcheck
-  lint:
-    working_directory: ~/historic-risk-explorer
-    docker:
-      - image: circleci/node:8.0.0
-      - image: circleci/python:3.6.1
-    steps:
 
-      - checkout
+      # lint
       - run: yarn lint
       - run: flake8 lib/*.py
       - run: shellcheck lib/*.sh
-
-workflows:
-  version: 2
-  jobs:
-    - build
-    - lint:
-        requires:
-          - build
