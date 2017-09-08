@@ -8,7 +8,6 @@ import Footer from '../components/Footer';
 
 class Home extends Component {
   render () {
-    console.log(this)
     return (
       <div>
         <div>
