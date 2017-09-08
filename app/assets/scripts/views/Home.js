@@ -1,6 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
 
 import Header from '../components/Header';
@@ -36,4 +37,10 @@ tempor ornare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempus
   }
 }
 
-export default Home;
+const selector = (state) => {
+  return {
+    disasters: state.disasters
+  };
+};
+
+export default connect(selector)(Home);
