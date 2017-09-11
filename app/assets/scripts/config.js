@@ -1,32 +1,19 @@
-'use strict';
-import defaultsDeep from 'lodash.defaultsdeep';
-/*
- * App configuration.
- *
- * Uses settings in config/production.js, with any properties set by
- * config/staging.js or config/local.js overriding them depending upon the
- * environment.
- *
- * This file should not be modified.  Instead, modify one of:
- *
- *  - config/production.js
- *      Production settings (base).
- *  - config/staging.js
- *      Overrides to production if ENV is staging.
- *  - config/local.js
- *      Overrides if local.js exists.
- *      This last file is gitignored, so you can safely change it without
- *      polluting the repo.
- */
-
-var configurations = require('./config/*.js', {mode: 'hash'});
-var config = configurations.local || {};
-
-if (process.env.DS_ENV === 'staging') {
-  defaultsDeep(config, configurations.staging);
-}
-defaultsDeep(config, configurations.production);
-
-// The require doesn't play super well with es6 imports. It creates an internal
-// 'default' property. Export that.
-export default config.default;
+export default {
+  // account specifics
+  mapboxAccountName: 'wbg-cdrp',
+  mapboxApiKey: 'pk.eyJ1Ijoid2JnLWNkcnAiLCJhIjoiY2l1Z3pxZDVwMDBxcDMzcDJjYmRpYnBicSJ9.hjlLP5TEVhqbTwzhFA1rZw',
+  // map styles
+  'disaster-cover': 'mapbox://styles/wbg-cdrp/cj7c8ii6d002w2rlgcwwsvbie',
+  'disaster-data': 'mapbox://styles/wbg-cdrp/cj7akjiy096j92rqru4rqg8j2',
+  // map layers
+  exposure: 'exposure-loss',
+  // source-ids
+  exposureGrids: {
+    one: 'c_dcode_y_grid1km',
+    five: 'c_dcode_y_grid5km',
+    twentyFive: 'c_dcode_y_grid25km'
+  },
+  // map colors
+  mainFill: 'rgba(248,99,78,0.63)',
+  mainLine: 'rgba(248,99,78,1)'
+};

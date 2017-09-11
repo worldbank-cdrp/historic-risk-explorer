@@ -4,6 +4,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import MainMap from '../components/MainMap';
+import AnalysisMap from '../components/AnalysisMap';
+
 class DisasterProfile extends Component {
   constructor (props) {
     super(props);
@@ -39,6 +42,7 @@ class DisasterProfile extends Component {
         <div>
           <h1>stats</h1>
         </div>
+        <AnalysisMap disaster={this.disaster} />
         <div>
           <h1>Disaster Risk Explorer</h1>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum
