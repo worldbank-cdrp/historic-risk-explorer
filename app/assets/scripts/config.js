@@ -13,6 +13,11 @@ export default {
     five: 'c_dcode_y_grid5km',
     twentyFive: 'c_dcode_y_grid25km'
   },
+  exposureResolution: {
+    one: 'Sub National',
+    five: 'National',
+    twentyFive: 'Regional'
+  },
   // map colors
   mainFill: 'rgba(248,99,78,0.63)',
   mainLine: 'rgba(248,99,78,1)'
