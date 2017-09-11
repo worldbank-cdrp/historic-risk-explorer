@@ -16,6 +16,11 @@ import { Route, Switch } from 'react-router-dom';
 import About from './views/About';
 import Home from './views/Home';
 import HistoricDisasters from './views/HistoricDisasters';
+import DisasterProfile from './views/DisasterProfile';
+
+/* HEADER AND FOOTER */
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 const history = createHashHistory();
 
@@ -29,12 +34,15 @@ const store = createStore(reducer, {}, compose(
 render((
   <Provider store={store} >
     <Router history={history}>
+      <div>
+      <Header/>
       <Switch>
         <Route exact path='/' component={Home} />
         <Route path='/about' component={About} />
         <Route path='/disasters' component={HistoricDisasters} />
-        <Route path='/disasters/:disaster' />
       </Switch>
+      <Footer/>
+      </div>
     </Router>
   </Provider>
 ), document.querySelector('#site-canvas'));

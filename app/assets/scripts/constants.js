@@ -16,60 +16,70 @@ export const DISASTERS = [
     y: 2010,
     m: 'February',
     t: 'Earthquake',
-    c: 'Chile'
+    n: 'Chile',
+    c: 'cl'
   },
   {
     y: 1930,
     m: 'August',
     t: 'Hurricane',
-    c: 'Dominican Republic '
+    n: 'Dominican Republic',
+    c: 'do'
   },
   {
     y: 2001,
     m: 'January',
     t: 'Earthquake',
-    c: 'El Salvador'
+    n: 'El Salvador',
+    c: 'sv'
   },
   {
     y: 2016,
     m: 'February',
     t: 'Cyclone',
-    c: 'Fiji'
+    n: 'Fiji',
+    c: 'fj'
   },
   {
     y: 1815,
     m: 'April',
     t: 'Volcano',
-    c: 'Tambora'
+    n: 'Tambora',
+    c: 'tb'
   },
   {
     y: 1988,
     m: 'December',
     t: 'Earthquake',
-    c: 'Armenia'
+    n: 'Armenia',
+    c: 'am'
   },
   {
     y: 2015,
     m: 'January',
     t: 'Flood',
-    c: 'Mozambique'
+    n: 'Mozambique',
+    c: 'mz'
   },
   {
     y: 2005,
     m: 'October',
     t: 'Earthquake',
-    c: 'Pakistan'
+    n: 'Pakistan',
+    c: 'pk'
   },
   {
     y: 2010,
     m: 'December',
     t: 'Earthquake',
-    c: 'Haiti'
+    n: 'Haiti',
+    c: 'ht'
   },
   {
     y: 2010,
     m: 'July',
     t: 'Flood',
-    c: 'Pakistan'
+    n: 'Pakistan',
+    c: 'pk'
   }
 ];

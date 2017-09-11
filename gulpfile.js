@@ -177,9 +177,15 @@ gulp.task('collecticons', function (done) {
     '--author-url', 'https://developmentseed.org/',
     '--no-preview'
   ];
-
-  return cp.spawn('node', args, {stdio: 'inherit'})
-    .on('close', done);
+  // a .woff file needs to exist in the fonts folder for the above to
+  // execute correctly
+  var makeFile = 'touch app/assets/fonts/Collecticons.woff'
+  return cp.exec(makeFile, function (error) {
+    if(!error) {
+      cp.spawn('node', args, {stdio: 'inherit'})
+      .on('close', done)
+    }
+  });
 });
 
 // //////////////////////////////////////////////////////////////////////////////

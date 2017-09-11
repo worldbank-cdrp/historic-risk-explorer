@@ -1,6 +1,8 @@
 'use strict';
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 class DisastersList extends Component {
@@ -11,12 +13,12 @@ class DisastersList extends Component {
   renderDisastersList () {
     return this.props.disasters.map((d, i) =>
       <li key={i}>
-        <a>
+        <Link to={`/disasters/${d.c}-${d.y}-${d.t.toLowerCase()}`}>
           <div>
-            <h1>{d.c + ' ' + d.t}</h1>
-            <p>{d.m + ' ' + d.y}</p>
+            <h1>{`${d.n} ${d.t}`}</h1>
+            <p>{`${d.m} ${d.y}`}</p>
           </div>
-        </a>
+        </Link>
       </li>
     );
   }
@@ -33,4 +35,10 @@ DisastersList.PropTypes = {
   disasters: PropTypes.array
 };
 
-export default DisastersList;
+const selector = (state) => {
+  return {
+    disasters: state.disasters
+  };
+};
+
+export default connect(selector)(DisastersList);

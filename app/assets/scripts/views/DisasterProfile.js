@@ -1,50 +1,72 @@
 'use strict';
 
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
-
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 class DisasterProfile extends Component {
+  constructor (props) {
+    super(props);
+    this.parseURL = this.parseURL.bind(this);
+  }
+  // uses route url to query disasters list for matching disaster
+  parseURL () {
+    const disastersInfo = this.props.match.url.split('/disasters/')[1].split('-');
+    this.disaster = this.props.disasters.find(d => d.c === disastersInfo[0]);
+  }
+
   render () {
+    this.parseURL();
     return (
       <div>
-        <Header/>
         <div>
-          <div>
-            <p>Disaster Date</p>
-            <h1>Disaster Name</h1>
-          </div>
-          <div>
-            <h1>Description</h1>
-          </div>
-          <div>
-            <div>
-              <h1>Disaster Risk Exporer</h1>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum
+          <p>{this.disaster.m} {this.disaster.y}</p>
+          <h1>{this.disaster.n} {this.disaster.y} {this.disaster.t}</h1>
+        </div>
+        <div>
+          <h2>Maginute: </h2>
+          <p>info</p>
+          <h2>Country Population At Time</h2>
+          <p>population</p>
+          <a>Download Disaster Profile</a>
+          <p>Background and Historic Losses</p>
+          <p>See More</p>
+        </div>
+        <div>
+          <h1>stats</h1>
+        </div>
+        <div>
+          <h1>Disaster Risk Explorer</h1>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum
 tempor ornare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempus. Lorem ipsum
-dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue.</p>
-              <a>Exposure</a>
-              <a>Annualized Loss</a>
-              <a>Loss Ratio</a>
-            </div>
-            <div>Map</div>
-            <div>
-              <h1>Before after</h1>
-              <div>Graphic</div>
-            </div>
-          </div>
+dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue</p>
+          <a>Exposure</a>
+          <a>Annualized Loss</a>
+          <a>Loss Ratio</a>
         </div>
         <div>
-          <h2>Next</h2>
-          <h1>Disaster Name</h1>
-          <h3>Case Study</h3>
+          MAP
         </div>
-        <Footer/>
+        <div>
+          BEFORE AND AFTER
+        </div>
+        <div>
+          NEXT DISASTER
+        </div>
       </div>
     );
   }
 }
 
-export default DisasterProfile;
+DisasterProfile.PropTypes = {
+  disasters: PropTypes.array,
+  match: PropTypes.object
+};
+
+const selector = (state) => {
+  return {
+    disasters: state.disasters
+  };
+};
+
+export default connect(selector)(DisasterProfile);
