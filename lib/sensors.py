@@ -9,6 +9,7 @@ from sdownloader import Landsat8, Sentinel2
 from gippy import GeoImage
 import os
 
+
 class Sensor:
     """
     sensor class downloads and processes imagery for the sensor it is told to
@@ -18,6 +19,7 @@ class Sensor:
     def __init__(self, name, disaster_scenes):
         self.name = str(name)
         self.scenes = disaster_scenes
+
     def downloader(self):
         """
         Returns object with band GeoTIFFs and scene name for provided scenes.
@@ -41,6 +43,7 @@ class Sensor:
                 for evt in scene
             ]
         self.disaster_data = disaster_data
+
     def processor(self):
         """
         Given disaster scenes...
@@ -70,4 +73,3 @@ class Sensor:
                 GeoTIFF_path = os.path.join(GeoTIFF_folder, scene + '.TIF')
                 scene_GeoImage.autoscale(0, 255).save(GeoTIFF_path, dtype='byte')
                 print(scene + ' written to: ' + GeoTIFF_path)
-
