@@ -1,0 +1,38 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/historic-risk-explorer
+    docker:
+      - image: circleci/node:8.0.0
+      - image: circleci/python:3.6.1
+    steps:
+
+      - checkout
+
+      - restore_cache:
+          key: historic-risk-{{ checksum "yarn.lock" }}
+      - run: yarn
+      - run: yarn install
+
+      - save_cache:
+          key: historic-risk-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
+      # get pip and download flake
+      - run: curl https://bootstrap.pypa.io/get-pip.py > get-pip.py
+      - run: sudo python get-pip.py
+      - run: sudo pip install flake8
+
+      # get apt-add-respoitory
+      - run: sudo apt-get install software-properties-common && sudo apt-get install python3-software-properties
+
+      # get shellcheck
+      - run: |
+          sudo apt-add-repository "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe"
+          sudo apt-get update
+          sudo apt-get install -t trusty-backports shellcheck
+      # lint
+      - run: yarn lint
+      - run: flake8 lib/*.py
+      - run: shellcheck -e SC2044 lib/*.sh
