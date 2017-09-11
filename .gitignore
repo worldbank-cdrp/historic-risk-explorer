@@ -15,6 +15,7 @@ data/*
 ################################################
 
 node_modules
+bower_components
 lib-cov
 *.seed
 *.log
