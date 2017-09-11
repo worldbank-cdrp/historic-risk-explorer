@@ -9,6 +9,10 @@ class DisasterProfile extends Component {
     super(props);
     this.parseURL = this.parseURL.bind(this);
   }
+  static propTypes = {
+    disasters: PropTypes.array,
+    match: PropTypes.object
+  }
   // uses route url to query disasters list for matching disaster
   parseURL () {
     const disastersInfo = this.props.match.url.split('/disasters/')[1].split('-');
@@ -57,11 +61,6 @@ dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue</p>
     );
   }
 }
-
-DisasterProfile.PropTypes = {
-  disasters: PropTypes.array,
-  match: PropTypes.object
-};
 
 const selector = (state) => {
   return {

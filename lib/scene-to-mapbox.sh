@@ -1,3 +1,5 @@
+# ignore some shellchecks
+# shellcheck disable=SC2044,SC1091,SC2148
 # get environmental variables from .env
 source .env
 export MAPBOX_ACCESS_TOKEN

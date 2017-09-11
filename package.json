@@ -11,7 +11,7 @@
     "serve": "DS_ENV=development gulp collecticons && gulp serve",
     "build": "DS_ENV=production NODE_ENV=production gulp",
     "stage": "DS_ENV=staging NODE_ENV=staging gulp",
-    "lint": "eslint .",
+    "lint": "eslint app/**/*.js",
     "test": "echo \"No tests\" && exit 0"
   },
   "browserify": {
@@ -22,7 +22,8 @@
           "presets": [
             "es2015",
             "react"
-          ]
+          ],
+          "plugins": ["transform-class-properties"]
         }
       ],
       "require-globify",
@@ -31,6 +32,8 @@
   },
   "devDependencies": {
     "babel": "^6.23.0",
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-es2015": "^6.24.0",
     "babel-preset-react": "^6.23.0",
     "babelify": "^7.3.0",
