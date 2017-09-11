@@ -1,4 +1,7 @@
 import React, { Component} from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { setVisibleLayer } from '../actions/action-creators';
 import config from '../config';
 
 class AnalysisLayerControl extends Component {
@@ -6,12 +9,15 @@ class AnalysisLayerControl extends Component {
     super(props);
     this.renderLayerSelect = this.renderLayerSelect.bind(this);
   }
+  static propTypes = {
+    _setVisibleLayer: PropTypes.func.isRequired
+  }
   renderLayerSelect () {
     return Object.keys(config.exposureGrids).map((k, i) => {
       const layer = `${config.exposure}-${k}`;
       return (
         <li key={i}>
-          <button value={layer} />
+          <input type='radio' value={layer} onClick={(e) => { this.props._setVisibleLayer(e.target.value); }}/>
           <p>{config.exposureResolution[k]}</p>
         </li>
       );
@@ -20,13 +26,22 @@ class AnalysisLayerControl extends Component {
   render () {
     return (
       <div>
-        <p>Level</p>
+        <p>LEVEL</p>
         <ul>
          {this.renderLayerSelect()}
         </ul>
+        <p>DATA VALUES</p>
+        <button>Absolute Value</button>
+        <button>Relative Value</button>
       </div>
     );
   }
 }
 
-export default AnalysisLayerControl;
+const dispatcher = (dispatch) => {
+  return {
+    _setVisibleLayer: (layer) => { dispatch(setVisibleLayer(layer)); }
+  };
+};
+
+export default connect(null, dispatcher)(AnalysisLayerControl);

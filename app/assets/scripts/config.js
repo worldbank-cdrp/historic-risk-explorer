@@ -20,5 +20,7 @@ export default {
   },
   // map colors
   mainFill: 'rgba(248,99,78,0.63)',
-  mainLine: 'rgba(248,99,78,1)'
+  mainLine: 'rgba(248,99,78,1)',
+  // glob padding
+  boundsPadding: 15
 };

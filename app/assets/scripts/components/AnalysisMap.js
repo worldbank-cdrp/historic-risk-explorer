@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import mapboxgl from 'mapbox-gl';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
+import mapboxgl from 'mapbox-gl';
 import config from '../config';
 import { makeExposureGrid } from '../utils/map';
 
@@ -13,7 +15,8 @@ class AnalysisMap extends Component {
     this._addNavigation = this._addNavigation.bind(this);
   }
   static propTypes = {
-    disaster: PropTypes.object
+    disaster: PropTypes.object,
+    visibleLayer: PropTypes.object
   }
   _loadLayers () {
     // exposure layers
@@ -36,12 +39,28 @@ class AnalysisMap extends Component {
     this._map = new mapboxgl.Map({
       container: 'analysisMap',
       style: config['disaster-data']
+    }).fitBounds(this.props.disaster.bbox, {
+      animate: false,
+      padding: config.boundsPadding
     });
     // add layers, then hide them
     this._map.on('load', () => {
       this._loadLayers();
       this._addNavigation();
     });
+  }
+  componentWillReceiveProps (nextProps) {
+    // if the selected layer is visible, make invisible on click.
+    // do the opposite if it is not visible
+    let selectedLayer = nextProps.visibleLayer.layer;
+    let layerVisibility = this._map.getStyle().layers.find((l) => {
+      return l.source === selectedLayer;
+    }).layout.visibility;
+    if (layerVisibility === 'none') {
+      this._map.setLayoutProperty(nextProps.visibleLayer.layer, 'visibility', 'visible');
+    } else {
+      this._map.setLayoutProperty(nextProps.visibleLayer.layer, 'visibility', 'none');
+    }
   }
   render () {
     return (
@@ -53,4 +72,10 @@ class AnalysisMap extends Component {
   }
 }
 
-export default AnalysisMap;
+const selector = (state) => {
+  return {
+    visibleLayer: state.visibleLayer
+  };
+};
+
+export default connect(selector)(AnalysisMap);

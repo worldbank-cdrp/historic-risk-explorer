@@ -12,8 +12,18 @@ const disasters = function (state = DISASTERS, action) {
   return state;
 };
 
+const visibleLayer = function (state = {}, action) {
+  switch (action.type) {
+    case actions.SET_VISIBLE_LAYER:
+      state = Object.assign({}, state);
+      state.layer = action.text;
+  }
+  return state;
+};
+
 const reducer = combineReducers({
   disasters,
+  visibleLayer,
   routing: routerReducer
 });
 

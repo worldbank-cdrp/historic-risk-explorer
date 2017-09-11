@@ -18,7 +18,8 @@ export const DISASTERS = [
     t: 'Earthquake',
     dcode: 'EQ',
     n: 'Chile',
-    c: 'chl'
+    c: 'chl',
+    bbox: [[-73.94645, -41.173], [-69.992715, -30.618278]]
   },
   {
     y: 1930,

@@ -1,1 +1,3 @@
 export const INIT_DISASTERS = 'INIT_DISASTERS';
+
+export const SET_VISIBLE_LAYER = 'SET_VISIBLE_LAYER';
