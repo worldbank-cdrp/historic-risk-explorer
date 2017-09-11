@@ -10,7 +10,7 @@ class DisastersList extends Component {
     super(props);
     this.renderDisastersList = this.renderDisastersList.bind(this);
   }
-  static PropTypes = {
+  static propTypes = {
     disasters: PropTypes.array.isRequired
   }
   renderDisastersList () {

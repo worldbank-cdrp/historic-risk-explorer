@@ -16,7 +16,6 @@ import { Route, Switch } from 'react-router-dom';
 import About from './views/About';
 import Home from './views/Home';
 import HistoricDisasters from './views/HistoricDisasters';
-import DisasterProfile from './views/DisasterProfile';
 
 /* HEADER AND FOOTER */
 import Header from './components/Header';

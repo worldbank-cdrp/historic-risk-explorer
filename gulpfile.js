@@ -179,11 +179,11 @@ gulp.task('collecticons', function (done) {
   ];
   // a .woff file needs to exist in the fonts folder for the above to
   // execute correctly
-  var makeFile = 'touch app/assets/fonts/Collecticons.woff'
+  var makeFile = 'touch app/assets/fonts/Collecticons.woff';
   return cp.exec(makeFile, function (error) {
-    if(!error) {
+    if (!error) {
       cp.spawn('node', args, {stdio: 'inherit'})
-      .on('close', done)
+      .on('close', done);
     }
   });
 });
