@@ -35,4 +35,4 @@ jobs:
       # lint
       - run: yarn lint
       - run: flake8 lib/*.py
-      - run: shellcheck lib/*.sh
+      - run: shellcheck -e SC2044 lib/*.sh
