@@ -10,6 +10,9 @@ class DisastersList extends Component {
     super(props);
     this.renderDisastersList = this.renderDisastersList.bind(this);
   }
+  static propTypes = {
+    disasters: PropTypes.array.isRequired
+  }
   renderDisastersList () {
     return this.props.disasters.map((d, i) =>
       <li key={i}>
@@ -30,10 +33,6 @@ class DisastersList extends Component {
     );
   }
 }
-
-DisastersList.PropTypes = {
-  disasters: PropTypes.array
-};
 
 const selector = (state) => {
   return {

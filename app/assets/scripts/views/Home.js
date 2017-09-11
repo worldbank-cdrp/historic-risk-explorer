@@ -1,18 +1,12 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
-
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 
 class Home extends Component {
   render () {
     return (
       <div>
         <div>
-          <Header/>
           <div>
             <h1>Historic Disasters Database</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue.</p>
@@ -30,17 +24,10 @@ class Home extends Component {
 tempor ornare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempus</p>
             <a>Explore Central America</a>
           </div>
-          <Footer/>
         </div>
       </div>
     );
   }
 }
 
-const selector = (state) => {
-  return {
-    disasters: state.disasters
-  };
-};
-
-export default connect(selector)(Home);
+export default Home;

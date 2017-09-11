@@ -1,10 +1,11 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import DisastersList from './DisastersList';
-import PropTypes from 'prop-types';
 
-const HistoricDisastersMain = ({ props }) => (
+class HistoricDisastersMain extends Component {
+  render () {
+    return (
       <div>
         <div>
           <h1>Historic Disasters</h1>
@@ -17,10 +18,8 @@ const HistoricDisastersMain = ({ props }) => (
           <a>Explore Central America</a>
         </div>
       </div>
-);
-
-HistoricDisastersMain.PropTypes = {
-  props: PropTypes.object
-};
+    );
+  }
+}
 
 export default HistoricDisastersMain;
