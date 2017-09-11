@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import mapboxgl from 'mapbox-gl';
 import PropTypes from 'prop-types';
 import config from '../config';
-import { makeExposureGrid, fitLayerBounds } from '../utils/map';
+import { makeExposureGrid } from '../utils/map';
 
 class AnalysisMap extends Component {
   static propTypes = {

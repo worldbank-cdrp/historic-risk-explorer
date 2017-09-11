@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import MainMap from '../components/MainMap';
 import AnalysisMap from '../components/AnalysisMap';
 
 class DisasterProfile extends Component {
