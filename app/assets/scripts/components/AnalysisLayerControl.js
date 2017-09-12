@@ -7,18 +7,18 @@ import config from '../config';
 class AnalysisLayerControl extends Component {
   constructor (props) {
     super(props);
-    this.renderLayerSelect = this.renderLayerSelect.bind(this);
+    this.renderExposureLayerSelect = this.renderExposureLayerSelect.bind(this);
   }
   static propTypes = {
+    disaster: PropTypes.object.isRequired,
     _setVisibleLayer: PropTypes.func.isRequired
   }
-  renderLayerSelect () {
-    return Object.keys(config.exposureGrids).map((k, i) => {
-      const layer = `${config.exposure}-${k}`;
+  renderExposureLayerSelect () {
+    return Object.keys(config.control['exposure-loss']).map((k, i) => {
       return (
         <li key={i}>
-          <input type='radio' value={layer} onClick={(e) => { this.props._setVisibleLayer(e.target.value); }}/>
-          <p>{config.exposureResolution[k]}</p>
+          <input type='radio' value={k} onClick={(e) => { this.props._setVisibleLayer(e.target.value); }}/>
+          <p>{config.control['exposure-loss'][k]}</p>
         </li>
       );
     });
@@ -28,7 +28,7 @@ class AnalysisLayerControl extends Component {
       <div>
         <p>LEVEL</p>
         <ul>
-         {this.renderLayerSelect()}
+         {this.renderExposureLayerSelect()}
         </ul>
         <p>DATA VALUES</p>
         <button>Absolute Value</button>

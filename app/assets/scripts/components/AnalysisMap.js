@@ -4,9 +4,12 @@ import PropTypes from 'prop-types';
 
 import mapboxgl from 'mapbox-gl';
 import config from '../config';
-import { makeExposureGrid } from '../utils/map';
+import { makeExposureLayer, makeFootPrintLayer } from '../utils/map';
+
+import { includes } from 'lodash';
 
 import AnalysisLayerControl from './AnalysisLayerControl';
+import AnalysisMapLegend from './AnalysisMapLegend';
 
 class AnalysisMap extends Component {
   constructor (props) {
@@ -15,19 +18,25 @@ class AnalysisMap extends Component {
     this._addNavigation = this._addNavigation.bind(this);
   }
   static propTypes = {
-    disaster: PropTypes.object,
-    visibleLayer: PropTypes.object
+    disaster: PropTypes.object.isRequired,
+    visibleLayer: PropTypes.object.isRequired
   }
   _loadLayers () {
-    // exposure layers
-    this._map.addLayer(makeExposureGrid(this.props.disaster, 'twentyFive'));
-    this._map.addLayer(makeExposureGrid(this.props.disaster, 'five'));
-    this._map.addLayer(makeExposureGrid(this.props.disaster, 'one'));
-    // hide layers
-    Object.keys(config.exposureGrids).forEach((key) => {
-      let id = `${config.exposure}-${key}`;
-      if (this._map.getLayer(id)) {
-        this._map.setLayoutProperty(id, 'visibility', 'none');
+    // base layer
+    if (this.props.disaster.dmetric) {
+      // this._map.addLayer(makeFootPrintLayer(this.props.disaster));
+      // let id = `${config.mapLayers[this.props.disaster.dmetric].id}-${config.mapLayers[this.props.disaster.dmetric].layers.main}`;
+      // this._map.setLayoutProperty(id, 'visibility', 'visibile');
+    }
+    // hide exposure layers
+    Object.keys(config.mapLayers['exposure-loss'].layers.ids).forEach((key) => {
+      // add layer
+      let layerIdBase = config.mapLayers['exposure-loss'].layers.ids[key];
+      this._map.addLayer(makeExposureLayer(this.props.disaster, layerIdBase));
+      // hide layer
+      let layerId = `${config.mapLayers['exposure-loss'].id}-${layerIdBase}`;
+      if (this._map.getLayer(layerId)) {
+        this._map.setLayoutProperty(layerId, 'visibility', 'none');
       }
     });
   }
@@ -52,20 +61,31 @@ class AnalysisMap extends Component {
   componentWillReceiveProps (nextProps) {
     // if the selected layer is visible, make invisible on click.
     // do the opposite if it is not visible
-    let selectedLayer = nextProps.visibleLayer.layer;
-    let layerVisibility = this._map.getStyle().layers.find((l) => {
-      return l.source === selectedLayer;
-    }).layout.visibility;
-    if (layerVisibility === 'none') {
-      this._map.setLayoutProperty(nextProps.visibleLayer.layer, 'visibility', 'visible');
-    } else {
-      this._map.setLayoutProperty(nextProps.visibleLayer.layer, 'visibility', 'none');
-    }
+    let selectedIds = Object.keys(config.mapLayers['exposure-loss'].layers.ids)
+    .filter((k) => {
+      const layerRegEx = RegExp(nextProps.visibleLayer.layer);
+      const configLayer = config.mapLayers['exposure-loss'].layers.ids[k];
+      return layerRegEx.test(configLayer);
+    });
+    selectedIds.forEach((id) => {
+      id = `${config.mapLayers['exposure-loss'].id}-${config.mapLayers['exposure-loss'].layers.ids[id]}`;
+      let layer = this._map.getStyle().layers.find((l) => {
+        return l.id === id;
+      });
+      // only add layer if the selected layer is not currently visible and no other
+      // exposure layers are visible.
+      if (layer.layout.visibility === 'none') {
+        this._map.setLayoutProperty(layer.id, 'visibility', 'visible');
+      } else {
+        this._map.setLayoutProperty(layer.id, 'visibility', 'none');
+      }
+    });
   }
   render () {
     return (
       <div className='map-canvas'>
-        <AnalysisLayerControl />
+        <AnalysisLayerControl disaster={this.props.disaster} />
+        <AnalysisMapLegend />
         <div id='analysisMap'/>
       </div>
     );
