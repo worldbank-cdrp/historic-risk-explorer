@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 
 import mapboxgl from 'mapbox-gl';
 import config from '../config';
-import { makeExposureLayer, makeFootPrintLayer } from '../utils/map';
-
-import { includes } from 'lodash';
+import { makeExposureLayer } from '../utils/map';
 
 import AnalysisLayerControl from './AnalysisLayerControl';
 import AnalysisMapLegend from './AnalysisMapLegend';
