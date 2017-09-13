@@ -51,21 +51,15 @@ class DisasterProfile extends Component {
           <h1>stats</h1>
         </div>
         <div>
-          {this.makeMetricButtons()}
-        </div>
-        <AnalysisMap disaster={this.disaster} />
-        <div>
           <h1>Disaster Risk Explorer</h1>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum
 tempor ornare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempus. Lorem ipsum
 dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue</p>
-          <a>Exposure</a>
-          <a>Annualized Loss</a>
-          <a>Loss Ratio</a>
+          <div>
+            {this.makeMetricButtons()}
+          </div>
         </div>
-        <div>
-          MAP
-        </div>
+        <AnalysisMap disaster={this.disaster} />
         <div>
           BEFORE AND AFTER
         </div>
