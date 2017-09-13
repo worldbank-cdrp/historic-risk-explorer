@@ -23,7 +23,9 @@
             "es2015",
             "react"
           ],
-          "plugins": ["transform-class-properties"]
+          "plugins": [
+            "transform-class-properties"
+          ]
         }
       ],
       "require-globify",
@@ -74,7 +76,9 @@
   },
   "dependencies": {
     "history": "^4.7.2",
+    "lodash": "^4.17.4",
     "lodash.defaultsdeep": "^4.6.0",
+    "mapbox-gl": "^0.39.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",

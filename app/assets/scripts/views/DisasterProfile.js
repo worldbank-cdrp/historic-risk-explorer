@@ -3,22 +3,35 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { setOverlayMetric } from '../actions/action-creators';
+
+import AnalysisMap from '../components/AnalysisMap';
 
 class DisasterProfile extends Component {
   constructor (props) {
     super(props);
     this.parseURL = this.parseURL.bind(this);
+    this.makeMetricButtons = this.makeMetricButtons.bind(this);
   }
   static propTypes = {
-    disasters: PropTypes.array,
-    match: PropTypes.object
+    disasters: PropTypes.array.isRequired,
+    match: PropTypes.object.isRequired,
+    _setOverlayMetric: PropTypes.func.isRequired
   }
   // uses route url to query disasters list for matching disaster
   parseURL () {
     const disastersInfo = this.props.match.url.split('/disasters/')[1].split('-');
     this.disaster = this.props.disasters.find(d => d.c === disastersInfo[0]);
   }
-
+  makeMetricButtons () {
+    return ['Exposure', 'Annualized Loss', 'Loss Ratio'].map((m, i) => {
+      return (
+        <button key={i}
+          value={m.replace(' ', '-').toLowerCase()}
+          onClick={(e) => { this.props._setOverlayMetric(e.target.value); }}>{m}</button>
+      );
+    });
+  }
   render () {
     this.parseURL();
     return (
@@ -35,8 +48,6 @@ class DisasterProfile extends Component {
           <a>Download Disaster Profile</a>
           <p>Background and Historic Losses</p>
           <p>See More</p>
-        </div>
-        <div>
           <h1>stats</h1>
         </div>
         <div>
@@ -44,13 +55,11 @@ class DisasterProfile extends Component {
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum
 tempor ornare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempus. Lorem ipsum
 dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue</p>
-          <a>Exposure</a>
-          <a>Annualized Loss</a>
-          <a>Loss Ratio</a>
+          <div>
+            {this.makeMetricButtons()}
+          </div>
         </div>
-        <div>
-          MAP
-        </div>
+        <AnalysisMap disaster={this.disaster} />
         <div>
           BEFORE AND AFTER
         </div>
@@ -68,4 +77,10 @@ const selector = (state) => {
   };
 };
 
-export default connect(selector)(DisasterProfile);
+const dispatcher = (dispatch) => {
+  return {
+    _setOverlayMetric: (metric) => dispatch(setOverlayMetric(metric))
+  };
+};
+
+export default connect(selector, dispatcher)(DisasterProfile);

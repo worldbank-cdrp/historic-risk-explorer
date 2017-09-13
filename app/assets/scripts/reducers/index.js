@@ -12,8 +12,32 @@ const disasters = function (state = DISASTERS, action) {
   return state;
 };
 
+const visibleLayer = function (state = {}, action) {
+  switch (action.type) {
+    case actions.SET_VISIBLE_LAYER:
+      state = Object.assign({}, state);
+      state.layer = action.text;
+  }
+  return state;
+};
+
+const defaultOverlayMetric = {
+  metric: 'exposure-loss'
+};
+
+const overlayMetric = function (state = defaultOverlayMetric, action) {
+  switch (action.type) {
+    case actions.SET_OVERLAY_METRIC:
+      state = Object.assign({}, state);
+      state.metric = action.text !== 'exposure' ? action.text : defaultOverlayMetric.metric;
+  }
+  return state;
+};
+
 const reducer = combineReducers({
   disasters,
+  visibleLayer,
+  overlayMetric,
   routing: routerReducer
 });
 
