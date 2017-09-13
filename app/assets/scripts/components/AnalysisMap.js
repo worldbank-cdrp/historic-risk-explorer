@@ -56,10 +56,10 @@ class AnalysisMap extends Component {
       animate: false,
       padding: config.boundsPadding
     });
+    this._addNavigation();
     // add layers, then hide them
     this._map.on('load', () => {
       this._loadLayers();
-      this._addNavigation();
     });
   }
   componentWillReceiveProps (nextProps) {
