@@ -32,7 +32,7 @@ class AnalysisMap extends Component {
       this._map.addSource(id, footprintSource);
       this._map.addLayer(makeFootPrintLayer(this.props.disaster, id));
     }
-    // hide exposure layers
+    // add & hide overlay layers
     Object.keys(config.mapLayers['exposure-loss'].layers.ids).forEach((key) => {
       // add layer
       let layerIdBase = config.mapLayers['exposure-loss'].layers.ids[key];

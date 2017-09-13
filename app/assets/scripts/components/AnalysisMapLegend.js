@@ -9,12 +9,22 @@ class AnalysisMapLegend extends Component {
     overlayMetric: PropTypes.object.isRequired
   }
   render () {
-    console.log(this.props.overlayMetric.metric);
+    let overlayMetric = this.props.overlayMetric.metric;
+    let overlayMetricTitle = config.legend[overlayMetric].title;
+    let overlayMetricIdUnits = config.legend[overlayMetric].idUnits;
+    let overlayMetricUOA = this.props.visibleLayer.layer;
+    overlayMetricIdUnits = overlayMetricUOA === 'grid' ? `${overlayMetricIdUnits} per # km` : `${overlayMetricIdUnits} per province`;
+    // for subNational, units are be expressed in #km
+    // TODO: add additional logic to pick subnational from ids per zoom
     return (
       <div>
         <h2></h2>
         <div>
-          <h1>'surf'</h1>
+          <h1>{overlayMetricTitle}</h1>
+        </div>
+        <div>
+          {/* place for color ramp */}
+          {overlayMetricIdUnits}
         </div>
       </div>
     );

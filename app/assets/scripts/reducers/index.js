@@ -29,7 +29,7 @@ const overlayMetric = function (state = defaultOverlayMetric, action) {
   switch (action.type) {
     case actions.SET_OVERLAY_METRIC:
       state = Object.assign({}, state);
-      state.metric = action.text !== 'exposure' ? action.text : state.metric;
+      state.metric = action.text !== 'exposure' ? action.text : defaultOverlayMetric.metric;
   }
   return state;
 };

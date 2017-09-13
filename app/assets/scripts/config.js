@@ -32,8 +32,63 @@ export default {
    *
    */
   mapLayers: {
+    // TODO: simplify overlay layers into their own obj
     'exposure-loss': {
       id: 'exposure-loss',
+      layers: {
+        main: 'c_dcode_y_',
+        ids: {
+          'admin': 'admin',
+          '1km': 'grid1km',
+          '5km': 'grid5km',
+          '25km': 'grid25km'
+        },
+        zooms: {
+          'grid1km': {
+            minZoom: 9,
+            maxZoom: 0
+          },
+          'grid5km': {
+            minZoom: 6,
+            maxZoom: 9
+          },
+          'grid25km': {
+            maxZoom: 6
+          }
+        },
+        geomType: 'fill',
+        type: 'vector'
+      }
+    },
+    'annualized-loss': {
+      id: 'annualized-loss',
+      layers: {
+        main: 'c_dcode_y_',
+        ids: {
+          'admin': 'admin',
+          '1km': 'grid1km',
+          '5km': 'grid5km',
+          '25km': 'grid25km'
+        },
+        zooms: {
+          'grid1km': {
+            minZoom: 9,
+            maxZoom: 0
+          },
+          'grid5km': {
+            minZoom: 6,
+            maxZoom: 9
+          },
+          'grid25km': {
+            maxZoom: 6
+          }
+        },
+        geomType: 'fill',
+        type: 'vector'
+      }
+    },
+    'loss-ratio': {
+      id: 'loss-ratio',
       layers: {
         main: 'c_dcode_y_',
         ids: {
@@ -146,19 +201,15 @@ export default {
   legend: {
     'exposure-loss': {
       title: 'Building Stock Exposure',
-      idUnits: {
-        '1km': '?',
-        '2km': '?',
-        '25km': '?'
-      }
+      idUnits: 'some unit'
     },
     'annualized-loss': {
       title: 'Annualized Loss',
-      idUnits: '?'
+      idUnits: 'some unit'
     },
     'loss-ratio': {
       title: 'Loss Ratio',
-      idUnits: '?'
+      idUnits: 'some unit'
     }
   }
   // ------------- //
