@@ -14,3 +14,11 @@ export function setVisibleLayer (text) {
     recievedAt: Date.now()
   };
 }
+
+export function setOverlayMetric (text) {
+  return {
+    type: actions.SET_OVERLAY_METRIC,
+    text: text,
+    recievedAt: Date.now()
+  };
+}

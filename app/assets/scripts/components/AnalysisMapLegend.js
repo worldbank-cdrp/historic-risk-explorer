@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import config from '../config';
 
 class AnalysisMapLegend extends Component {
   static propTypes = {
-    visibleLayer: PropTypes.object.isRequired
+    visibleLayer: PropTypes.object.isRequired,
+    overlayMetric: PropTypes.object.isRequired
   }
   render () {
+    console.log(this.props.overlayMetric.metric);
     return (
       <div>
         <h2></h2>
         <div>
-        ACTUAL LEGEND
+          <h1>'surf'</h1>
         </div>
       </div>
     );
@@ -20,7 +23,8 @@ class AnalysisMapLegend extends Component {
 
 const selector = (state) => {
   return {
-    visibleLayer: state.visibleLayer
+    visibleLayer: state.visibleLayer,
+    overlayMetric: state.overlayMetric
   };
 };
 

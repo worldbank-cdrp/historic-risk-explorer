@@ -68,7 +68,7 @@ export default {
     Intensity: {
       id: 'Intensity',
       layers: {
-        main: 'Intensity',
+        main: 'c_dcode_y_Intensity',
         type: 'raster'
       }
     },
@@ -152,33 +152,13 @@ export default {
         '25km': '?'
       }
     },
-    'PGA': {
-      title: 'Peak Ground Acceleration',
-      idUnits: 'm/s2, g, or Gal'
+    'annualized-loss': {
+      title: 'Annualized Loss',
+      idUnits: '?'
     },
-    'Intensity': {
-      title: 'Intensity',
-      idUnits: {
-        main: 'Richter Magnitude?'
-      }
-    },
-    'MMI': {
-      title: 'Modified Mercalli Intensity Scale',
-      idUnits: {
-        main: 'Intensity'
-      }
-    },
-    'water_depth': {
-      title: 'Water Depth',
-      units: {
-        main: '?'
-      }
-    },
-    'Ashfallring': {
-      title: 'Ash Fall',
-      units: {
-        main: '?'
-      }
+    'loss-ratio': {
+      title: 'Loss Ratio',
+      idUnits: '?'
     }
   }
   // ------------- //

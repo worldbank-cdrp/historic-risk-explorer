@@ -83,7 +83,7 @@ export const DISASTERS = [
     n: 'Armenia',
     c: 'arm',
     bbox: [[43.529896, 38.850496], [46.589228, 41.322855]],
-    dmetrics: 'Intensity'
+    dmetric: 'Intensity'
   },
   {
     y: 2015,

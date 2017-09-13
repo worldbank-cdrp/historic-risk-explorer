@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 
 import mapboxgl from 'mapbox-gl';
 import config from '../config';
-import { makeExposureLayer } from '../utils/map';
+import {
+  makeExposureLayer,
+  getVisibleExposureLayers,
+  makeFootPrintSource,
+  makeFootPrintLayer
+ } from '../utils/map';
 
 import AnalysisLayerControl from './AnalysisLayerControl';
 import AnalysisMapLegend from './AnalysisMapLegend';
@@ -22,9 +27,10 @@ class AnalysisMap extends Component {
   _loadLayers () {
     // base layer
     if (this.props.disaster.dmetric) {
-      // this._map.addLayer(makeFootPrintLayer(this.props.disaster));
-      // let id = `${config.mapLayers[this.props.disaster.dmetric].id}-${config.mapLayers[this.props.disaster.dmetric].layers.main}`;
-      // this._map.setLayoutProperty(id, 'visibility', 'visibile');
+      let id = `${config.mapLayers[this.props.disaster.dmetric].id}-${this.props.disaster.c}`;
+      let footprintSource = makeFootPrintSource(this.props.disaster);
+      this._map.addSource(id, footprintSource);
+      this._map.addLayer(makeFootPrintLayer(this.props.disaster, id));
     }
     // hide exposure layers
     Object.keys(config.mapLayers['exposure-loss'].layers.ids).forEach((key) => {
@@ -57,8 +63,10 @@ class AnalysisMap extends Component {
     });
   }
   componentWillReceiveProps (nextProps) {
-    // if the selected layer is visible, make invisible on click.
-    // do the opposite if it is not visible
+    // if the selected layer(s) is not visible, make it so on click
+    // also make sure to only allow one layer to be visible at a time.
+
+    // get layer ids matching id from current visibleLayer
     let selectedIds = Object.keys(config.mapLayers['exposure-loss'].layers.ids)
     .filter((k) => {
       const layerRegEx = RegExp(nextProps.visibleLayer.layer);
@@ -66,13 +74,16 @@ class AnalysisMap extends Component {
       return layerRegEx.test(configLayer);
     });
     selectedIds.forEach((id) => {
-      id = `${config.mapLayers['exposure-loss'].id}-${config.mapLayers['exposure-loss'].layers.ids[id]}`;
+      let layerId = `${config.mapLayers['exposure-loss'].id}-${config.mapLayers['exposure-loss'].layers.ids[id]}`;
+      let layers = this._map.getStyle().layers;
+      // find style layer matching current selectedIds id
       let layer = this._map.getStyle().layers.find((l) => {
-        return l.id === id;
+        return l.id === layerId;
       });
-      // only add layer if the selected layer is not currently visible and no other
-      // exposure layers are visible.
-      if (layer.layout.visibility === 'none') {
+      // grab all visible layers of the opposite id group (i.e if id is admin, grab grid)
+      let visibleLayers = getVisibleExposureLayers(layerId, layers, id);
+      // only allow making non visible layers visible if no layers found in getVisibleExposureLayers
+      if (layer.layout.visibility === 'none' && !visibleLayers) {
         this._map.setLayoutProperty(layer.id, 'visibility', 'visible');
       } else {
         this._map.setLayoutProperty(layer.id, 'visibility', 'none');

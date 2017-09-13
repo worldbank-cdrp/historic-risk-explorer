@@ -21,9 +21,23 @@ const visibleLayer = function (state = {}, action) {
   return state;
 };
 
+const defaultOverlayMetric = {
+  metric: 'exposure-loss'
+};
+
+const overlayMetric = function (state = defaultOverlayMetric, action) {
+  switch (action.type) {
+    case actions.SET_OVERLAY_METRIC:
+      state = Object.assign({}, state);
+      state.metric = action.text !== 'exposure' ? action.text : state.metric;
+  }
+  return state;
+};
+
 const reducer = combineReducers({
   disasters,
   visibleLayer,
+  overlayMetric,
   routing: routerReducer
 });
 

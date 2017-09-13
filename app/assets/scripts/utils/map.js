@@ -1,22 +1,6 @@
 import config from '../config';
 
 /**
- * fits map bounds to layer bounds. should be replaced with constants for layer bounds
- *
- * @param {object} map the map object that includes layer and its bounds
- * @return {object} method to fit map to layer bounds
- */
-export function fitLayerBounds (map) {
-  // when needed nested object loads, bounds are zoomed accordingly
-  if (map.style.sourceCaches['exposure-loss']['_source']['bounds']) {
-    let bounds = map.style.sourceCaches['exposure-loss']['_source']['bounds'];
-    let nw = [bounds[0], bounds[1]];
-    let se = [bounds[2], bounds[3]];
-    return map.fitBounds([nw, se]);
-  }
-}
-
-/**
  * makes exposure grid layer for provided disaster and grid size
  *
  * @param {object} config config file with data needed for map making
@@ -51,22 +35,39 @@ export function makeExposureLayer (disaster, layerIdBase) {
   return styleSpec;
 }
 
-export function makeFootPrintLayer (disaster) {
-  let sourceBase = config.mapLayers[disaster.dmetric].layers.main;
-  let source = makeDisasterSource(sourceBase, disaster);
-  let sourceLayer = `${config.mapLayers[disaster.dmetric].id}`;
-  let styleSpec = {
-    id: `${sourceLayer}-${sourceBase}`,
-    source: {
-      type: config.mapLayers[disaster.dmetric].layers.type,
-      url: `mapbox://${config.mapboxAccountName}.${source}`
-    },
-    'source-layer': sourceLayer
-  };
-  if (config.mapLayers[disaster.dmetric].geomType) {
-    styleSpec.type = config.mapLayers[disaster.dmetric].geomTyp;
+export function getVisibleExposureLayers (layerId, layers, id) {
+  let visibleLayers;
+  // only add layer if the selected layer is not currently visible and no other
+  // exposure layers are visible.
+  if (id === 'admin') {
+    visibleLayers = layers.find((l) => {
+      return l.id.match('-grid') && l.layout.visibility === 'visible';
+    });
+  } else {
+    visibleLayers = layers.find((l) => {
+      return l.id.match('-admin') && l.layout.visibility === 'visible';
+    });
   }
-  return styleSpec;
+  return visibleLayers;
+}
+
+export function makeFootPrintLayer (disaster, id) {
+  return {
+    id: id,
+    type: config.mapLayers[disaster.dmetric].layers.type,
+    source: id
+  };
+}
+
+export function makeFootPrintSource (disaster) {
+  // TOFIX: currently this is set to work for only armenia, once data has consistent
+  // nomenclature in mapbox, will switch back to using config
+  // let sourceBase = config.mapLayers[disaster.dmetric].layers.main;
+  // let source = makeDisasterSource(sourceBase, disaster);
+  return {
+    type: config.mapLayers[disaster.dmetric].layers.type,
+    url: `mapbox://${config.mapboxAccountName}.Armenia_EQ_1988_Intensity`
+  };
 }
 
 function makeDisasterSource (sourceBase, disaster) {
