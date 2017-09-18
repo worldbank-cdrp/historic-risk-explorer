@@ -54,7 +54,7 @@ export function getVisibleExposureLayers (layerId, layers, id) {
 export function makeFootPrintLayer (disaster, id) {
   return {
     id: id,
-    type: config.mapLayers[disaster.dmetric].layers.type, 
+    type: config.mapLayers[disaster.dmetric].layers.type,
     source: id
   };
 }
