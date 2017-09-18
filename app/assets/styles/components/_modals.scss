@@ -1,0 +1,335 @@
+/* ==========================================================================
+   Modals
+   ========================================================================== */
+
+/**
+ * This element can be of any width and height
+ * http://css-tricks.com/centering-in-the-unknown/
+ */
+
+.modal {
+  text-align: center;
+  background: rgba($primary-color, 0.5);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9996;
+  overflow-y: auto;
+  height: 100%;
+  white-space: nowrap;
+  &:before {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    width: 0;
+    margin-right: -.25em;
+    height: 100%; 
+  };
+}
+
+.modal--closed {
+  display: none;
+}
+
+/**
+  * The element to be centered, can also be of any width and height
+  */
+
+.modal__inner {
+  @extend .row;
+  padding: ($global-spacing * 2);
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  white-space: normal;
+  margin: ($global-spacing * 6) 0;
+  width: 75%;
+  text-align: center;
+  color: rgba($primary-color, 0.6);
+  background-color: $base-color;
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.modal__projects {
+  padding: $global-spacing * 2;
+}
+
+.modal__description {
+  font-size: 1rem;
+}
+
+
+.modal__filters {
+    @include column(12/12);
+  .form__fieldset {
+    float: left;
+    margin: $global-spacing ($global-spacing * 2) $global-spacing 0;
+  }
+  .button--list {
+    @include column(12/12);
+  }
+}
+
+.modal__filters--defaults {
+  @include column(12/12);
+  margin-top: $global-spacing;
+  label {
+    float: left;
+  }
+  a {
+    margin-left: 1rem;
+    text-decoration: underline;
+    font-size: 0.875rem;
+  }
+}
+
+
+.modal__button-dismiss {
+  @extend .button, .button--medium, .button--unbounded, .button--text-hidden;
+  position: absolute;
+  top: $global-spacing / 4;
+  right: $global-spacing / 4;
+  z-index: 10;
+  opacity: 0.48;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &:before {
+    @extend %collecticons-xmark;
+  }
+
+  @include media(medium-up) {
+    top: $global-spacing;
+    right: $global-spacing;
+  }
+
+  @include media(large-up) {
+    top: $global-spacing * 2;
+    right: $global-spacing * 2;
+  }
+}
+
+.modal__form {
+  text-align: left;
+}
+
+.delete-modal {
+  text-align: center;
+}
+
+.warning__group {
+  margin: ($global-spacing * 2) 0;
+  .button {
+    margin-left: $global-spacing;
+  }
+}
+
+.sp-modal {
+  .modal__inner {
+    text-align: left;
+    padding: 0 ($global-spacing * 4);
+  }
+  .modal__body {
+    margin-top: $global-spacing * 3;
+  }
+  .modal__footer {
+    margin-top: 0;
+    margin-bottom: $global-spacing * 3;
+    .modal__actions {
+      float: left;
+    }
+  }
+  .form__option__ui {
+    background-color: $tertiary-color;
+  }
+
+  .add-services {
+    button {
+      margin-left: 0;
+    }
+    .drop__toggle--caret:after {
+      position: relative;
+      left: 0.15rem;
+    }
+  }
+}
+
+.modal__inner {
+  .inpage__aside {
+    @include column(4/12);
+  }
+  .inpage__content {
+    @include column(8/12);
+  }
+  .form__group {
+    @include column(10/12);
+  }
+  .style-select {
+    width: 100%;
+    select {
+      width: 100%;
+    }
+  }
+}
+
+/* Modal size modifiers
+   ========================================================================== */
+
+/* Small */
+
+.modal--small .modal__inner {
+  max-width: 32rem;
+}
+
+/* Medium
+   Default
+*/
+
+.modal--medium .modal__inner {
+  max-width: 48rem;
+}
+
+/* Large */
+
+.modal--large .modal__inner {
+  max-width: 64rem;
+}
+
+/* XLarge */
+
+.modal--xlarge .modal__inner {
+  max-width: 100rem;
+}
+
+.modal--xxlarge .modal__inner {
+  max-width: 200rem;
+}
+
+
+/* Modal animation
+   ========================================================================== */
+
+.modal-enter {
+  transform: translate3d(0, 0, 0);
+  transition: opacity 0.32s ease 0s, visibility 0.32s linear 0s;
+  opacity: 0;
+  visibility: hidden;
+
+  &.modal-enter-active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.modal-leave {
+  transition: opacity 0.32s ease 0s, visibility 0.32s linear 0s;
+  opacity: 1;
+  visibility: visible;
+
+  &.modal-leave-active {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+
+/* Modal structure
+   ========================================================================== */
+
+.modal {
+  &__header {
+    position: relative;
+    text-align: left;
+
+    &:after {
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, 0);
+      content: '';
+      height: 2px;
+      width: 100%;
+      background: $base-alpha-color;
+    }
+  }
+
+  &__header {
+    padding-bottom: $global-spacing * 1.5;
+    margin-bottom: ($global-spacing * 2);
+    *:last-child {
+      margin-bottom: 0;
+    }
+
+    &:after {
+      top: calc(100% - 1px);
+    }
+
+    @include media(medium-up) {
+      margin-bottom: ($global-spacing * 3);
+    }
+  }
+
+  &__title {
+    @extend .heading, .heading--medium;
+  }
+
+  &__subtitle {
+    text-transform: uppercase;
+    font-weight: $base-font-regular;
+    color: rgba($base-font-color, 0.48);
+    font-size: 0.875rem;
+    line-height: 1.25;
+    margin: 0;
+    width: 100%;
+  }
+
+  &__body {
+    margin-bottom: ($global-spacing * 2);
+    > *:last-child {
+      margin-bottom: 0;
+    }
+    @include media(medium-up) {
+      margin-bottom: ($global-spacing * 3);
+    }
+  }
+
+  &__footer {
+    @include column(12/12);
+    position: relative;
+    margin-top: $global-spacing * 2;
+
+    .button {
+      margin: 0 ($global-spacing / 4);
+    }
+
+    &:before {
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, 0);
+      content: '';
+      height: 2px;
+      width: 100%;
+      background: $base-alpha-color;
+    }
+
+    &:after {
+      top: 0;
+    }
+  }
+
+  &__actions {
+    float: right;
+    padding-top: $global-spacing * 2;
+    li {
+      display: inline-block;
+    }
+  }
+}
+
+
