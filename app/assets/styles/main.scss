@@ -34,8 +34,8 @@
 /* Reboot
    ========================================================================== */
 
-@import "normalize";
-@import "reset";
+@import "vendor/normalize";
+@import "vendor/reset";
 
 /**
  * Using Kenneth Ormandy's OpenType features—ligatures, kerning, and
@@ -43,16 +43,23 @@
  * https://github.com/kennethormandy/normalize-opentype.css
  */
 
-@import "normalize-opentype";
 
 
 /* Settings
    ========================================================================== */
-
+@import "settings/variables";
+@import "settings/functions";
+@import "settings/mixins";
 
 /* Main
    ========================================================================== */
 
-@import "core/collecticons";
-@import "base";
-@import "home";
+@import "global/collecticons";
+@import "core/base";
+@import "core/home";
+@import "core/typography";
+@import "core/utilities";
+@import "core/prime-nav";
+@import "core/case-study";
+
+@import "components/buttons";

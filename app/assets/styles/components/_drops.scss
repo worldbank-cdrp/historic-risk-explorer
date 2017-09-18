@@ -1,0 +1,344 @@
+/* ==========================================================================
+   Drops
+   ========================================================================== */
+
+.drop {
+  position: relative;
+  display: inline-block;
+}
+
+.drop__toggle {
+  &--caret {
+    &:after {
+      @extend %collecticons-sm-chevron-down;
+      font-size: 1rem;
+      line-height: inherit;
+      vertical-align: top;
+      right: 1rem;
+      position: absolute;
+    }
+  }
+  &:focus {
+    outline: 0;
+  }
+}
+
+
+.drop__content {
+  position: absolute;
+  z-index: 1000;
+  width: 14rem;
+  margin: 0;
+  padding: $global-spacing;
+  overflow: hidden;
+  text-align: left;
+  color: $base-font-color;
+  font-size: 1rem;
+  line-height: 1.5;
+  background: #fff;
+  box-shadow: $base-shadow;
+  border-radius: $base-border-radius;
+  border: solid 1px $tertiary-color;
+
+  /* Animation */
+
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.16s ease 0s, margin 0.16s ease 0s, visibility 0.16s linear 0s;
+
+  /* Positioning modifiers */
+
+  .drop--down > & {
+    top: 100%;
+    margin-top: -$global-spacing;
+  }
+
+  .drop--up > & {
+    bottom: 100%;
+    margin-bottom: -$global-spacing;
+  }
+
+  /* Aligning modifiers */
+
+  .drop--align-left > & {
+    left: 0;
+  }
+
+  .drop--align-center > & {
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  .drop--align-right > & {
+    right: 0;
+    left: auto;
+  }
+
+  /* Animation modifiers */
+
+  .drop--open > & {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .drop--down.drop--open > & {
+    margin-top: $global-spacing / 2;
+  }
+
+  .drop--up.drop--open > & {
+    margin-bottom: $global-spacing / 2;
+  }
+}
+
+[data-hook^="dropdown:close"],
+[data-hook=" dropdown:close"] {
+  * {
+    pointer-events: none;
+  }
+}
+
+/*
+  React specific styles to handle animations.
+  The tether library is being used and needs animations for all directions.
+ */
+
+.drop__content--react {
+  opacity: 1;
+  visibility: visible;
+  transition: none;
+}
+
+.tether-element {
+  z-index: 9999;
+}
+
+.tether-element-attached-top,
+.tether-element-attached-bottom {
+  .drop__content {
+    transition: opacity .16s ease, transform .16s ease;
+  }
+}
+
+@mixin drop-top-start() {
+  opacity: 0;
+  transform: translate(0, -($global-spacing / 2));
+}
+
+@mixin drop-top-end() {
+  opacity: 1;
+  transform: translate(0, ($global-spacing / 2));
+}
+
+@mixin drop-bottom-start() {
+  opacity: 0;
+  transform: translate(0, ($global-spacing / 2));
+}
+
+@mixin drop-bottom-end() {
+  opacity: 1;
+  transform: translate(0, -($global-spacing / 2));
+}
+
+.tether-element-attached-top {
+  .drop__content {
+    @include drop-top-end();
+  }
+
+  .drop-trans-enter {
+    @include drop-top-start();
+
+    &.drop-trans-enter-active {
+      @include drop-top-end();
+    }
+  }
+
+  .drop-trans-leave {
+    @include drop-top-end();
+
+    &.drop-trans-leave-active {
+      @include drop-top-start();
+    }
+  }
+}
+
+.tether-element-attached-bottom {
+  .drop__content {
+    @include drop-bottom-end();
+  }
+
+  .drop-trans-enter {
+    @include drop-bottom-start();
+
+    &.drop-trans-enter-active {
+      @include drop-bottom-end();
+    }
+  }
+
+  .drop-trans-leave {
+    @include drop-bottom-end();
+
+    &.drop-trans-leave-active {
+      @include drop-bottom-start();
+    }
+  }
+}
+
+
+/* Drop title
+   ========================================================================== */
+
+.drop__title {
+  @extend .heading-alt;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  margin: 0 0 $global-spacing 0 !important;
+}
+
+
+/* Drop menu
+   ========================================================================== */
+
+.drop__menu {
+  @extend .clearfix;
+  list-style: none;
+  margin: (-$global-spacing) (-$global-spacing) $global-spacing (-$global-spacing);
+  box-shadow: 0 2px 0 0 $base-alpha-color;
+  max-width: 18rem;
+  font-weight: $base-font-regular;
+
+  &:last-child {
+    margin-bottom: (-$global-spacing);
+    box-shadow: none;
+  }
+
+  .drop__menu-item {
+    position: relative;
+    display: block;
+    padding: $global-spacing/2 ($global-spacing);
+    color: rgba($primary-color, 0.6);
+    width: 100%;
+    transition: all 0.16s ease 0s;
+    &:hover,
+    &:focus {
+      color: $secondary-color;
+      background-color: tint($secondary-color, 95%);
+      opacity: 1;
+    }
+    border-top: solid 1px $tertiary-color;
+    &:first-child {
+      border-top: none;
+   }
+  }
+}
+
+.actions__updates-item {
+  .drop__menu-item {
+    font-size: 0.875rem;
+  }
+}
+
+.add-grouping {
+  .drop__menu {
+    height: 200px;
+    overflow: scroll;
+  }
+  .form__option__ui {
+    background-color: $tertiary-color;
+  }
+  li {
+    &:last-child {
+      color: $primary-color;
+      font-size: 0.875rem;
+      &:before {
+        @extend %collecticons-plus;
+        font-size: 0.75rem;
+        line-height: inherit;
+        color: $base-color;
+        margin-right: 0.5rem;
+        padding: 0.15rem;
+        border-radius: 9999px;
+        background-color: $secondary-color;
+      }
+    };
+  }
+}
+
+/* Select modifier */
+
+.drop__menu--select {
+  .drop__menu-item {
+    padding-right: $global-spacing * 2.5;
+  }
+  .drop__menu-item--active {
+    color: inherit;
+    outline: 0;
+    font-weight: $base-font-bold;
+    &:after {
+      // @extend %collecticons-sm-tick;
+      position: absolute;
+      z-index: 1;
+      top: $global-spacing / 4;
+      right: $global-spacing / 2;
+      font-size: 1rem;
+      line-height: 1.5rem;
+      opacity: 0.32;
+      width: 1.5rem;
+      text-align: center;
+    }
+  }
+}
+
+/* Iconified modifier */
+
+.drop__menu--iconified {
+  .drop__menu-item {
+    padding-left: $global-spacing * 2.75;
+    &:before,
+    > [class^="collecticons-"] {
+      position: absolute;
+      z-index: 1;
+      top: $global-spacing / 4;
+      left: $global-spacing;
+      font-size: 1rem;
+      line-height: 1.5rem;
+      width: 1.5rem;
+      text-align: center;
+    }
+  }
+}
+
+/* Drop inset
+   ========================================================================== */
+
+.drop__inset {
+  background: tint($base-color, 92%);
+  color: tint($base-font-color, 32%);
+  margin: (-$global-spacing) (-$global-spacing) $global-spacing (-$global-spacing);
+  padding: $global-spacing;
+
+  &:last-child {
+    margin-bottom: (-$global-spacing);
+  }
+  &:only-child {
+    box-shadow: none;
+  }
+  > *:first-child {
+    margin-top: 0;
+  }
+  > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.modal__body {
+  .drop__content {
+    width: 20rem;
+    padding: $global-spacing;
+    height: 10rem;
+    overflow: scroll;
+    li {
+      padding: $global-spacing/4;
+      font-size: 0.875rem;
+    }
+  }
+}

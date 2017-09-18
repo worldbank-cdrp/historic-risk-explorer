@@ -1,0 +1,194 @@
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+/* Reset the box-sizing */
+
+html {
+  box-sizing: border-box;
+  height: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+/* Make viewport responsive on every browser */
+
+@at-root {
+  @-moz-viewport      { width: device-width; }
+  @-ms-viewport       { width: device-width; }
+  @-o-viewport        { width: device-width; }
+  @-webkit-viewport   { width: device-width; }
+  @viewport           { width: device-width; }
+}
+
+/* Reset HTML, body, etc */
+
+html {
+  font-size: $root-font-size;
+  // Changes the default tap highlight to be completely transparent in iOS.
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+body {
+  color: $base-font-color;
+  font-size: $base-font-size;
+  line-height: $base-line-height;
+  font-family: $base-font-family;
+  font-weight: $base-font-weight;
+  font-style: $base-font-style;
+  min-width: $row-min-width;
+  direction: ltr;
+  height: 100%;
+}
+
+.page {
+  overflow-x: hidden;
+}
+
+/* Links
+   ========================================================================== */
+
+a {
+  cursor: pointer;
+  color: $link-color;
+  transition: opacity 0.24s ease 0s;
+}
+
+a:visited {
+  color: $link-color;
+}
+
+a:hover {
+  opacity: 0.70;
+}
+
+a:active {
+  outline: 0;
+}
+
+a:focus {
+  outline: 0; // This causes usability problems. Needs fixing.
+}
+
+a.link--primary-light {
+  text-decoration: none;
+  position: relative;
+  padding: 0 1rem 0 2.5rem;
+  &:before,
+  &:after {
+    content: '';
+    background: white;
+    position: absolute;
+    top: 50%;
+    height: 1px;
+  }
+  &:before {
+    left: 0;
+    width: 2rem;
+  }
+  
+  &:after {
+    width: 0;
+    right: 0;
+    transition: width 500ms ease;
+  }
+  
+  &:hover {
+    &:before {
+      width: 100%;  
+      transition: width 500ms ease;
+    }
+    &:after {
+      width: 100%;
+      background: transparent;
+      transition: 0;
+    }
+  }
+}
+
+a.link--primary--dark {
+
+}
+
+a.link--secondary {
+  color: rgba($base-font-color, 0.7);
+  font-size: 0.875rem;
+  text-decoration: underline;
+}
+
+/* Rows
+   ========================================================================== 
+*/
+.row {
+  @extend .clearfix;
+  padding-left: $global-spacing * 2;
+  padding-right: $global-spacing * 2;
+
+  @include media(small-up) {
+    padding-left: $global-spacing * 4;
+    padding-right: $global-spacing * 4;
+  }
+
+  @include media(xlarge-up) {
+    padding-left: $global-spacing * 6;
+    padding-right: $global-spacing * 6;
+  }
+  
+  &--centered {
+    max-width: $row-max-width;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* Buttons
+   ========================================================================== 
+
+/**
+ * iOS "clickable elements" fix for role="button":
+ * https://developer.mozilla.org/en-US/docs/Web/Events/click#Safari_Mobile
+ */
+
+[role="button"] {
+  cursor: pointer;
+}
+
+
+/* Forms
+   ========================================================================== */
+
+input, select, textarea {
+  font: inherit;
+  height: auto;
+  width: auto;
+  margin: 0;
+}
+
+
+/* Tables
+   ========================================================================== */
+
+/**
+ * Remove most spacing between table cells.
+ */
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Misc
+   ========================================================================== */
+
+/**
+ * Make all browsers render the <main> element correctly.
+ */
+
+main {
+  display: block;
+  overflow: hidden;
+}

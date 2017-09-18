@@ -1,0 +1,392 @@
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.button {
+  @include user-select(none);
+  display: inline-block;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  line-height: 1.5rem;
+  font-size: 1rem;
+  padding: 0.25rem 0.75rem;
+  min-width: 2rem;
+  background: none;
+  text-shadow: none;
+  border: 0;
+  font-weight: $base-font-bold;
+  cursor: pointer;
+  text-decoration: none;
+
+  /* States */
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  .drop--open > &,
+  &.button--active,
+  &:active {
+    z-index: 2;
+    transform: none;
+  }
+
+  &, &:focus {
+    outline: none; // This causes usability problems. Needs fixing.
+  }
+
+  /* Icon handling */
+  &::before, &::after,
+  [class^="collecticons-"], [class*=" collecticons-"] {
+    font-size: 1rem;
+  }
+  &::before { margin-right: 0.375rem; }
+  &::after { margin-left: 0.375rem; }
+
+  &::before,
+  &::after,
+  > * {
+    vertical-align: top;
+    display: inline-block;
+    line-height: inherit !important;
+  }
+
+  /* Checkbox/radio handling */
+  > input[type=checkbox],
+  > input[type=radio] {
+    @extend .visually-hidden;
+  }
+
+  /* Animation */
+  transition: opacity 0.24s ease 0s;
+}
+
+
+/* Button color modifiers
+   ========================================================================== */
+
+/* Base */
+
+.button--base {
+  @include button-variation("filled", "dark", $action-color);
+}
+
+/* Base Bounded */
+
+.button--base-bounded {
+  @include button-variation("bounded", null, $action-color);
+}
+
+.button--base-unbounded {
+  @include button-variation("filled", "dark", $base-color);
+  background-color: rgba($primary-color, 0.2);
+}
+
+.button--unbounded {
+  @include button-variation("unbounded", null, $primary-color);
+}
+
+/* Primary */
+
+.button--primary {
+  @include button-variation("filled", "dark", darken($primary-color, 20%));
+}
+
+.button--pagination {
+   @include button-variation("filled", "light", $base-color);
+}
+
+.content__pagination--active {
+  color: $secondary-color;
+}
+/* Primary Bounded */
+
+.button--primary-bounded {
+  @include button-variation("bounded", null, $primary-color);
+}
+
+.button--secondary-bounded {
+  @include button-variation("bounded", null, $secondary-color);
+  background-color: rgba($base-color, 0.3);
+}
+
+.button-drop-select {
+  background-color: $primary-color;
+  color: $primary-color;
+  font-size: 0.87rem;
+}
+
+.button--grouping-tag {
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 2px rgba($primary-color, 0.1);
+  color: rgba($primary-color, 0.3);
+  font-weight: $base-font-regular;
+  background-color: rgba($primary-color, 0.0);
+  margin-left: $global-spacing/2;
+  text-decoration: none;
+  &:first-child {
+    margin-left: 0;
+  };
+  a {
+    color: rgba($primary-color, 0.5);
+    &:hover { 
+      color: $secondary-color;
+      opacity: 1;
+    };
+  }
+  &:hover {
+    box-shadow: inset 0 0 0 2px $secondary-color;
+    color: $secondary-color;
+  };
+  @include media(small-down) {
+    margin-bottom: $global-spacing/2;
+  }
+}
+
+.current__groupings--item {
+  padding: ($global-spacing/4) 0;
+  span {
+    @extend .truncated;
+    max-width: 150px;
+    display: inline-block;
+  }
+}
+
+/* Button size modifiers
+   ========================================================================== */
+
+/* Small (24px) */
+
+.button--xsmall,
+.button-group--xsmall .button {
+  line-height: 1rem;
+  font-size: 0.675rem;
+  padding: 0.15rem 0.25rem;
+  min-width: 1.5rem;
+}
+
+.button--small,
+.button-group--small .button {
+  line-height: 1.25rem;
+  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+  min-width: 1.5rem;
+}
+
+/* Medium (32px)
+   Default
+*/
+
+.button--medium,
+.button-group--medium .button {
+  line-height: 1.5rem;
+  font-size: 1rem;
+  padding: 0.25rem 0.75rem;
+  min-width: 2rem;
+}
+
+/* Large (40px) */
+
+.button--large,
+.button-group--large .button {
+  line-height: 1.5rem;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  min-width: 2.5rem;
+}
+
+/* XLarge (48px) */
+
+.button--xlarge,
+.button-group--xlarge .button {
+  line-height: 2rem;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  min-width: 3rem;
+}
+
+
+/* Button contaning icons & icons modifiers
+   ========================================================================== */
+
+.button--text-hidden {
+  &::before,
+  &::after {
+    margin: 0;
+  }
+  > *:not([class^="collecticons-"]):not([class*=" collecticons-"]) {
+    @extend .visually-hidden;
+  }
+  :not(.button-group) & {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+
+/* Button misc modifiers
+   ========================================================================== */
+
+.button--block {
+  display: block;
+  width: 100%;
+}
+
+.button--semi-fluid {
+  min-width: 16rem;
+}
+
+/* ==========================================================================
+   Button groups
+   ========================================================================== */
+
+.button-group {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  > .button {
+    display: block;
+    position: relative;
+    margin: 0;
+  }
+}
+
+/* Horizontal */
+
+.button-group--horizontal {
+  > .button {
+    float: left;
+  }
+  > .button:first-child:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  > .button:last-child:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  > .button:not(:first-child):not(:last-child) {
+    border-radius: 0;
+  }
+  > .button + .button {
+    margin-left: -2px;
+  }
+}
+
+/* Vertical */
+
+.button-group--vertical {
+  > .button {
+    clear: both;
+    width: 100%;
+    border-radius: $base-border-radius;
+    &:hover {
+      z-index: 2;
+    }
+  }
+  > .button:first-child:not(:last-child) {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  > .button:last-child:not(:first-child) {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  > .button:not(:first-child):not(:last-child) {
+    border-radius: 0;
+  }
+  > .button + .button {
+    margin-top: -2px;
+  }
+}
+
+.button--tag {
+  color: $secondary-color;
+  border: solid 1px $secondary-color;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+/*  &::after {
+    @extend %collecticons-xmark;
+    font-size: 0.675rem;
+  }*/
+}
+
+.tag__group {
+  margin-top:$global-spacing/2;
+}
+
+.button--tag-unbounded {
+  text-decoration: underline;
+  color: $base-font-color;
+  font-weight: $base-font-regular;
+}
+
+.button--secondary {
+  background-color: $secondary-color;
+  color: $base-color;
+}
+
+/*.button--plus {
+  padding-left: 0;
+  font-weight: $base-font-regular;
+  &:before {
+    @extend %collecticons-plus;
+    font-size: 0.875rem;
+    line-height: inherit;
+    margin-left: 0.5rem;
+    color: $base-color;
+    width: 23px;
+    height: 23px;
+    border-radius: 9999px;
+    background-color: $secondary-color;
+  }
+}*/
+
+/*.button--previous {
+  &:before {
+    @extend %collecticons-sm-chevron-left;
+    margin-right: 0;
+  }
+}
+
+.button--next {
+  &:before {
+    @extend %collecticons-sm-chevron-right;
+    margin-right: 0;
+  }
+}*/
+
+.button--download {
+/*  &:after {
+    @extend %collecticon-download;
+    font-size: 0.875rem;
+    line-height: inherit;
+    margin-left: 0.5rem;
+  }*/
+}
+
+/*.button--dropdown {
+  &:after {
+    @extend %collecticons-sm-chevron-down;
+    font-size: 0.875rem;
+    line-height: inherit;
+    margin-left: 0.5rem;
+  }
+}*/
+
+.button--remove {
+  @extend .button, .button--xsmall, .button--unbounded, .button--text-hidden;
+  color: darken($secondary-color, 20%);
+  margin-left: $global-spacing/4;
+  margin-bottom: 0;
+
+  &:hover {
+    opacity: 1;
+  }
+
+/*  &:before {
+    @extend %collecticons-xmark;
+    font-size: 0.65rem;
+  }*/
+}
