@@ -26,9 +26,9 @@ class DisasterProfile extends Component {
   makeMetricButtons () {
     return ['Exposure', 'Annualized Loss', 'Loss Ratio'].map((m, i) => {
       return (
-        <button key={i}
+        <li><button className='button button--large button--base-bounded' key={i}
           value={m.replace(' ', '-').toLowerCase()}
-          onClick={(e) => { this.props._setOverlayMetric(e.target.value); }}>{m}</button>
+          onClick={(e) => { this.props._setOverlayMetric(e.target.value); }}>{m}</button></li>
       );
     });
   }
@@ -104,9 +104,7 @@ class DisasterProfile extends Component {
 tempor o  rnare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempus. Lorem ipsum
 dolor si  t amet, consectetur adipiscing elit. Duis sed nisl augue</p>
               <ul className='map-actions'>
-                <li><button className='button button--large button--base-bounded'>Exposure</button></li>
-                <li><button className='button button--large button--base-bounded'>Annualized Loss</button></li>
-                <li><button className='button button--large button--base-bounded'>Loss Ratio</button></li>
+                {this.makeMetricButtons()}
               </ul>
             </div>
             <div>
@@ -119,7 +117,6 @@ dolor si  t amet, consectetur adipiscing elit. Duis sed nisl augue</p>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum
 tempor o  rnare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempus. Lorem ipsum
 dolor si  t amet, consectetur adipiscing elit. Duis sed nisl augue</p>
-              {this.makeMetricButtons()}
             </div>
           </section>
           <section className='inpage__footer'>

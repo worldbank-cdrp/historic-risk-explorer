@@ -17,23 +17,28 @@ class AnalysisLayerControl extends Component {
     return Object.keys(config.control['exposure-loss']).map((k, i) => {
       return (
         <li key={i}>
-          <input type='radio' value={k} onClick={(e) => { this.props._setVisibleLayer(e.target.value); }}/>
-          <p>{config.control['exposure-loss'][k]}</p>
+          <label className='form__option form__option--custom-radio'>
+            <input type='radio' value={k} onClick={(e) => { this.props._setVisibleLayer(e.target.value); }}/>
+            <span className='form__option__text'>{config.control['exposure-loss'][k]}</span>
+            <span className='form__option__ui'></span>
+          </label>
         </li>
       );
     });
   }
   render () {
     return (
-      <div>
-        <p>LEVEL</p>
-        <ul>
-         {this.renderExposureLayerSelect()}
-        </ul>
-        <p>DATA VALUES</p>
-        <button>Absolute Value</button>
-        <button>Relative Value</button>
-      </div>
+        <div className='map-layer__actions'>
+          <p className='map-layer__title'>LEVEL</p>
+          <ul>
+           {this.renderExposureLayerSelect()}
+          </ul>
+          <p className='map-layer__title'>DATA VALUES</p>
+            <div className='button-group--horizontal'>
+              <button className='button button--small button--base-bounded'>Absolute Value</button>
+              <button className='button button--small button--base-bounded'>Relative Value</button>
+            </div>
+        </div>
     );
   }
 }

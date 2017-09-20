@@ -200,6 +200,20 @@ p {
   margin-bottom: 0;
 }
 
+.heading--deco {
+  position: relative;
+  padding-bottom: $global-spacing * 2;
+  &:after {
+    content:'';
+    width: 6rem;
+    height: 1px;
+    background-color: #FFF;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  };
+}
+
 .alt-heading {
   color: $base-color;
   font-family: $base-font-family;
