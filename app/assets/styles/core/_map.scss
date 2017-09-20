@@ -1,0 +1,39 @@
+#analysisMap {
+	height: 80vh;
+}
+
+.map-canvas {
+  position: relative;
+}
+
+.map-controls {
+  position: absolute;
+}
+
+.map-layer__actions {
+  position: absolute;
+  z-index: 1;
+  background-color: #FFF;
+  top: $global-spacing * 2;
+  padding: $global-spacing * 1.5;
+  li {
+    display: inline-block;
+    list-style: none;
+    padding: 0 ($global-spacing/2) ($global-spacing/2) 0;
+  }
+  ul {
+    margin-bottom: $global-spacing/4;
+  }
+}
+
+.map-layer__title {
+  margin-bottom: $global-spacing/2;
+  color: $base-color;
+}
+
+.map-legend {
+  position: absolute;
+  background-color: #FFF;
+  z-index: 1;
+  bottom: $global-spacing * 2;
+}

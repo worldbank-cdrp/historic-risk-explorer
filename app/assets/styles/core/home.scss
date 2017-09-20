@@ -1,0 +1,104 @@
+.index__header {
+  padding: ($global-spacing * 8) 0;
+  color: #FFF;
+  background-color: $primary-color;
+  box-shadow: 0 4px 3px -1px rgba($base-color, 0.06);
+  h1, p {
+  	color: #FFF;
+    width: 60%;
+  }
+  p {
+  	padding-top:  $global-spacing;
+  }
+}
+
+.index__body {
+  padding-top: $global-spacing * 2;
+  section  {
+    padding: ($global-spacing * 5) 0;
+  }
+}
+
+.text-column {
+  @include column(4/12);
+}
+
+.img-column {
+  @include column (8/12);
+}
+
+.about-tease {
+  box-shadow: 0 4px 3px -1px rgba($base-color, 0.06);
+}
+
+.risk-explorer-tease {
+  padding: ($global-spacing * 4) 0;
+  background-color: $primary-color;
+  h2, p {
+    color: #FFF;
+    width: 60%;
+  }
+}
+
+.featured-disasters__list {
+  list-style: none;
+  li {
+    h2, p {
+      color: #FFF;
+    }
+  }
+}
+
+.disaster__bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.disaster__content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: ($global-spacing * 5) ($global-spacing * 2) ($global-spacing * 4)  ($global-spacing * 4) ;
+}
+
+.bg-img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: 
+    linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)
+    ), url('/assets/graphics/content/Haiti-2010.jpg');
+    transition: all ease 1s;
+}
+
+.featured-disasters__list {
+  padding: 0 0 $global-spacing 0;
+  @include column(12/12);
+}
+
+.featured-disasters__item {
+  box-shadow: $base-shadow;
+  height: 250px;
+  @include column(5.5/12, $offset: -0.05/12);
+  margin-right: $global-spacing;
+  margin-top: $global-spacing;
+  overflow: hidden;
+  position: relative;
+  &:hover {
+    opacity: 1;
+    .bg-img {
+      transform: scale(1.2);
+    }
+  };
+}
