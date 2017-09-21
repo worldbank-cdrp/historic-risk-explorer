@@ -9,7 +9,7 @@ class Header extends Component {
       <div>
         <nav className='page__nav'>
           <div className='inner'>
-            <Link to="/" className='page__title'>Historic Disaster Database</Link>
+            <Link to="/" className='page__title'>Historic Disaster Explorer</Link>
             <ul>
               <li>
                 <Link to="/disasters">Historic Disasters</Link>
