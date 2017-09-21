@@ -119,13 +119,13 @@ tempor o  rnare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a temp
 dolor si  t amet, consectetur adipiscing elit. Duis sed nisl augue</p>
             </div>
           </section>
-          <section className='inpage__footer'>
-            <div className='inner'>
-              <h2 className='alt-heading'>Next</h2>
-              <h1 className='heading--xlarge'> Pakistan Floods 2010</h1>
-              <a className='link--primary-light' href=''>View Case Study</a>
-            </div>
-          </section>
+        </section>
+        <section className='inpage__footer'>
+          <div className='inner'>
+            <h2 className='alt-heading'>Next</h2>
+            <h1 className='heading--xlarge'> Pakistan Floods 2010</h1>
+            <a className='link--primary-light' href=''>View Case Study</a>
+          </div>
         </section>
       </div>
     );

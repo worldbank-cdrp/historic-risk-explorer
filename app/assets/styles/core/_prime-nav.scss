@@ -34,6 +34,13 @@ footer {
   li {
     display: inline-block;
     padding-right: $global-spacing * 2;
+    @include media(xsmall-only) {
+      @include column(12/12);
+      margin-top: $global-spacing;
+      &:first-child{
+        margin-top: 0;
+      }
+    }
   }
 }
 

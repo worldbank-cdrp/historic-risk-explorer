@@ -1,6 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
+import CentralAmericaExplorer from '../components/CentralAmericaExplorer';
 
 class Home extends Component {
   render () {
@@ -28,9 +29,9 @@ class Home extends Component {
             <div className='inner'>
               <h2>Featured Historic Disasters</h2>
               <p>orem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue.</p>
-              <ul className='featured-disasters__list'>
+              <ul className='disasters-list'>
                 <li>
-                  <a className='featured-disasters__item'>
+                  <a className='disasters-list__item'>
                     <span className='disaster__bg'><div className='bg-img'></div></span>
                     <span className='disaster__content'>
                       <p className='subheading'>January 2015</p>
@@ -39,7 +40,7 @@ class Home extends Component {
                   </a>
                 </li>
                 <li>
-                  <a className='featured-disasters__item'>
+                  <a className='disasters-list__item'>
                     <span className='disaster__bg'><div className='bg-img'></div></span>
                     <span className='disaster__content'>
                       <p className='subheading'>January 2015</p>
@@ -48,7 +49,7 @@ class Home extends Component {
                   </a>
                 </li>
                 <li>
-                  <a className='featured-disasters__item'>
+                  <a className='disasters-list__item'>
                     <span className='disaster__bg'><div className='bg-img'></div></span>
                     <span className='disaster__content'>
                       <p className='subheading'>January 2015</p>
@@ -57,7 +58,7 @@ class Home extends Component {
                   </a>
                 </li>
                 <li>
-                  <a className='featured-disasters__item'>
+                  <a className='disasters-list__item'>
                     <span className='disaster__bg'><div className='bg-img'></div></span>
                     <span className='disaster__content'>
                       <p className='subheading'>January 2015</p>
@@ -69,13 +70,7 @@ class Home extends Component {
               <a className='button button--large button--base-bounded'href=''>See All Disasters</a>
             </div>
           </section>
-          <section className='risk-explorer-tease'>
-            <div className='inner'>
-              <h2 className='heading--medium'>Explore Disaster Risk in Central America</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum tempor ornare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempus</p>
-              <button className='button button--large button--secondary-bounded'>Explore Central America</button>
-            </div>
-          </section>
+          <CentralAmericaExplorer/>
         </section>
       </div>
     );

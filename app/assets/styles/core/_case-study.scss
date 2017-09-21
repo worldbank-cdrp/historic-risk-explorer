@@ -2,13 +2,19 @@
   padding: ($global-spacing * 8) 0;
   background-color: $secondary-color;
   box-shadow: 0 4px 3px -1px rgba($base-color, 0.06);
+  @include media(small-down) {
+    padding: ($global-spacing * 4) 0;
+  }
   p {
     width: 60%;
+    @include media(small-down) {
+      width: 90%;
+    }
   }
 }
 
 .inpage__body {
-  padding: ($global-spacing * 2) 0 0 0;
+  padding: ($global-spacing * 4) 0 ($global-spacing * 4) 0;
   section  {
     padding: ($global-spacing * 2) 0;
   }
@@ -16,11 +22,17 @@
 
 .metrics {
   @include column(8/12);
+  @include media(small-down) {
+    @include column(12/12);
+  }
 }
 
 .metrics__item {
   display: inline-block;
   @include column(5/12);
+  @include media(small-down) {
+    @include column(12/12);
+  }
   h1 {
     font-family: $base-font-family;
     font-size: 1rem;
@@ -37,6 +49,9 @@
 .download-profile {
   @include column (3/12);
   float: right;
+  @include media(small-down) {
+    @include column(12/12);
+  }
 }
 
 .national-metrics {
@@ -68,6 +83,14 @@
       font-family: $base-font-family;
     }
   }
+  @include media(small-down) {
+    @include column(6.5/12);
+    margin-top: $global-spacing;
+  }
+  @include media(xsmall-only) {
+    @include column(11/12);
+    margin-top: $global-spacing;
+  }
 }
 
 .explore {
@@ -83,6 +106,10 @@
   li {
     display: inline-block;
     margin-right: $global-spacing;
+    @include media(xsmall-only) {
+      @include column(12/12);
+      margin-top: $global-spacing;
+    }
   }
 }
 
