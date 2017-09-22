@@ -1,7 +1,9 @@
 .index__header {
+  position: relative;
+  overflow: hidden;
   padding: ($global-spacing * 10) 0;
   color: #FFF;
-  background-color: $primary-color;
+  background-color: darken($primary-color, 8%);
   box-shadow: 0 4px 3px -1px rgba($base-color, 0.06);
   @include media(small-down) {
     padding: ($global-spacing * 4) 0;
@@ -20,6 +22,14 @@
     animation: 3s ease 2s 1 deco-load;
     animation-fill-mode: forwards;
   }
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image:
+  linear-gradient(
+      rgba(248, 99, 78, 0.4),
+      rgba(248, 99, 78, 0.4)
+    ), 
+  url('https://api.mapbox.com/styles/v1/wbg-cdrp/cj7w85rme3rvm2ro19y4q5pss/static/44.219677,40.062282,7.00,0.00,0.00/1280x600@2x?access_token=pk.eyJ1Ijoid2JnLWNkcnAiLCJhIjoiY2l1Z3pxZDVwMDBxcDMzcDJjYmRpYnBicSJ9.hjlLP5TEVhqbTwzhFA1rZw');
 }
 
 .index__body {
