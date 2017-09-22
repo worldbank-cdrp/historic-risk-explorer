@@ -55,7 +55,10 @@ export function makeFootPrintLayer (disaster, id) {
   return {
     id: id,
     type: config.mapLayers[disaster.dmetric].layers.type,
-    source: id
+    source: id,
+    paint: {
+      'raster-opacity': 0.06
+    }
   };
 }
 

@@ -6,7 +6,7 @@ export default {
   // --- MAP STYLES --- //
   // map styles
   'disaster-cover': 'mapbox://styles/wbg-cdrp/cj7c8ii6d002w2rlgcwwsvbie',
-  'disaster-data': 'mapbox://styles/wbg-cdrp/cj7akjiy096j92rqru4rqg8j2',
+  'disaster-data': 'mapbox://styles/wbg-cdrp/cj7c8ii6d002w2rlgcwwsvbie',
   // glob padding
   boundsPadding: 15,
   // ------------------ //

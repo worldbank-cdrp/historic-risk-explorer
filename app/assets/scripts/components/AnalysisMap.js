@@ -93,8 +93,10 @@ class AnalysisMap extends Component {
   render () {
     return (
       <div className='map-canvas'>
-        <AnalysisLayerControl disaster={this.props.disaster} />
-        <AnalysisMapLegend />
+        <div className='inner'>
+          <AnalysisLayerControl disaster={this.props.disaster} />
+          <AnalysisMapLegend />
+        </div>
         <div id='analysisMap'/>
       </div>
     );

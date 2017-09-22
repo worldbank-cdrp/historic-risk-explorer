@@ -40,6 +40,7 @@ class DisasterProfile extends Component {
           <div className='inner'>
             <p className='subheading'>{this.disaster.m} {this.disaster.y}</p>
             <h1 className='heading--xxlarge'>{this.disaster.n} {this.disaster.y} {this.disaster.t}</h1>
+            <hr align='left'></hr>
             <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum tempor ornare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempu</p>
           </div>
         </section>

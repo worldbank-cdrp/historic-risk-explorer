@@ -9,7 +9,8 @@ class Home extends Component {
       <div>
         <header className='index__header'>
           <div className='inner'>
-            <h1 className='heading--deco heading--xxlarge'>Historic Risk Explorer</h1>
+            <h1 className='heading--xxlarge'>Historic Risk Explorer</h1>
+            <hr></hr>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum tempor ornare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempus</p>
           </div>
         </header>
