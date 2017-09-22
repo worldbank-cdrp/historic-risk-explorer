@@ -18,7 +18,7 @@ class AnalysisMapLegend extends Component {
     // TODO: add additional logic to pick subnational from ids per zoom
     return (
         <div className='map-legend'>
-          <h1>{overlayMetricTitle}</h1>
+          <p className='map-layer__title'>{overlayMetricTitle}</p>
           {/* place for color ramp */}
           {overlayMetricIdUnits}
         </div>

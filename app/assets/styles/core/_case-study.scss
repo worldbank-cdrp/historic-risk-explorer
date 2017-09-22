@@ -5,13 +5,64 @@
   @include media(small-down) {
     padding: ($global-spacing * 4) 0;
   }
-  p {
-    width: 60%;
+  p, h1 {
+    position: relative;
+    color: rgba(#FFF, 0);
+    width: 70%;
+    padding-bottom: $global-spacing;
+    animation: 2s ease 2s 1 text-load;
+    animation-fill-mode: forwards;
+    @include media(small-down) {
+      width: 90%;
+    }
+  }
+  hr {
+    animation: 2s ease 2s 1 deco-load;
+    animation-fill-mode: forwards;
+  }
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: 
+    linear-gradient(
+      rgba(0, 0, 0, 0.7),
+      rgba(0, 0, 0, 0.7)
+    ), url('/assets/graphics/content/Haiti-2010.jpg');
+}
+
+@keyframes text-load {
+  0% {
+    color: rgba(#FFF, 0.0);
+    bottom: -10rem;
+  }
+  100%{
+    color: rgba(#FFF, 1);
+    bottom: 0rem;
+  }
+}
+
+@keyframes deco-load {
+  0% {
+    background-color: rgba(#FFF, 0.0);
+    bottom: -10rem;
+  }
+  100%{
+    background-color: rgba(#FFF, 1);
+    bottom: 0rem;
+  }
+}
+
+.inpage__header--alt {
+  padding: ($global-spacing * 4) 0;
+  background-color: $secondary-color;
+  box-shadow: 0 4px 3px -1px rgba($base-color, 0.06);
+  p, h1 {
+    width: 70%;
     @include media(small-down) {
       width: 90%;
     }
   }
 }
+
 
 .inpage__body {
   padding: ($global-spacing * 4) 0 ($global-spacing * 4) 0;

@@ -1,5 +1,5 @@
 .index__header {
-  padding: ($global-spacing * 8) 0;
+  padding: ($global-spacing * 10) 0;
   color: #FFF;
   background-color: $primary-color;
   box-shadow: 0 4px 3px -1px rgba($base-color, 0.06);
@@ -7,14 +7,18 @@
     padding: ($global-spacing * 4) 0;
   }
   h1, p {
-  	color: #FFF;
+  	color: rgba(#FFF, 0.0);
     width: 60%;
+    position: relative;
+    animation: 3s ease 2s 1 text-load;
+    animation-fill-mode: forwards;
     @include media(small-down) {
       width: 90%;
     }
   }
-  p {
-  	padding-top:  $global-spacing;
+  hr {
+    animation: 3s ease 2s 1 deco-load;
+    animation-fill-mode: forwards;
   }
 }
 

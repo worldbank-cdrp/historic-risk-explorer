@@ -333,7 +333,6 @@ label[for] {
   position: relative;
   display: inline-block;
   margin-bottom: $global-spacing;
-  font-size: 1rem;
   line-height: 1rem;
   font-weight: $base-font-regular;
   cursor: pointer;
@@ -356,6 +355,10 @@ label[for] {
   }
   &:last-child {
     margin-bottom: 0;
+  }
+  font-size: 0.875rem;
+  @include media(xxlarge-up) {
+    font-size: 1rem;
   }
 }
 
