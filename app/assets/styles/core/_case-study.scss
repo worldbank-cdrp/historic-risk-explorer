@@ -10,14 +10,14 @@
     color: rgba(#FFF, 0);
     width: 70%;
     padding-bottom: $global-spacing;
-    animation: 2s ease 2s 1 text-load;
+    animation: 2s ease 1s 1 text-load;
     animation-fill-mode: forwards;
     @include media(small-down) {
       width: 90%;
     }
   }
   hr {
-    animation: 2s ease 2s 1 deco-load;
+    animation: 2s ease 1s 1 deco-load;
     animation-fill-mode: forwards;
   }
   background-size: cover;
