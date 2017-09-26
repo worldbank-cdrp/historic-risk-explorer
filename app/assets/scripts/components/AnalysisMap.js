@@ -56,8 +56,8 @@ class AnalysisMap extends Component {
       animate: false,
       padding: config.boundsPadding
     });
+    this._map.scrollZoom.disable();
     // remove scroll zoom
-    this.map.scrollZoom.disable();
     this._addNavigation();
     // add layers, then hide them
     this._map.on('load', () => {
