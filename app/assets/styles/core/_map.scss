@@ -1,0 +1,49 @@
+#analysisMap {
+	height: 80vh;
+}
+
+.map-canvas {
+  position: relative;
+  border-top: solid 1px $secondary-color;
+  border-bottom: solid 1px $secondary-color;
+}
+
+.map-controls {
+  position: absolute;
+}
+
+.map-layer__actions {
+  position: absolute;
+  z-index: 1;
+  background-color: #FFF;
+  top: $global-spacing * 2;
+  padding: $global-spacing;
+  box-shadow: $base-shadow;
+  li {
+    display: inline-block;
+    list-style: none;
+    padding: 0 ($global-spacing/2) ($global-spacing/2) 0;
+  }
+  ul {
+    margin-bottom: $global-spacing/4;
+  }
+}
+
+.map-layer__title {
+  margin-bottom: $global-spacing/2;
+  color: $base-color;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  @include media(xxlarge-up) {
+    font-size: 1rem;
+  }
+}
+
+.map-legend {
+  position: absolute;
+  background-color: #FFF;
+  z-index: 1;
+  bottom: $global-spacing * 2;
+  box-shadow: $base-shadow;
+  padding: $global-spacing;
+}

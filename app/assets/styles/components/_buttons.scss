@@ -15,7 +15,7 @@
   background: none;
   text-shadow: none;
   border: 0;
-  font-weight: $base-font-bold;
+  font-weight: $base-font-regular;
   cursor: pointer;
   text-decoration: none;
 
@@ -78,6 +78,11 @@
   @include button-variation("bounded", null, $action-color);
 }
 
+.button--secondary-bounded {
+  @include button-variation("bounded", null, #FFF);
+}
+
+
 .button--base-unbounded {
   @include button-variation("filled", "dark", $base-color);
   background-color: rgba($primary-color, 0.2);
@@ -104,11 +109,6 @@
 
 .button--primary-bounded {
   @include button-variation("bounded", null, $primary-color);
-}
-
-.button--secondary-bounded {
-  @include button-variation("bounded", null, $secondary-color);
-  background-color: rgba($base-color, 0.3);
 }
 
 .button-drop-select {

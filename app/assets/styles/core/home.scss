@@ -1,0 +1,141 @@
+.index__header {
+  position: relative;
+  overflow: hidden;
+  padding: ($global-spacing * 10) 0;
+  color: #FFF;
+  background-color: darken($primary-color, 8%);
+  box-shadow: 0 4px 3px -1px rgba($base-color, 0.06);
+  @include media(small-down) {
+    padding: ($global-spacing * 4) 0;
+  }
+  h1, p {
+  	color: rgba(#FFF, 0.0);
+    width: 60%;
+    position: relative;
+    animation: 3s ease 2s 1 text-load;
+    animation-fill-mode: forwards;
+    @include media(small-down) {
+      width: 90%;
+    }
+  }
+  hr {
+    animation: 3s ease 2s 1 deco-load;
+    animation-fill-mode: forwards;
+  }
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image:
+  linear-gradient(
+      rgba(248, 99, 78, 0.4),
+      rgba(248, 99, 78, 0.4)
+    ), 
+  url('https://api.mapbox.com/styles/v1/wbg-cdrp/cj7w85rme3rvm2ro19y4q5pss/static/44.219677,40.062282,7.00,0.00,0.00/1280x600@2x?access_token=pk.eyJ1Ijoid2JnLWNkcnAiLCJhIjoiY2l1Z3pxZDVwMDBxcDMzcDJjYmRpYnBicSJ9.hjlLP5TEVhqbTwzhFA1rZw');
+}
+
+.index__body {
+  padding-top: $global-spacing * 2;
+  section  {
+    padding: ($global-spacing * 5) 0;
+    @include media(small-down) {
+      padding: ($global-spacing * 3) 0;
+    }
+  }
+}
+
+.text-column {
+  @include column(4/12);
+  @include media(small-down){
+    @include column(12/12);
+  }
+}
+
+.img-column {
+  @include column (8/12);
+  @include media(small-down){
+    @include column(12/12);
+  }
+}
+
+.about-tease {
+  box-shadow: 0 4px 3px -1px rgba($base-color, 0.06);
+}
+
+.risk-explorer-tease {
+  padding: ($global-spacing * 5) 0;
+  background-color: $primary-color;
+  h2, p {
+    color: #FFF;
+    width: 60%;
+    @include media(small-down) {
+      width: 90%;
+    }
+  }
+}
+
+.disaster__bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.disaster__content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: ($global-spacing * 5) ($global-spacing * 2) ($global-spacing * 4)  ($global-spacing * 4);
+  @include media(small-down) {
+    @include column(12/12);
+    padding: ($global-spacing * 4) ($global-spacing * 2) ($global-spacing * 2)  ($global-spacing * 4);
+  }
+}
+
+.bg-img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: 
+    linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)
+    ), url('/assets/graphics/content/Haiti-2010.jpg');
+    transition: all ease 1s;
+}
+
+.disasters-list {
+  padding: 0 0 $global-spacing 0;
+  @include column(12/12);
+  list-style: none;
+  li {
+    h2, p {
+      color: #FFF;
+    }
+  }
+}
+
+.disasters-list__item {
+  box-shadow: $base-shadow;
+  height: 250px;
+  @include column(5.5/12, $offset: -0.05/12);
+  margin-right: $global-spacing;
+  margin-top: $global-spacing;
+  overflow: hidden;
+  position: relative;
+  @include media(small-down) {
+    @include column(12/12);
+    height: 200px;
+  }
+  &:hover {
+    opacity: 1;
+    .bg-img {
+      transform: scale(1.2);
+    }
+  };
+}

@@ -6,9 +6,21 @@ import React, { Component } from 'react';
 class Footer extends Component {
   render () {
     return (
-      <div>
-        I am a footer!
-      </div>
+      <footer>
+        <div className='inner'>
+          <ul className='sponsor__list'>
+            <li>
+              <a href='' className='sponsor__item'><img src='/assets/graphics/content/WBG-SURR.png' alt='view sponsor website'/></a>
+            </li>
+            <li>
+              <a href='' className='sponsor__item'><img src='/assets/graphics/content/GFDRR.png' alt='view sponsor website'/></a>
+            </li>
+            <li>
+              <a href='' className='sponsor__item'><img src='/assets/graphics/content/D-RAS.png' alt='view sponsor website'/></a>
+            </li>
+          </ul>
+        </div>
+      </footer>
     );
   }
 }

@@ -15,21 +15,23 @@ class DisastersList extends Component {
   }
   renderDisastersList () {
     return this.props.disasters.map((d, i) =>
-      <li key={i}>
-        <Link to={`/disasters/${d.c}-${d.y}-${d.t.toLowerCase()}`}>
-          <div>
-            <h1>{`${d.n} ${d.t}`}</h1>
-            <p>{`${d.m} ${d.y}`}</p>
-          </div>
-        </Link>
+
+      <li className='disasters-list__item' key={i}>
+         <Link to={`/disasters/${d.c}-${d.y}-${d.t.toLowerCase()}`} className='featured-disasters__item'>
+           <span className='disaster__bg'><div className='bg-img'></div></span>
+           <span className='disaster__content'>
+             <p className='subheading'>{`${d.m} ${d.y}`}</p>
+             <h2 className='heading--medium'>{`${d.n} ${d.t}`}</h2>
+           </span>
+         </Link>
       </li>
     );
   }
   render () {
     return (
-      <div>
+      <ul className='disasters-list'>
         {this.renderDisastersList()}
-      </div>
+      </ul>
     );
   }
 }

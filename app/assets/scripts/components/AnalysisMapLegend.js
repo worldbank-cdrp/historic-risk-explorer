@@ -17,16 +17,11 @@ class AnalysisMapLegend extends Component {
     // for subNational, units are be expressed in #km
     // TODO: add additional logic to pick subnational from ids per zoom
     return (
-      <div>
-        <h2></h2>
-        <div>
-          <h1>{overlayMetricTitle}</h1>
-        </div>
-        <div>
+        <div className='map-legend'>
+          <p className='map-layer__title'>{overlayMetricTitle}</p>
           {/* place for color ramp */}
           {overlayMetricIdUnits}
         </div>
-      </div>
     );
   }
 }
