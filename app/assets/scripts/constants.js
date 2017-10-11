@@ -48,7 +48,8 @@ export const DISASTERS = [
     t: 'Earthquake',
     dcode: 'EQ',
     n: 'El Salvador',
-    c: 'slv'
+    c: 'slv',
+    bbox: [[-90.10, 12.8666984737], [-87.6475524902, 14.4306903608]]
   },
   {
     y: 2016,
@@ -91,7 +92,8 @@ export const DISASTERS = [
     t: 'Flood',
     dcode: 'FL',
     n: 'Mozambique',
-    c: 'moz'
+    c: 'moz',
+    bbox: [[29.7784423828, -19.6684529744], [38.9630126953, -13.7473889243]]
   },
   {
     y: 2005,
@@ -100,6 +102,7 @@ export const DISASTERS = [
     dcode: 'EQ',
     n: 'Pakistan',
     c: 'pak',
+    bbox: [[62.4682617187, 23.3825982842], [72.1362304687, 30.0500765217]],
     dmetrics: 'Intensity'
   },
   {
@@ -121,6 +124,7 @@ export const DISASTERS = [
     dcode: 'FL',
     n: 'Pakistan',
     c: 'pak',
+    bbox: [[68.6810302734, 26.819168595], [75.3607177734, 33.7745813637]],
     dmetric: 'water_depth'
   }
 ];
