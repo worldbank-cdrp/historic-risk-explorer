@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { setOverlayMetric } from '../actions/action-creators';
 
 import AnalysisMap from '../components/AnalysisMap';
+import SliderMap from '../components/SliderMap';
 
 class DisasterProfile extends Component {
   constructor (props) {
@@ -115,6 +116,7 @@ dolor si  t amet, consectetur adipiscing elit. Duis sed nisl augue</p>
           <section className='images'>
             <div className='inner'>
               <h2>Before and After the Disaster</h2>
+              <SliderMap disaster={this.disaster} />
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum
 tempor o  rnare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempus. Lorem ipsum
 dolor si  t amet, consectetur adipiscing elit. Duis sed nisl augue</p>

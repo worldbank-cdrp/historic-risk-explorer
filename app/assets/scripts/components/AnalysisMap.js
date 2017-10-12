@@ -48,7 +48,6 @@ class AnalysisMap extends Component {
     this._map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
   }
   componentDidMount () {
-    console.log(this.props);
     mapboxgl.accessToken = config.mapboxApiKey;
     this._map = new mapboxgl.Map({
       container: 'analysisMap',
