@@ -18,15 +18,20 @@
     list-style: none;
     margin-left: $global-spacing * 2;
   }
-  .header_main {
-    a { 
-      color: $primary-color 
-    }
-  }
 }
 
 .page__title {
   font-family: $display-font-family;
+}
+
+.main__nav {
+  background-color: $primary-color;
+  a {
+    color: $secondary-color;
+  }
+  a:visited {
+    color: $secondary-color;
+  }
 }
 
 footer {

@@ -10,13 +10,13 @@ class Header extends Component {
     history: PropTypes.object.isRequired
   }
   render () {
-    const headerClass = c({ 'header_main': this.props.history.location.pathname === '/' });
+    const pageNav = c('page__nav', { 'main__nav': this.props.history.location.pathname === '/' });
     return (
       <div>
-        <nav className='page__nav'>
+        <nav className={pageNav}>
           <div className='inner'>
             <Link to="/" className='page__title'>Historic Disaster Explorer</Link>
-            <ul className={headerClass}>
+            <ul>
               <li>
                 <Link to="/disasters">Historic Disasters</Link>
               </li>

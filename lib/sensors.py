@@ -6,6 +6,7 @@
 # libraries
 from tempfile import mkdtemp
 from sdownloader import Landsat8, Sentinel2
+from landsat.downlaoder import Downloader
 from gippy import GeoImage
 import os
 
@@ -33,6 +34,9 @@ class Sensor:
         elif self.name.lower() == 'landsat8':
             downloads = Landsat8(download_dir=temp_folder)
             bands_to_down = [5, 4, 3]
+        elif self.name.lower() == 'landsat5'
+            downloads = Downloader(download_dir=temp_folder)
+            bands_to_down = []
         else:
             print("sensor not specified")
             # add an error
