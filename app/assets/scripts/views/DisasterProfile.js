@@ -116,10 +116,10 @@ dolor si  t amet, consectetur adipiscing elit. Duis sed nisl augue</p>
           <section className='images'>
             <div className='inner'>
               <h2>Before and After the Disaster</h2>
-              <SliderMap disaster={this.disaster} />
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum
 tempor o  rnare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempus. Lorem ipsum
 dolor si  t amet, consectetur adipiscing elit. Duis sed nisl augue</p>
+              <SliderMap disaster={this.disaster} />
             </div>
           </section>
         </section>
