@@ -69,6 +69,13 @@
   section  {
     padding: ($global-spacing * 2) 0;
   }
+  .explore {
+    padding-bottom: 0;
+    padding-top: $global-spacing * 4;
+  }
+  .images {
+    padding-top: $global-spacing * 6;
+  }
 }
 
 .metrics {

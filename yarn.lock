@@ -4662,9 +4662,19 @@ map-stream@~0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/map-stream/-/map-stream-0.1.0.tgz#e56aa94c4c8055a16404a0674b78f215f7c8e194"
 
+mapbox-gl-compare@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/mapbox-gl-compare/-/mapbox-gl-compare-0.1.0.tgz#73e2ae52fd166def2a9a8e417214d6d5b925fc51"
+  dependencies:
+    mapbox-gl-sync-move "^0.1.0"
+
 mapbox-gl-supported@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/mapbox-gl-supported/-/mapbox-gl-supported-1.2.0.tgz#cbd34df894206cadda9a33c8d9a4609f26bb1989"
+
+mapbox-gl-sync-move@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/mapbox-gl-sync-move/-/mapbox-gl-sync-move-0.1.0.tgz#1057624a0acc823f4919f6152e80291ff89ac35a"
 
 mapbox-gl@^0.39.1:
   version "0.39.1"
