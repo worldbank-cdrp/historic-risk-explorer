@@ -18,6 +18,11 @@
     list-style: none;
     margin-left: $global-spacing * 2;
   }
+  .header_main {
+    a { 
+      color: $primary-color 
+    }
+  }
 }
 
 .page__title {
