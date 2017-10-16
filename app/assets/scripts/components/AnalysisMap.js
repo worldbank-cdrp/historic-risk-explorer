@@ -97,7 +97,7 @@ class AnalysisMap extends Component {
     }
     // if the selected layer(s) is not visible, make it so on click
     // also make sure to only allow one layer to be visible at a time.
-  
+
     // get layer ids matching id from current visibleLayer
     let selectedIds = Object.keys(config.mapLayers['exposure-loss'].layers.ids)
     .filter((k) => {
