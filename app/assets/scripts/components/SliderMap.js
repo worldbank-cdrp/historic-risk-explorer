@@ -13,7 +13,7 @@ import {
 
 class SliderMap extends Component {
   static propTypes = {
-    disaster: PropTypes.array.isRequired
+    disaster: PropTypes.object.isRequired
   }
 
   _loadLayers () {
