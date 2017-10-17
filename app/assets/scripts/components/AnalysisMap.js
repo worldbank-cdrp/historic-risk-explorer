@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import mapboxgl from 'mapbox-gl';
+import { forEach } from 'lodash';
 import config from '../config';
 import {
   makeExposureLayer,
@@ -19,6 +20,7 @@ class AnalysisMap extends Component {
     super(props);
     this._loadLayers = this._loadLayers.bind(this);
     this._addNavigation = this._addNavigation.bind(this);
+    this._updateVisibleLayers = this._updateVisibleLayers.bind(this);
   }
   static propTypes = {
     disaster: PropTypes.object.isRequired,
@@ -47,6 +49,30 @@ class AnalysisMap extends Component {
   _addNavigation () {
     this._map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
   }
+
+  _updateVisibleLayers (current, next) {
+    let nextLayer = new RegExp(next.visibleLayer.layer);
+    const idKeys = Object.keys(config.mapLayers['exposure-loss'].layers.ids);
+    const sameLayer = next.visibleLayer.layer === current.visibleLayer.layer;
+    // if next and current layers are not the same, make all layers invisible.
+    if (!sameLayer) {
+      idKeys.forEach(l => {
+        let lId = `${config.mapLayers['exposure-loss'].id}-${config.mapLayers['exposure-loss'].layers.ids[l]}`;
+        l = this._map.getStyle().layers.find(lyr => lyr.id === lId);
+        if (l) { this._map.setLayoutProperty(l.id, 'visibility', 'none'); }
+      });
+    }
+    // make visible/invisible next layers
+    idKeys.forEach(l => {
+      let lConfig = config.mapLayers['exposure-loss'].layers.ids[l];
+      if (nextLayer.test(lConfig)) {
+        let lId = `${config.mapLayers['exposure-loss'].id}-${config.mapLayers['exposure-loss'].layers.ids[l]}`;
+        l = this._map.getStyle().layers.find(lyr => lyr.id === lId);
+        l.layout.visibility === 'visible' ? this._map.setLayoutProperty(l.id, 'visibility', 'none') : this._map.setLayoutProperty(l.id, 'visibility', 'visible');
+      }
+    });
+  }
+
   componentDidMount () {
     mapboxgl.accessToken = config.mapboxApiKey;
     this._map = new mapboxgl.Map({
@@ -64,29 +90,6 @@ class AnalysisMap extends Component {
     this._map.on('load', () => {
       this._loadLayers(this.props);
     });
-    // // get layer ids matching id from current visibleLayer
-    // let selectedIds = Object.keys(config.mapLayers['exposure-loss'].layers.ids)
-    //   .filter((k) => {
-    //     const layerRegEx = RegExp(this.props.visibleLayer.layer);
-    //     const configLayer = config.mapLayers['exposure-loss'].layers.ids[k];
-    //     return layerRegEx.test(configLayer);
-    //   });
-    // selectedIds.forEach((id) => {
-    //   let layerId = `${config.mapLayers['exposure-loss'].id}-${config.mapLayers['exposure-loss'].layers.ids[id]}`;
-    //   let layers = this._map.getStyle().layers;
-    //   // find style layer matching current selectedIds id
-    //   let layer = layers.find((l) => {
-    //     return l.id === layerId;
-    //   });
-    //   // grab all visible layers of the opposite id group (i.e if id is admin, grab grid)
-    //   let visibleLayers = getVisibleExposureLayers(layerId, layers, id);
-    //   // only allow making non visible layers visible if no layers found in getVisibleExposureLayers
-    //   if (layer.layout.visibility === 'none' && !visibleLayers) {
-    //     this._map.setLayoutProperty(layer.id, 'visibility', 'visible');
-    //   } else {
-    //     this._map.setLayoutProperty(layer.id, 'visibility', 'none');
-    //   }
-    // });
   }
   componentWillReceiveProps (nextProps) {
     if (this.props.disaster !== nextProps.disaster) {
@@ -95,33 +98,7 @@ class AnalysisMap extends Component {
         padding: config.boundsPadding
       });
     }
-    // if the selected layer(s) is not visible, make it so on click
-    // also make sure to only allow one layer to be visible at a time.
-
-    // get layer ids matching id from current visibleLayer
-    let selectedIds = Object.keys(config.mapLayers['exposure-loss'].layers.ids)
-    .filter((k) => {
-      const layerRegEx = RegExp(nextProps.visibleLayer.layer);
-      const configLayer = config.mapLayers['exposure-loss'].layers.ids[k];
-      return layerRegEx.test(configLayer);
-    });
-    selectedIds.forEach((id) => {
-      let layerId = `${config.mapLayers['exposure-loss'].id}-${config.mapLayers['exposure-loss'].layers.ids[id]}`;
-      let layers = this._map.getStyle().layers;
-      // find style layer matching current selectedIds id
-      let layer = this._map.getStyle().layers.find((l) => {
-        return l.id === layerId;
-      });
-      // grab all visible layers of the opposite id group (i.e if id is admin, grab grid)
-      let visibleLayers = getVisibleExposureLayers(layerId, layers, id);
-      // only allow making non visible layers visible if no layers found in getVisibleExposureLayers
-      if (layer.layout.visibility === 'none' && !visibleLayers) {
-        this._map.setLayoutProperty(layer.id, 'visibility', 'visible');
-      } else {
-        this._map.setLayoutProperty(layer.id, 'visibility', 'none');
-      }
-    });
-    // }
+    this._updateVisibleLayers(this.props, nextProps);
   }
   render () {
     return (
