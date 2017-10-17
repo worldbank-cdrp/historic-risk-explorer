@@ -3,11 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import mapboxgl from 'mapbox-gl';
-import { forEach } from 'lodash';
 import config from '../config';
 import {
   makeExposureLayer,
-  getVisibleExposureLayers,
   makeFootPrintSource,
   makeFootPrintLayer
  } from '../utils/map';
