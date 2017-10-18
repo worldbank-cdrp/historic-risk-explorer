@@ -56,7 +56,7 @@ class SliderMap extends Component {
       this._postDisasterMap.fitBounds(nextProps.disaster.bbox, {
         animate: false,
         padding: config.boundsPadding
-      })
+      });
     }
   }
 
@@ -73,8 +73,7 @@ class SliderMap extends Component {
 function selector (state) {
   return {
     disaster: state.disaster
-  }
+  };
 }
-
 
 export default connect(selector)(SliderMap);
