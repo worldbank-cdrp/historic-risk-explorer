@@ -54,7 +54,7 @@ export function getVisibleExposureLayers (layerId, layers, id) {
 export function makeFootPrintLayer (disaster, id) {
   return {
     id: id,
-    type: 'raster', 
+    type: 'raster',
     source: id,
     paint: {
       'raster-opacity': 0.06
