@@ -95,6 +95,7 @@ class AnalysisMap extends Component {
         animate: false,
         padding: config.boundsPadding
       });
+      return;
     }
     this._updateVisibleLayers(this.props, nextProps);
   }

@@ -17,13 +17,13 @@ class SliderMap extends Component {
     disaster: PropTypes.object.isRequired
   }
 
-  _loadLayers () {
+  _loadLayers (props) {
     // base layer
-    if (this.props.disaster.dmetric) {
-      let id = `${config.mapLayers[this.props.disaster.dmetric].id}-${this.props.disaster.c}`;
-      let footprintSource = makeFootPrintSource(this.props.disaster);
+    if (props.disaster.dmetric) {
+      let id = `${config.mapLayers[props.disaster.dmetric].id}-${props.disaster.c}`;
+      let footprintSource = makeFootPrintSource(props.disaster);
       this._preDisasterMap.addSource(id, footprintSource);
-      this._preDisasterMap.addLayer(makeFootPrintLayer(this.props.disaster, id));
+      this._preDisasterMap.addLayer(makeFootPrintLayer(props.disaster, id));
     }
   }
 
@@ -41,9 +41,11 @@ class SliderMap extends Component {
       center: [0, 0],
       zoom: [0]
     }).fitBounds(this.props.disaster.bbox, { animate: false, padding: config.boundsPadding });
+    this._preDisasterMap.scrollZoom.disable();
+    this._postDisasterMap.scrollZoom.disable();
     this._map = new Compare(this._preDisasterMap, this._postDisasterMap);
     this._preDisasterMap.on('load', () => {
-      this._loadLayers();
+      this._loadLayers(this.props);
     });
   }
 
@@ -57,6 +59,7 @@ class SliderMap extends Component {
         animate: false,
         padding: config.boundsPadding
       });
+      this._loadLayers(nextProps)
     }
   }
 
