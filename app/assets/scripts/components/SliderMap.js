@@ -1,6 +1,7 @@
 'use-strict';
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import mapboxgl from 'mapbox-gl';
 import Compare from 'mapbox-gl-compare';
@@ -46,6 +47,19 @@ class SliderMap extends Component {
     });
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (this.props.disaster !== nextProps.disaster) {
+      this._preDisasterMap.fitBounds(nextProps.disaster.bbox, {
+        animate: false,
+        padding: config.boundsPadding
+      });
+      this._postDisasterMap.fitBounds(nextProps.disaster.bbox, {
+        animate: false,
+        padding: config.boundsPadding
+      })
+    }
+  }
+
   render () {
     return (
       <div id="compareMap" className='compare-map-canvas'>
@@ -56,4 +70,11 @@ class SliderMap extends Component {
   }
 }
 
-export default SliderMap;
+function selector (state) {
+  return {
+    disaster: state.disaster
+  }
+}
+
+
+export default connect(selector)(SliderMap);

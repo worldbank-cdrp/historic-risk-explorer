@@ -13,9 +13,9 @@ class DisasterProfile extends Component {
     super(props);
     this.makeMetricButtons = this.makeMetricButtons.bind(this);
     this.nextDisaster = this.nextDisaster.bind(this);
-    // this.nextDisasterLink = this.nextDisasterLink.bind(this);
-    // this.nextDisasterText = this.nextDisasterText.bind(this);
+    this.nextDisasterLink = this.nextDisasterLink.bind(this);
     this.makeNextDisaster = this.makeNextDisaster.bind(this);
+    this.nextDisasterText = this.nextDisasterText.bind(this);
     this.renderDisasterProfile = this.renderDisasterProfile.bind(this);
   }
   static propTypes = {
