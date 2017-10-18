@@ -44,9 +44,9 @@ class SliderMap extends Component {
     this._preDisasterMap.scrollZoom.disable();
     this._postDisasterMap.scrollZoom.disable();
     this._map = new Compare(this._preDisasterMap, this._postDisasterMap);
-    this._preDisasterMap.on('load', () => {
-      this._loadLayers(this.props);
-    });
+    // this._preDisasterMap.on('load', () => {
+    //   this._loadLayers(this.props);
+    // });
   }
 
   componentWillReceiveProps (nextProps) {
@@ -59,7 +59,7 @@ class SliderMap extends Component {
         animate: false,
         padding: config.boundsPadding
       });
-      this._loadLayers(nextProps);
+      // this._loadLayers(nextProps);
     }
   }
 

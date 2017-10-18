@@ -54,7 +54,7 @@ export function getVisibleExposureLayers (layerId, layers, id) {
 export function makeFootPrintLayer (disaster, id) {
   return {
     id: id,
-    type: config.mapLayers[disaster.dmetric].layers.type,
+    type: 'raster', 
     source: id,
     paint: {
       'raster-opacity': 0.06
@@ -68,7 +68,7 @@ export function makeFootPrintSource (disaster) {
   // let sourceBase = config.mapLayers[disaster.dmetric].layers.main;
   // let source = makeDisasterSource(sourceBase, disaster);
   return {
-    type: config.mapLayers[disaster.dmetric].layers.type,
+    type: 'raster',
     url: `mapbox://${config.mapboxAccountName}.Armenia_EQ_1988_Intensity`
   };
 }
