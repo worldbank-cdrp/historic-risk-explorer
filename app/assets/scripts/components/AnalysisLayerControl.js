@@ -13,6 +13,7 @@ class AnalysisLayerControl extends Component {
     disaster: PropTypes.object.isRequired,
     _setVisibleLayer: PropTypes.func.isRequired
   }
+
   renderExposureLayerSelect () {
     return Object.keys(config.control['exposure-loss']).map((k, i) => {
       return (
