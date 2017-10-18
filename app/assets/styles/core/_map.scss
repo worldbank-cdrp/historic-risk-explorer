@@ -2,10 +2,27 @@
 	height: 80vh;
 }
 
-.map-canvas {
+#compareMap {
+  height: 50vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.map-canvas, compare-map-cavas {
   position: relative;
   border-top: solid 1px $secondary-color;
   border-bottom: solid 1px $secondary-color;
+}
+
+.compare-map-canvas {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.mapboxgl-compare .compare-swiper {
+  background-color: $action-color !important;
 }
 
 .map-controls {
