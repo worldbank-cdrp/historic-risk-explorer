@@ -55,7 +55,6 @@ class DisasterProfile extends Component {
   }
 
   makeNextDisaster () {
-    console.log(this.props.history);
     const isLastDisaster = (this.props.disaster.index === this.props.disasters.length - 1);
     let nextDisaster = !isLastDisaster ? this.props.disasters[this.props.disaster.index + 1] : this.props.disasters[0];
     nextDisaster.index = !isLastDisaster ? this.props.disaster.index + 1 : 0;
