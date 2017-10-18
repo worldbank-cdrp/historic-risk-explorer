@@ -59,7 +59,7 @@ class SliderMap extends Component {
         animate: false,
         padding: config.boundsPadding
       });
-      this._loadLayers(nextProps)
+      this._loadLayers(nextProps);
     }
   }
 
