@@ -67,7 +67,7 @@ class DisasterProfile extends Component {
                 </li>
               </ul>
               <div className='download-profile'>
-                <button className='button button--large button--base-bounded'>Download Disaster Profile</button>
+            <a href={this.disaster.profile} onClick={(e) => {e.preventDefault()}} className='button button--large button--base-bounded'>Download Disaster Profile</a>
               </div>
             </div>
           </section>

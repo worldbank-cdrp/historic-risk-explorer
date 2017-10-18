@@ -31,7 +31,8 @@ export const DISASTERS = [
     n: 'Chile',
     c: 'chl',
     bbox: [[-73.94645, -41.173], [-69.992715, -30.618278]],
-    dmetric: 'MMI'
+    dmetric: 'MMI',
+    profile: ''
   },
   {
     y: 1930,
@@ -40,7 +41,8 @@ export const DISASTERS = [
     dcode: 'HU',
     n: 'Dominican Republic',
     c: 'dom',
-    bbox: [[-72.008334, 17.466667], [-68.285416, 19.939025]]
+    bbox: [[-72.008334, 17.466667], [-68.285416, 19.939025]],
+    profile: ''
   },
   {
     y: 2001,
@@ -49,7 +51,8 @@ export const DISASTERS = [
     dcode: 'EQ',
     n: 'El Salvador',
     c: 'slv',
-    bbox: [[-90.10, 12.8666984737], [-87.6475524902, 14.4306903608]]
+    bbox: [[-90.10, 12.8666984737], [-87.6475524902, 14.4306903608]],
+    profile: ''
   },
   {
     y: 2016,
@@ -61,7 +64,8 @@ export const DISASTERS = [
     bbox: [
       [176.82925416074016, -18.902845971458092],
       [180.63157704385975, -16.029183627613975]
-    ]
+    ],
+    profile: ''
   },
   {
     y: 1815,
@@ -74,7 +78,8 @@ export const DISASTERS = [
       [117.62120269711221, -8.516058128670451],
       [118.34934125267489, -8.028534209442213]
     ],
-    dmetric: 'Ashfallring'
+    dmetric: 'Ashfallring',
+    profile: ''
   },
   {
     y: 1988,
@@ -84,7 +89,8 @@ export const DISASTERS = [
     n: 'Armenia',
     c: 'arm',
     bbox: [[43.529896, 38.850496], [46.589228, 41.322855]],
-    dmetric: 'Intensity'
+    dmetric: 'Intensity',
+    profile: ''
   },
   {
     y: 2015,
@@ -93,7 +99,8 @@ export const DISASTERS = [
     dcode: 'FL',
     n: 'Mozambique',
     c: 'moz',
-    bbox: [[29.7784423828, -19.6684529744], [38.9630126953, -13.7473889243]]
+    bbox: [[29.7784423828, -19.6684529744], [38.9630126953, -13.7473889243]],
+    profile: ''
   },
   {
     y: 2005,
@@ -103,7 +110,8 @@ export const DISASTERS = [
     n: 'Pakistan',
     c: 'pak',
     bbox: [[62.4682617187, 23.3825982842], [72.1362304687, 30.0500765217]],
-    dmetrics: 'Intensity'
+    dmetrics: 'Intensity',
+    profile: ''
   },
   {
     y: 2010,
@@ -115,7 +123,8 @@ export const DISASTERS = [
     bbox: [
       [-75.21053054610026, 17.502132206942065],
       [-70.72207095106857, 20.202465628505138]
-    ]
+    ],
+    profile: ''
   },
   {
     y: 2010,
@@ -125,6 +134,7 @@ export const DISASTERS = [
     n: 'Pakistan',
     c: 'pak',
     bbox: [[68.6810302734, 26.819168595], [75.3607177734, 33.7745813637]],
-    dmetric: 'water_depth'
+    dmetric: 'water_depth',
+    profile: ''
   }
 ];
