@@ -24,6 +24,16 @@
   font-family: $display-font-family;
 }
 
+.main__nav {
+  background-color: $primary-color;
+  a {
+    color: $secondary-color;
+  }
+  a:visited {
+    color: $secondary-color;
+  }
+}
+
 footer {
 /*  background-color: $secondary-color;*/
   padding: ($global-spacing * 4) 0;

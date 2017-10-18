@@ -34,7 +34,7 @@ render((
   <Provider store={store} >
     <Router history={history}>
       <div>
-      <Header/>
+      <Header history={history}/>
       <Switch>
         <Route exact path='/' component={Home} />
         <Route path='/about' component={About} />
