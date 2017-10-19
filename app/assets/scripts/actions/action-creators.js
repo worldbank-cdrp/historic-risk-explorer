@@ -30,3 +30,11 @@ export function setDisaster (disaster) {
     recievedAt: Date.now()
   };
 }
+
+export function setInitialDisasterIndex (index) {
+  return {
+    type: actions.SET_INITIAL_DISASTER_INDEX,
+    index: index,
+    receivedAt: Date.now()
+  };
+}
