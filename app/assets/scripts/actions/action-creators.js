@@ -31,6 +31,13 @@ export function setDisaster (disaster) {
   };
 }
 
+export function clearDisaster () {
+  return {
+    type: actions.CLEAR_DISASTER,
+    receivedAt: Date.now()
+  };
+}
+
 export function setInitialDisasterIndex (index) {
   return {
     type: actions.SET_INITIAL_DISASTER_INDEX,
