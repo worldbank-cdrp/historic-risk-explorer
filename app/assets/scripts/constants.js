@@ -103,7 +103,8 @@ export const DISASTERS = [
     n: 'Pakistan',
     c: 'pak',
     bbox: [[62.4682617187, 23.3825982842], [72.1362304687, 30.0500765217]],
-    dmetrics: 'Intensity'
+    dmetrics: 'Intensity',
+    image: ''
   },
   {
     y: 2010,
@@ -115,7 +116,8 @@ export const DISASTERS = [
     bbox: [
       [-75.21053054610026, 17.502132206942065],
       [-70.72207095106857, 20.202465628505138]
-    ]
+    ],
+    image: 'Haiti-2010.jpg'
   },
   {
     y: 2010,
@@ -125,6 +127,7 @@ export const DISASTERS = [
     n: 'Pakistan',
     c: 'pak',
     bbox: [[68.6810302734, 26.819168595], [75.3607177734, 33.7745813637]],
-    dmetric: 'water_depth'
+    dmetric: 'water_depth',
+    image: ''
   }
 ];

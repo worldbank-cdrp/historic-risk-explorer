@@ -101,12 +101,7 @@
   height: 100%;
   background-size: cover;
   background-repeat: no-repeat;
-  background-image: 
-    linear-gradient(
-      rgba(0, 0, 0, 0.5),
-      rgba(0, 0, 0, 0.5)
-    ), url('/assets/graphics/content/Haiti-2010.jpg');
-    transition: all ease 1s;
+  transition: all ease 1s;
 }
 
 .disasters-list {

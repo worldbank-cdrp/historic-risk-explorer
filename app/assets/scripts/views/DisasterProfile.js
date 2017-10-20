@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { setOverlayMetric } from '../actions/action-creators';
 
+import { makeImage } from '../utils/disaster';
+
 import AnalysisMap from '../components/AnalysisMap';
 import SliderMap from '../components/SliderMap';
 
@@ -37,7 +39,7 @@ class DisasterProfile extends Component {
     this.parseURL();
     return (
       <div>
-        <section className='inpage__header'>
+        <section className='inpage__header' style={makeImage(this.disaster)}>
           <div className='inner'>
             <p className='subheading'>{this.disaster.m} {this.disaster.y}</p>
             <h1 className='heading--xxlarge'>{this.disaster.n} {this.disaster.y} {this.disaster.t}</h1>
