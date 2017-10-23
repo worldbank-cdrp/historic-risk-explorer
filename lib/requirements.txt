@@ -1,0 +1,4 @@
+-e git://github.com/sat-utils/sat-download.git@master#egg=sat-download
+-e git://github.com/sat-utils/sat-process.git@develop#egg=sat-process
+PyYAML==3.12
+mapboxcli==0.7.0

@@ -1,14 +1,15 @@
 # ignore some shellchecks
 # shellcheck disable=SC2044,SC1091,SC2148
-# get environmental variables from .env
-source .env
-export MAPBOX_ACCESS_TOKEN
-# run processing.py
-echo "Downloading and processing scenes"
-python processing.py $1
+
+echo "Downloading and processing landsat and sentinel scenes"
+python processing.py processing-config.yml
+
+echo "Downloading and processing dg scenes"
+
+
 # send geotiffs to mapbox
 # echo "Uploading scenes to mapbox"
-# for f in $(find ../data/*TIF)
+# for f in $(find ./output/*TIF)
 # do
 #   FILENAME=$(basename "$f" .TIF)
 #   LOCATION=$(basename "$(dirname "$f")")
