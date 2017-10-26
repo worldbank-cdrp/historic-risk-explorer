@@ -17,18 +17,19 @@ class DisastersList extends Component {
     _setInitialDisasterIndex: PropTypes.func.isRequired
   }
   renderDisastersList () {
-    return this.props.disasters.map((d, i) =>
-
-      <li className='disasters-list__item' key={i}>
-         <Link to={`/${d.c}-${d.y}-${d.t.toLowerCase()}`}
-          onClick={(e) => { this.props._setInitialDisasterIndex(i); }} className='featured-disasters__item'>
-           <span className='disaster__bg'><div className='bg-img'></div></span>
-           <span className='disaster__content'>
-             <p className='subheading'>{`${d.m}, ${d.y}`}</p>
-             <h2 className='heading--medium'>{`${d.n} ${d.t}`}</h2>
-           </span>
-         </Link>
-      </li>
+    return (
+      this.props.disasters.map((d, i) =>
+        <li className='disasters-list__item' key={i}>
+           <Link to={`/${d.c}-${d.y}-${d.t.toLowerCase()}`}
+            onClick={(e) => { this.props._setInitialDisasterIndex(i); }} className='featured-disasters__item'>
+             <span className='disaster__bg'><div className='bg-img'></div></span>
+             <span className='disaster__content'>
+               <p className='subheading'>{`${d.m}, ${d.y}`}</p>
+               <h2 className='heading--medium'>{`${d.n} ${d.t}`}</h2>
+             </span>
+          </Link>
+        </li>
+      )
     );
   }
   render () {

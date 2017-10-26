@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
+  clearDisaster,
   setOverlayMetric,
   setDisaster,
   setPaginationDirection
@@ -31,6 +32,7 @@ class DisasterProfile extends Component {
     match: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
+    _clearDisaster: PropTypes.func.isRequired,
     _setDisaster: PropTypes.func.isRequired,
     _setOverlayMetric: PropTypes.func.isRequired
   }
@@ -50,6 +52,10 @@ class DisasterProfile extends Component {
       nextProps._setDisaster(disaster);
     }
     if (this.props.disaster !== nextProps.disaster) { window.scrollTo(0, 0); }
+  }
+
+  componentWillUnmount () {
+    this.props._clearDisaster();
   }
 
   makeMetricButtons () {
@@ -179,6 +185,7 @@ const selector = (state) => {
 
 const dispatcher = (dispatch) => {
   return {
+    _clearDisaster: () => dispatch(clearDisaster()),
     _setOverlayMetric: (metric) => dispatch(setOverlayMetric(metric)),
     _setDisaster: (disaster) => dispatch(setDisaster(disaster)),
     _setPaginationDirection: (direction) => dispatch(setPaginationDirection(direction))

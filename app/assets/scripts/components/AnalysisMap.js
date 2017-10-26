@@ -17,6 +17,7 @@ class AnalysisMap extends Component {
   constructor (props) {
     super(props);
     this._loadLayers = this._loadLayers.bind(this);
+    this._removeLayers = this._removeLayers.bind(this);
     this._addNavigation = this._addNavigation.bind(this);
     this._updateVisibleLayers = this._updateVisibleLayers.bind(this);
   }
@@ -31,19 +32,32 @@ class AnalysisMap extends Component {
       let footprintSource = makeFootPrintSource(props.disaster);
       this._map.addSource(id, footprintSource);
       this._map.addLayer(makeFootPrintLayer(props.disaster, id));
-    }
-    // add & hide overlay layers
-    Object.keys(config.mapLayers['exposure-loss'].layers.ids).forEach((key) => {
-      // add layer
-      let layerIdBase = config.mapLayers['exposure-loss'].layers.ids[key];
-      this._map.addLayer(makeExposureLayer(props.disaster, layerIdBase));
-      // hide layer
-      let layerId = `${config.mapLayers['exposure-loss'].id}-${layerIdBase}`;
-      if (this._map.getLayer(layerId)) {
-        this._map.setLayoutProperty(layerId, 'visibility', 'none');
+      this.layers.push(id);
+      // add & hide overlay layers
+      if (this._map.getLayer(id)) {
+        Object.keys(config.mapLayers['exposure-loss'].layers.ids).forEach((key) => {
+          // add layer
+          let layerIdBase = config.mapLayers['exposure-loss'].layers.ids[key];
+          let exposureLayer = makeExposureLayer(props.disaster, layerIdBase);
+          this._map.addLayer(exposureLayer);
+          this.layers.push(exposureLayer.id);
+          // hide layer
+          let layerId = `${config.mapLayers['exposure-loss'].id}-${layerIdBase}`;
+          if (this._map.getLayer(layerId)) {
+            this._map.setLayoutProperty(layerId, 'visibility', 'none');
+          }
+        });
       }
+    }
+  }
+
+  _removeLayers () {
+    this.layers.forEach(layer => { if (this._map.getLayer(layer)) { this._map.removeLayer(layer); } });
+    Object.keys(this._map.style.sourceCaches).forEach((source) => {
+      if (source !== 'composite') { if (this._map.getSource(source)) { this._map.removeSource(source); } }
     });
   }
+
   _addNavigation () {
     this._map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
   }
@@ -71,6 +85,11 @@ class AnalysisMap extends Component {
     });
   }
 
+  componentWillMount () {
+    this.sources = [];
+    this.layers = [];
+  }
+
   componentDidMount () {
     mapboxgl.accessToken = config.mapboxApiKey;
     this._map = new mapboxgl.Map({
@@ -95,9 +114,13 @@ class AnalysisMap extends Component {
         animate: false,
         padding: config.boundsPadding
       });
-      this._updateVisibleLayers(this.props, nextProps);
+      this._removeLayers();
+      this._loadLayers(nextProps);
+      return;
     }
+    this._updateVisibleLayers(this.props, nextProps);
   }
+
   render () {
     return (
       <div className='map-canvas'>
