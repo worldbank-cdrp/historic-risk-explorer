@@ -113,21 +113,21 @@ class DisasterProfile extends Component {
                   <h2 className='alt-heading'>Annualized Loss</h2>
                   <ul>
                     <li><h3 className='heading--small'>{`$${this.props.disaster.annloss.hist}M`}<small>Historic</small></h3></li>
-                    <li><h3 className='heading--small'>{`$${this.props.disaster.annloss.modeled}M`}<small>Modelled</small></h3></li>
+                    <li><h3 className='heading--small'>{`$${this.props.disaster.annloss.modelled}M`}<small>Modelled</small></h3></li>
                   </ul>
                 </li>
                 <li className='national-metrics__item'>
                   <h2 className='alt-heading'>Exposure</h2>
                   <ul>
                     <li><h3 className='heading--small'>{`$${this.props.disaster.exposure.hist}M`}<small>Historic</small></h3></li>
-                    <li><h3 className='heading--small'>{`$${this.props.disaster.exposure.modeled}M`}<small>Modelled</small></h3></li>
+                    <li><h3 className='heading--small'>{`$${this.props.disaster.exposure.modelled}M`}<small>Modelled</small></h3></li>
                   </ul>
                 </li>
                 <li className='national-metrics__item'>
                   <h2 className='alt-heading'>Loss Ratio</h2>
                   <ul>
-                    <li><h3 className='heading--small'>{`$${this.props.disaster.lossratio.hist}M`}<small>Historic</small></h3></li>
-                    <li><h3 className='heading--small'>{`$${this.props.disaster.lossratio.hist}M`}<small>Modelled</small></h3></li>
+                    <li><h3 className='heading--small'>{`${this.props.disaster.lossratio.hist}%`}<small>Historic</small></h3></li>
+                    <li><h3 className='heading--small'>{`${this.props.disaster.lossratio.modelled}%`}<small>Modelled</small></h3></li>
                   </ul>
                 </li>
               </ul>

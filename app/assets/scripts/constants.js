@@ -45,8 +45,8 @@ export const DISASTERS = [
       modeled: ''
     },
     lossratio: {
-      hist: '',
-      modeled: ''
+      hist: '2.98',
+      modeled: '3.84'
     }
   },
   {
@@ -70,8 +70,8 @@ export const DISASTERS = [
       modeled: ''
     },
     lossratio: {
-      hist: '',
-      modeled: ''
+      hist: '15.98',
+      modeled: '9.79'
     }
   },
   {
@@ -88,15 +88,15 @@ export const DISASTERS = [
     magnitude: 'Mw7.7',
     annloss: {
       hist: '',
-      modeled: ''
+      modelled: ''
     },
     exposure: {
       hist: '',
-      modeled: ''
+      modelled: ''
     },
     lossratio: {
-      hist: '',
-      modeled: ''
+      hist: '1.66',
+      modelled: '1.33'
     }
   },
   {
@@ -116,15 +116,15 @@ export const DISASTERS = [
     magnitude: 'Cat 5',
     annloss: {
       hist: '',
-      modeled: ''
+      modelled: ''
     },
     exposure: {
       hist: '',
-      modeled: ''
+      modelled: ''
     },
     lossratio: {
-      hist: '',
-      modeled: ''
+      hist: '7.03',
+      modelled: '7.19'
     }
   },
   {
@@ -145,15 +145,15 @@ export const DISASTERS = [
     magnitude: 'VEI7',
     annloss: {
       hist: '',
-      modeled: ''
+      modelled: ''
     },
     exposure: {
       hist: '',
-      modeled: ''
+      modelled: ''
     },
     lossratio: {
       hist: '',
-      modeled: ''
+      modelled: '1.06'
     }
   },
   {
@@ -171,15 +171,15 @@ export const DISASTERS = [
     magnitude: 'Ms6.8',
     annloss: {
       hist: '',
-      modeled: ''
+      modelled: ''
     },
     exposure: {
       hist: '',
-      modeled: ''
+      modelled: ''
     },
     lossratio: {
-      hist: '',
-      modeled: ''
+      hist: '7.06',
+      modelled: '4.28'
     }
   },
   {
@@ -196,15 +196,15 @@ export const DISASTERS = [
     magnitude: 'n/a',
     annloss: {
       hist: '',
-      modeled: ''
+      modelled: '0.41'
     },
     exposure: {
       hist: '',
-      modeled: ''
+      modelled: ''
     },
     lossratio: {
-      hist: '',
-      modeled: ''
+      hist: '0.30',
+      modelled: '0.41'
     }
   },
   {
@@ -222,15 +222,15 @@ export const DISASTERS = [
     magnitude: 'Mw7.6',
     annloss: {
       hist: '',
-      modeled: ''
+      modelled: ''
     },
     exposure: {
       hist: '',
-      modeled: ''
+      modelled: ''
     },
     lossratio: {
-      hist: '',
-      modeled: ''
+      hist: '1.23',
+      modelled: '1.12'
     }
   },
   {
@@ -250,15 +250,16 @@ export const DISASTERS = [
     magnitude: 'Mw7.0',
     annloss: {
       hist: '',
-      modeled: ''
+      modelled: ''
     },
     exposure: {
       hist: '',
-      modeled: ''
+      modelled: ''
     },
     lossratio: {
-      hist: '',
-      modeled: ''
+      // TODO: ask/understand which the reported loss ratios is correct
+      hist: '13.74',
+      modelled: '14.43'
     }
   },
   {
@@ -276,15 +277,15 @@ export const DISASTERS = [
     magnitude: '',
     annloss: {
       hist: '',
-      modeled: ''
+      modelled: ''
     },
     exposure: {
       hist: '',
-      modeled: ''
+      modelled: ''
     },
     lossratio: {
       hist: '',
-      modeled: ''
+      modelled: ''
     }
   }
 ];
