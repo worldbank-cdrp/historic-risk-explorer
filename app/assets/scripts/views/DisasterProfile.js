@@ -85,19 +85,19 @@ class DisasterProfile extends Component {
               <ul className='metrics'>
                 <li className='metrics__item'>
                   <h1>Magnitude:</h1>
-                  <p> Mw7.0 (S. Haiti)</p>
+                  <p>{this.props.disaster.magnitude}</p>
                 </li>
                 <li className='metrics__item'>
                   <h1>Country Population at Time:</h1>
-                  <p> 9,926,000</p>
+                  <p>{this.props.disaster.pop}</p>
                 </li>
                 <li className='metrics__item'>
                   <h1>Capital Stock at Time (Res) - $USDmm:</h1>
-                  <p> 16,082</p>
+                  <p>{this.props.disaster.capstock}</p>
                 </li>
                 <li className='metrics__item'>
                   <h1>Houses existing at time:</h1>
-                  <p> 2,281,839</p>
+                  <p>{this.props.disaster.houses}</p>
                 </li>
               </ul>
               <div className='download-profile'>
@@ -112,22 +112,22 @@ class DisasterProfile extends Component {
                 <li className='national-metrics__item'>
                   <h2 className='alt-heading'>Annualized Loss</h2>
                   <ul>
-                    <li><h3 className='heading--small'>$152M<small>Historic</small></h3></li>
-                    <li><h3 className='heading--small'>$152M<small>Modelled</small></h3></li>
+                    <li><h3 className='heading--small'>{`$${this.props.disaster.annloss.hist}M`}<small>Historic</small></h3></li>
+                    <li><h3 className='heading--small'>{`$${this.props.disaster.annloss.modeled}M`}<small>Modelled</small></h3></li>
                   </ul>
                 </li>
                 <li className='national-metrics__item'>
                   <h2 className='alt-heading'>Exposure</h2>
                   <ul>
-                    <li><h3 className='heading--small'>$152M<small>Historic</small></h3></li>
-                    <li><h3 className='heading--small'>$152M<small>Modelled</small></h3></li>
+                    <li><h3 className='heading--small'>{`$${this.props.disaster.exposure.hist}M`}<small>Historic</small></h3></li>
+                    <li><h3 className='heading--small'>{`$${this.props.disaster.exposure.modeled}M`}<small>Modelled</small></h3></li>
                   </ul>
                 </li>
                 <li className='national-metrics__item'>
                   <h2 className='alt-heading'>Loss Ratio</h2>
                   <ul>
-                    <li><h3 className='heading--small'>$152M<small>Historic</small></h3></li>
-                    <li><h3 className='heading--small'>$152M<small>Modelled</small></h3></li>
+                    <li><h3 className='heading--small'>{`$${this.props.disaster.lossratio.hist}M`}<small>Historic</small></h3></li>
+                    <li><h3 className='heading--small'>{`$${this.props.disaster.lossratio.hist}M`}<small>Modelled</small></h3></li>
                   </ul>
                 </li>
               </ul>
