@@ -22,3 +22,11 @@ export function setOverlayMetric (text) {
     recievedAt: Date.now()
   };
 }
+
+export function setDisaster (disaster) {
+  return {
+    type: actions.SET_DISASTER,
+    disaster: disaster,
+    recievedAt: Date.now()
+  };
+}

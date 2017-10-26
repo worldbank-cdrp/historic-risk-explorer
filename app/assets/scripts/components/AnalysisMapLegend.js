@@ -8,6 +8,10 @@ class AnalysisMapLegend extends Component {
     visibleLayer: PropTypes.object.isRequired,
     overlayMetric: PropTypes.object.isRequired
   }
+  shouldComponentUpdate (nextProps) {
+    if (nextProps.visibleLayer.layer === this.props.visibleLayer) { return false; }
+    return true;
+  }
   render () {
     let overlayMetric = this.props.overlayMetric.metric;
     let overlayMetricTitle = config.legend[overlayMetric].title;

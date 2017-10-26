@@ -34,7 +34,19 @@ const overlayMetric = function (state = defaultOverlayMetric, action) {
   return state;
 };
 
+const disaster = function (state = {set: false}, action) {
+  switch (action.type) {
+    case actions.SET_DISASTER:
+      state = Object.assign({}, state);
+      state = action.disaster;
+      state.set = true;
+      break;
+  }
+  return state;
+};
+
 const reducer = combineReducers({
+  disaster,
   disasters,
   visibleLayer,
   overlayMetric,

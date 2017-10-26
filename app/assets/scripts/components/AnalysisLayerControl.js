@@ -13,12 +13,13 @@ class AnalysisLayerControl extends Component {
     disaster: PropTypes.object.isRequired,
     _setVisibleLayer: PropTypes.func.isRequired
   }
+
   renderExposureLayerSelect () {
     return Object.keys(config.control['exposure-loss']).map((k, i) => {
       return (
-        <li key={i}>
+        <li key={k}>
           <label className='form__option form__option--custom-radio'>
-            <input type='radio' value={k} onClick={(e) => { this.props._setVisibleLayer(e.target.value); }}/>
+            <input type='radio' value={k} onClick={(e) => { e.preventDefault(); this.props._setVisibleLayer(e.target.value); }}/>
             <span className='form__option__text'>{config.control['exposure-loss'][k]}</span>
             <span className='form__option__ui'></span>
           </label>
@@ -43,10 +44,12 @@ class AnalysisLayerControl extends Component {
   }
 }
 
+const selector = (state) => { return {}; };
+
 const dispatcher = (dispatch) => {
   return {
     _setVisibleLayer: (layer) => { dispatch(setVisibleLayer(layer)); }
   };
 };
 
-export default connect(null, dispatcher)(AnalysisLayerControl);
+export default connect(selector, dispatcher)(AnalysisLayerControl);
