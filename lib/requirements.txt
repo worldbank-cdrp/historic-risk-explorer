@@ -5,3 +5,4 @@ mapboxcli==0.7.0
 gippy==1.0.0.post3
 rasterio==1.0a10
 rio-hist==0.3.0
+shyaml==0.5.0
