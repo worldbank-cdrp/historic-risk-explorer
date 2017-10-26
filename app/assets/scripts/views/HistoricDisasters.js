@@ -1,26 +1,32 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import HistoricDisastersMain from '../components/HistoricDisastersMain';
-import DisasterProfile from './DisasterProfile';
 
 class HistoricDisasters extends Component {
   static propTypes = {
-    match: PropTypes.object
+    disaster: PropTypes.object,
+    disasters: PropTypes.array,
+    location: PropTypes.object,
+    match: PropTypes.object,
+    paginationDirection: PropTypes.string,
+    _setPaginationDirection: PropTypes.func,
+    _shouldGoToPreviousDisaster: PropTypes.func
   }
+
   render () {
-    return (
-      <div>
-        <Switch>
-          <Route path={this.props.match.path} exact component={HistoricDisastersMain} />
-          <Route path={`${this.props.match.path}/:disaster`} component={DisasterProfile} />
-        </Switch>
-      </div>
-    );
+    return (<HistoricDisastersMain />);
   }
 }
 
-export default HistoricDisasters;
+function selector (state) {
+  return {
+    disaster: state.disaster,
+    disasters: state.disasters
+  };
+}
+
+export default connect(selector)(HistoricDisasters);

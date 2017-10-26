@@ -3,7 +3,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { setOverlayMetric, setDisaster } from '../actions/action-creators';
+import {
+  setOverlayMetric,
+  setDisaster,
+  setPaginationDirection
+} from '../actions/action-creators';
+
+import {
+  nextDisaster,
+  nextDisasterText,
+  makeNextDisaster
+} from '../utils/pagination';
 
 import AnalysisMap from '../components/AnalysisMap';
 import SliderMap from '../components/SliderMap';
@@ -12,26 +22,36 @@ class DisasterProfile extends Component {
   constructor (props) {
     super(props);
     this.makeMetricButtons = this.makeMetricButtons.bind(this);
-    this.nextDisaster = this.nextDisaster.bind(this);
-    this.nextDisasterLink = this.nextDisasterLink.bind(this);
-    this.makeNextDisaster = this.makeNextDisaster.bind(this);
-    this.nextDisasterText = this.nextDisasterText.bind(this);
     this.renderDisasterProfile = this.renderDisasterProfile.bind(this);
   }
   static propTypes = {
     disasters: PropTypes.array.isRequired,
     disaster: PropTypes.object.isRequired,
+    initialDisasterIndex: PropTypes.number.isRequired,
     match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     _setDisaster: PropTypes.func.isRequired,
     _setOverlayMetric: PropTypes.func.isRequired
   }
+
   componentWillMount () {
-    let disasterInfo = this.props.match.url.split('/disasters/')[1].split('-');
+    let disasterInfo = this.props.match.url.split('/')[1].split('-');
     let disaster = this.props.disasters.find(d => d.c === disasterInfo[0]);
     disaster.index = this.props.disasters.findIndex(d => d.c === disasterInfo[0]);
     this.props._setDisaster(disaster);
   }
+
+  componentWillReceiveProps (nextProps) {
+    if (this.props.location.pathname !== nextProps.location.pathname) {
+      let disasterInfo = nextProps.location.pathname.split('/')[1].split('-');
+      let disaster = this.props.disasters.find(d => `${d.c}-${d.y}` === `${disasterInfo[0]}-${disasterInfo[1]}`);
+      disaster.index = this.props.disasters.findIndex(d => `${d.c}-${d.y}` === `${disasterInfo[0]}-${disasterInfo[1]}`);
+      nextProps._setDisaster(disaster);
+    }
+    if (this.props.disaster !== nextProps.disaster) { window.scrollTo(0, 0); }
+  }
+
   makeMetricButtons () {
     return ['Exposure', 'Annualized Loss', 'Loss Ratio'].map((m, i) => {
       return (
@@ -40,27 +60,6 @@ class DisasterProfile extends Component {
           onClick={(e) => { this.props._setOverlayMetric(e.target.value); }}>{m}</button></li>
       );
     });
-  }
-
-  nextDisaster () {
-    const isLastDisaster = (this.props.disaster.index === this.props.disasters.length - 1);
-    return !isLastDisaster ? this.props.disasters[this.props.disaster.index + 1] : this.props.disasters[0];
-  }
-
-  nextDisasterLink (nextDisaster) {
-    return `/disasters/${nextDisaster.c}-${nextDisaster.y}-${nextDisaster.t.toLowerCase()}`;
-  }
-
-  nextDisasterText (nextDisaster) {
-    return `${nextDisaster.n} ${nextDisaster.y} ${nextDisaster.t}`;
-  }
-
-  makeNextDisaster () {
-    const isLastDisaster = (this.props.disaster.index === this.props.disasters.length - 1);
-    let nextDisaster = !isLastDisaster ? this.props.disasters[this.props.disaster.index + 1] : this.props.disasters[0];
-    nextDisaster.index = !isLastDisaster ? this.props.disaster.index + 1 : 0;
-    this.props._setDisaster(nextDisaster);
-    this.props.history.replace(this.nextDisasterLink(nextDisaster));
   }
 
   renderDisasterProfile () {
@@ -155,8 +154,8 @@ dolor si  t amet, consectetur adipiscing elit. Duis sed nisl augue</p>
         <section className='inpage__footer'>
           <div className='inner' >
             <h2 className='alt-heading'>Next</h2>
-            <h1 className='heading--xlarge'>{this.nextDisasterText(this.nextDisaster())}</h1>
-            <a href='' onClick={(e) => { e.preventDefault(); this.makeNextDisaster(); }} className='link--primary-light'>
+            <h1 className='heading--xlarge'>{nextDisasterText(nextDisaster(this.props.disaster, this.props.disasters))}</h1>
+            <a href='' onClick={(e) => { e.preventDefault(); makeNextDisaster(this.props); }} className='link--primary-light'>
               View Case Study
             </a>
           </div>
@@ -173,14 +172,16 @@ dolor si  t amet, consectetur adipiscing elit. Duis sed nisl augue</p>
 const selector = (state) => {
   return {
     disasters: state.disasters,
-    disaster: state.disaster
+    disaster: state.disaster,
+    initialDisasterIndex: state.initialDisaster.index
   };
 };
 
 const dispatcher = (dispatch) => {
   return {
     _setOverlayMetric: (metric) => dispatch(setOverlayMetric(metric)),
-    _setDisaster: (disaster) => dispatch(setDisaster(disaster))
+    _setDisaster: (disaster) => dispatch(setDisaster(disaster)),
+    _setPaginationDirection: (direction) => dispatch(setPaginationDirection(direction))
   };
 };
 
