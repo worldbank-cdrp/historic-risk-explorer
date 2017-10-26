@@ -1,7 +1,0 @@
--e git://github.com/sat-utils/sat-download.git@master#egg=sat-download
--e git://github.com/sat-utils/sat-process.git@develop#egg=sat-process
-numpy==1.13.0
-six==1.10.0
-stestdata==0.0.1
-PyYAML==3.12
-landsat-util==0.13.1

@@ -18,10 +18,11 @@ class Sensor:
     """
 
     # init the class
-    def __init__(self, name, disaster_scenes):
+    def __init__(self, name, scenes, hazard, folder):
         self.name = str(name)
-        self.scenes = disaster_scenes
-        self.temp_folder = mkdtemp(dir=os.getcwd())
+        self.scenes = scenes
+        self.hazard = hazard
+        self.folder = folder
 
     def downloader(self):
         """
@@ -29,27 +30,16 @@ class Sensor:
         Will call sensor specific methods from txt file provided.
         """
         if self.name.lower() == 'sentinel2':
-            downloads = Sentinel2(download_dir=self.temp_folder)
+            downloads = Sentinel2(download_dir=self.folder)
             # we're interested in false color images, though this could be expanded upon.
-            bands_to_down = [8, 4, 3]
+            bands_to_down = [2, 3, 4]
         elif self.name.lower() == 'landsat8':
-            downloads = Landsat8(download_dir=self.temp_folder)
-            bands_to_down = [5, 4, 3]
+            downloads = Landsat8(download_dir=self.folder)
+            bands_to_down = [2, 3, 4]
         elif self.name.lower() == 'landsat5':
-           downloads = Landsat5(download_dir=self.temp_folder)
-           bands_to_down = [5, 4, 3]
+           downloads = Landsat5(download_dir=self.folder)
+           bands_to_down = [3, 2, 1]
         else:
             print("sensor not specified")
             # add an error
-        if len(self.scenes) > 1:
-            for scene in self.scenes:
-                disaster_data = [ downloads.download([evt], bands=bands_to_down) for evt in scene ]
-        else:
-            disaster_data = [ downloads.download(self.scenes, bands=bands_to_down) ]
-        self.disaster_data = disaster_data
-
-    def processor(self, scene, outfolder):
-    #    Popen(['sh', './process.sh', self.temp_folder, scene, outfolder])
-    def mulit_image_processor(self, self.tempfolder, outfolder):
-        print ('ttp')
-    #    Popen(['sh', './process.sh', self.temp_folder, outfolder])
+        self.disaster_data = [downloads.download(self.scenes, bands=bands_to_down)]

@@ -6,9 +6,10 @@
 
 # libs 
 from homura import download
+import os
 
 # storage base url
-GOOGLE_STORAGE = 'https://storage.googleapis.com/gcp-public-data-landsat/'
+GOOGLE_STORAGE = 'http://storage.googleapis.com/gcp-public-data-landsat/'
 
 
 class Landsat5:
@@ -29,9 +30,12 @@ class Landsat5:
         """
         
         scene_urls = [ build_band_urls(scene, bands) for scene in scenes ]
-        # for bands in scene_urls:
-		#     for band in bands:
-        #         download(band, self.download_dir)
+        image_path = os.path.join(self.download_dir, scenes[0])
+        os.makedirs(image_path)
+        
+        for bands in scene_urls:
+            for band in bands:
+                download(band, image_path)
         
         
         

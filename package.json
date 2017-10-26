@@ -11,6 +11,7 @@
     "serve": "DS_ENV=development gulp collecticons && gulp serve",
     "build": "DS_ENV=production NODE_ENV=production gulp",
     "stage": "DS_ENV=staging NODE_ENV=staging gulp",
+    "process-scenes": "./lib/process-scenes.sh",
     "lint": "eslint app/**/*.js",
     "test": "echo \"No tests\" && exit 0"
   },

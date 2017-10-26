@@ -2,3 +2,4 @@
 -e git://github.com/sat-utils/sat-process.git@develop#egg=sat-process
 PyYAML==3.12
 mapboxcli==0.7.0
+gippy==1.0.0.post3
