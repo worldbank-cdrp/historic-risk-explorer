@@ -8,7 +8,7 @@ import os
 def process_scene_list(scene_list, hazard_path, sensor):
     for image in scene_list:
 
-        print ('Processing: ' + image)
+        print ('Processing: ' + image + '\n')
 
         # make gippy GeoImage w/image bands
         image_path = os.path.join(hazard_path, image)
@@ -18,20 +18,23 @@ def process_scene_list(scene_list, hazard_path, sensor):
         band_names = ['blue', 'green', 'red']
         geo_image = GeoImage.open(filenames=bands, bandnames=band_names, nodata=0)
 
-        # for each band rescale values to raw min/max and apply standard deviation to new distribution
-        extrema = get_band_extrema(bands, band_names)
+        # # for each band rescale values to raw min/max and apply standard deviation stretchto new distribution
+        print ('Contrast Enhancement: gathering extrema for bands in ' + image)
+        extrema = get_band_extrema(bands)
         for i, x in enumerate(band_names):
             band_name = band_names[i] 
+            print ('Contrast Enhancement: applying standard deviation stretch to autoscaled ' + band_name + ' band')
             band_extrema = extrema[i]
             band_min = band_extrema['min'] ; band_max = band_extrema['max']
             geo_image[band_name] = geo_image[band_name].autoscale(band_min, band_max, percent=10.0)
         geo_image.save(out_image_path, dtype='byte')
 
         # generate new image with null values represented as 0 (making them transparent)
-        remove_nulls(out_image_path)
-        
+        remove_nulls(hazard_path, out_image)
         # get rid of original corrected image
         os.remove(out_image_path + '.tif')
+        os.remove(out_image_path + '.tif.aux.xml')
+        print ('')
 
 def match_histograms(source, truth, match):
     """
@@ -55,7 +58,7 @@ def mosaic_images(image_list, mosaic):
         path to mosaic being created
     """
     merge_command = 'gdal_merge.py -n 0 -a_nodata 0 -of GTiff -o ' + mosaic + ' ' + ' '.join([img for img in image_list])
-    merge_exec = Popen(merge_command, shell=True);
+    merge_exec = Popen([merge_command], shell=True);
     merge_exec.communicate()
 
 def jp2_to_gtiff (band):
@@ -88,12 +91,17 @@ def get_bands(image_path, sensor):
     red = next(b for b in bands if sensor_bands[sensor]['red'] in b)
     return [red, green, blue]
 
-def get_band_extrema(bands, band_names):
+def get_band_extrema(bands):
+    """
+    :bands:
+        list of absolute path to bands tiffs
+    """
     extrema = []
     for i, x in enumerate(bands):
         stats_command = ["gdalinfo","-mm", "-stats", "-json", bands[i]]
         stats_command = Popen(stats_command, stdout=PIPE, stderr=PIPE)
-        stats = json.loads("\n".join(chunk for chunk in stats_command.communicate()))
+        stats_result = [chunk.decode('utf-8') for chunk in stats_command.communicate()]
+        stats = json.loads('\n'.join(chunk for chunk in stats_result))
         minimum = stats['bands'][0]['computedMin']
         maximum = stats['bands'][0]['computedMax']
         extrema.append({'min': minimum, 'max': maximum})
@@ -107,11 +115,24 @@ def remove_nulls(hazard_path, image):
         image nulls are being removed from
     """
     no_null_image = 'no-null-' + image
-    no_null_image = os.path.join(hazard_path, no_mask_image)
-    overwrite_command = ['gdal_translate', '-of', 'GTiff', '-a_nodata', '0', image + '.tif', no_null_image + '.tif']
-    overwrite_command = Popen(overwrite_command, stdout=PIPE, stderr=PIPE)
+    image = os.path.join(hazard_path, image)
+    no_null_image = os.path.join(hazard_path, no_null_image)
+    overwrite_command = ' '.join(['gdal_translate', '-of', 'GTiff', '-a_nodata', '0', image + '.tif', no_null_image + '.tif'])
+    print('\nProcessing: converting null values to 0')
+    overwrite_command = Popen([overwrite_command], shell=True) 
     overwrite_command.communicate()
 
+
+def remove_alpha(img, hazard_path):
+    """
+    :img:
+        image alpha band is removed from
+    """
+    out_img = os.path.join(hazard_path, 'matched' + img.split('/')[-1])
+    remove_alpha_command = 'gdal_translate -b 1 -b 2 -b 3 -a_nodata 0 ' + img + ' ' + out_img
+    remove_alpha = Popen([remove_alpha_command], shell=True)
+    remove_alpha.communicate()
+    return out_img
 
 def mosaic_scene_list(mosaic, hazard, hazard_path):
     """
@@ -127,18 +148,19 @@ def mosaic_scene_list(mosaic, hazard, hazard_path):
     mosaiced_pre_post_images = []
     for rel_time in ['pre-color-match', 'post-color-match']:
         if rel_time in mosaic.keys():
-            # # use rio match to match the source file histogram to truth file's
-            source_truth = ['no-mask-' + image for image in mosaic[rel_time]]
+            # use rio match to match the source file histogram to truth file's
+            source_truth = ['no-null-corrected-' + image for image in mosaic[rel_time]]
             print('Histogram Matching: matching histogram of ' + ' to histogram of '.join([image for image in mosaic[rel_time]]))
-            match = 'matched-' + source_truth[0] + '.tif'
+            match = '-' + source_truth[0] + '.tif'
             match = os.path.join(hazard_path, match)
             source, truth = [os.path.join(hazard_path, image + '.tif') for image in source_truth]
-            # match_histograms(source, truth, match)
+            match_histograms(source, truth, match)
+            match = remove_alpha(match, hazard_path)
 
-            # # mosaic these the two images
+            # mosaic these the two images
             print('Mosaicing: stitching together ' + ' and '.join([image for image in mosaic[rel_time]]))
             mosaic_out_path = os.path.join(hazard_path, rel_time.split('-')[0] + '-' + hazard + '.tif')
-            # mosaic_images([source, truth], mosaic_out_path)
+            mosaic_images([match, truth], mosaic_out_path)
             mosaiced_pre_post_images.append(mosaic_out_path)
         else:
             # otherwise, just generate a non-matched images
@@ -147,8 +169,8 @@ def mosaic_scene_list(mosaic, hazard, hazard_path):
                 images_to_mosaic = mosaic[rel_time]
                 print('Mosaicing: stitching together ' + ' and '.join([image for image in mosaic[rel_time]]))
                 mosaic_out_path = os.path.join(hazard_path, rel_time + '-' + hazard + '.tif')
-                images_to_mosaic = [os.path.join(hazard_path, 'no-mask-' + image + '.tif') for image in images_to_mosaic]
-                # mosaic_images(images_to_mosaic, mosaic_out_path)
+                images_to_mosaic = [os.path.join(hazard_path, 'no-null-corrected-' + image + '.tif') for image in images_to_mosaic]
+                mosaic_images(images_to_mosaic, mosaic_out_path)
                 mosaiced_pre_post_images.append(mosaic_out_path)
             except:
                 print("Error: The relative time provided in config's mosaic object is not specified as 'pre' or 'post'. Please your config file")

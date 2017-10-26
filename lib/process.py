@@ -16,5 +16,4 @@ def process_scenes(sensor, hazard, hazard_path, config):
     # mosaic where neccessary
     mosaic = config['sensors'][sensor]['hazards'][hazard]['mosaic']
     if mosaic['needed']: 
-        source, truth = mosaic_scene_list(mosaic, hazard, hazard_path)
-        matched_pre_image = 'matched-' + source.split('/')[-1]
+        mosaic_scene_list(mosaic, hazard, hazard_path)

@@ -14,5 +14,5 @@ ENV MAPBOX_ACCOUNT ${MAPBOX_ACCOUNT}
 ENV MAPBOX_ACCESS_TOKEN ${MAPBOX_ACCESS_TOKEN}
 RUN chmod +x /processing/scene-to-mapbox.sh
 RUN pip install --upgrade setuptools
-RUN pip install -r /processing/requirements.txt
+RUN PYCURL_SSL_LIBRARY=nss  && pip install numpy && pip install -r /processing/requirements.txt
 ENTRYPOINT ['/bin/bash/', '/processing/scene-to-mapbox.sh']

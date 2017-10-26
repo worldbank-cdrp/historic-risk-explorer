@@ -19,6 +19,10 @@ for sensor in config['sensors']:
         # make scene bands' output folder
         hazard_path = os.path.join(os.getcwd(), hazard)
         if os.path.isdir(hazard_path) is not True: os.makedirs(hazard_path)
-        # download, then process imagery
-        download_scenes(sensor, hazard, hazard_path, config)
-        process_scenes(sensor, hazard, hazard_path, config)
+        # execute command provided
+        if sys.argv[2] == 'download':
+            download_scenes(sensor, hazard, hazard_path, config)
+        elif sys.argv[2] == 'process':
+            process_scenes(sensor, hazard, hazard_path, config)
+        else:
+            raise ValueError("Please provide the argument download or process.")
