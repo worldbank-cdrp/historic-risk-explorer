@@ -35,18 +35,18 @@ export const DISASTERS = [
     pop: '16,953,000',
     houses: '5,669,900',
     capstock: '132,227',
-    magnitude: 'Mw8.8',
+    magnitude: 'Mw 8.8',
     annloss: {
-      hist: '',
-      modeled: ''
+      Historic: null,
+      Modelled: null
     },
     exposure: {
-      hist: '',
-      modeled: ''
+      Historic: null,
+      Modelled: null
     },
     lossratio: {
-      hist: '2.98',
-      modeled: '3.84'
+      Historic: '2.98',
+      Modelled: '3.84'
     }
   },
   {
@@ -60,18 +60,18 @@ export const DISASTERS = [
     pop: '1,256,000',
     houses: '300,000',
     capstock: '110',
-    magnitude: 'Cat 4-5',
+    magnitude: 'Category 4-5',
     annloss: {
-      hist: '',
-      modeled: ''
+      Historic: null,
+      Modelled: null
     },
     exposure: {
-      hist: '',
-      modeled: ''
+      Historic: null,
+      Modelled: null
     },
     lossratio: {
-      hist: '15.98',
-      modeled: '9.79'
+      Historic: '15.98',
+      Modelled: '9.79'
     }
   },
   {
@@ -85,18 +85,18 @@ export const DISASTERS = [
     pop: '5,812,000',
     houses: '1,562,366',
     capstock: '21,024',
-    magnitude: 'Mw7.7',
+    magnitude: 'Mw 7.7',
     annloss: {
-      hist: '',
-      modelled: ''
+      Historic: null,
+      Modelled: null
     },
     exposure: {
-      hist: '',
-      modelled: ''
+      Historic: null,
+      Modelled: null
     },
     lossratio: {
-      hist: '1.66',
-      modelled: '1.33'
+      Historic: '1.66',
+      Modelled: '1.33'
     }
   },
   {
@@ -113,18 +113,18 @@ export const DISASTERS = [
     pop: '896,500',
     houses: '178,231',
     capstock: '6,505',
-    magnitude: 'Cat 5',
+    magnitude: 'Category 5',
     annloss: {
-      hist: '',
-      modelled: ''
+      Historic: null,
+      Modelled: null
     },
     exposure: {
-      hist: '',
-      modelled: ''
+      Historic: null,
+      Modelled: null
     },
     lossratio: {
-      hist: '7.03',
-      modelled: '7.19'
+      Historic: '7.03',
+      Modelled: '7.19'
     }
   },
   {
@@ -142,18 +142,18 @@ export const DISASTERS = [
     pop: '17,000,000',
     houses: '2,250,000',
     capstock: '1,456',
-    magnitude: 'VEI7',
+    magnitude: 'VEI-7',
     annloss: {
-      hist: '',
-      modelled: ''
+      Historic: null,
+      Modelled: null
     },
     exposure: {
-      hist: '',
-      modelled: ''
+      Historic: null,
+      Modelled: null
     },
     lossratio: {
-      hist: '',
-      modelled: '1.06'
+      Historic: null,
+      Modelled: '1.06'
     }
   },
   {
@@ -170,16 +170,16 @@ export const DISASTERS = [
     capstock: '2,123',
     magnitude: 'Ms6.8',
     annloss: {
-      hist: '',
-      modelled: ''
+      Historic: null,
+      Modelled: null
     },
     exposure: {
-      hist: '',
-      modelled: ''
+      Historic: null,
+      Modelled: null
     },
     lossratio: {
-      hist: '7.06',
-      modelled: '4.28'
+      Historic: '7.06',
+      Modelled: '4.28'
     }
   },
   {
@@ -195,16 +195,16 @@ export const DISASTERS = [
     capstock: '21,833',
     magnitude: 'n/a',
     annloss: {
-      hist: '',
-      modelled: '0.41'
+      Historic: null,
+      Modelled: '0.41'
     },
     exposure: {
-      hist: '',
-      modelled: ''
+      Historic: null,
+      Modelled: null
     },
     lossratio: {
-      hist: '0.30',
-      modelled: '0.41'
+      Historic: '0.30',
+      Modelled: '0.41'
     }
   },
   {
@@ -219,18 +219,18 @@ export const DISASTERS = [
     pop: '15,416,700',
     houses: '23,113,493',
     capstock: '84,061',
-    magnitude: 'Mw7.6',
+    magnitude: 'Mw 7.6',
     annloss: {
-      hist: '',
-      modelled: ''
+      Historic: null,
+      Modelled: null
     },
     exposure: {
-      hist: '',
-      modelled: ''
+      Historic: null,
+      Modelled: null
     },
     lossratio: {
-      hist: '1.23',
-      modelled: '1.12'
+      Historic: '1.23',
+      Modelled: '1.12'
     }
   },
   {
@@ -247,19 +247,19 @@ export const DISASTERS = [
     pop: '9,926,000',
     houses: '2,281,839',
     capstock: '24,079',
-    magnitude: 'Mw7.0',
+    magnitude: 'Mw 7.0',
     annloss: {
-      hist: '',
-      modelled: ''
+      Historic: null,
+      Modelled: null
     },
     exposure: {
-      hist: '',
-      modelled: ''
+      Historic: null,
+      Modelled: null
     },
     lossratio: {
       // TODO: ask/understand which the reported loss ratios is correct
-      hist: '13.74',
-      modelled: '14.43'
+      Historic: '13.74',
+      Modelled: '14.43'
     }
   },
   {
@@ -271,21 +271,21 @@ export const DISASTERS = [
     c: 'pak',
     bbox: [[68.6810302734, 26.819168595], [75.3607177734, 33.7745813637]],
     dmetric: 'water_depth',
-    pop: '',
-    houses: '',
-    capstock: '',
-    magnitude: '',
+    pop: null,
+    houses: null,
+    capstock: null,
+    magnitude: null,
     annloss: {
-      hist: '',
-      modelled: ''
+      Historic: null,
+      Modelled: null
     },
     exposure: {
-      hist: '',
-      modelled: ''
+      Historic: null,
+      Modelled: null
     },
     lossratio: {
-      hist: '',
-      modelled: ''
+      Historic: null,
+      Modelled: null
     }
   }
 ];

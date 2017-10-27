@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { map, pickBy } from 'lodash';
 import PropTypes from 'prop-types';
 import {
   clearDisaster,
@@ -24,6 +25,7 @@ class DisasterProfile extends Component {
     super(props);
     this.makeMetricButtons = this.makeMetricButtons.bind(this);
     this.renderDisasterProfile = this.renderDisasterProfile.bind(this);
+    this.makeDataListElements = this.makeDataListElements.bind(this);
   }
   static propTypes = {
     disasters: PropTypes.array.isRequired,
@@ -65,6 +67,16 @@ class DisasterProfile extends Component {
           value={m.replace(' ', '-').toLowerCase()}
           onClick={(e) => { this.props._setOverlayMetric(e.target.value); }}>{m}</button></li>
       );
+    });
+  }
+
+  makeDataListElements (metric) {
+    let metricData = this.props.disaster[metric];
+    // filter only those in list with property values
+    metricData = pickBy(metricData, (m, k) => { return m; });
+    return map(metricData, (m, k) => {
+      if (metric === 'lossratio') { return (<li key={`${k}-${m}`}><h3 className='heading--small'>{`${m}%`}<small>{k}</small></h3></li>); }
+      return (<li key={`${k}-${m}`} ><h3 className='heading--small'>{`$${m}M`}<small>{k}</small></h3></li>);
     });
   }
 
@@ -112,22 +124,19 @@ class DisasterProfile extends Component {
                 <li className='national-metrics__item'>
                   <h2 className='alt-heading'>Annualized Loss</h2>
                   <ul>
-                    <li><h3 className='heading--small'>{`$${this.props.disaster.annloss.hist}M`}<small>Historic</small></h3></li>
-                    <li><h3 className='heading--small'>{`$${this.props.disaster.annloss.modelled}M`}<small>Modelled</small></h3></li>
+                    {this.makeDataListElements('annloss')}
                   </ul>
                 </li>
                 <li className='national-metrics__item'>
                   <h2 className='alt-heading'>Exposure</h2>
                   <ul>
-                    <li><h3 className='heading--small'>{`$${this.props.disaster.exposure.hist}M`}<small>Historic</small></h3></li>
-                    <li><h3 className='heading--small'>{`$${this.props.disaster.exposure.modelled}M`}<small>Modelled</small></h3></li>
+                    {this.makeDataListElements('exposure')}
                   </ul>
                 </li>
                 <li className='national-metrics__item'>
                   <h2 className='alt-heading'>Loss Ratio</h2>
                   <ul>
-                    <li><h3 className='heading--small'>{`${this.props.disaster.lossratio.hist}%`}<small>Historic</small></h3></li>
-                    <li><h3 className='heading--small'>{`${this.props.disaster.lossratio.modelled}%`}<small>Modelled</small></h3></li>
+                    {this.makeDataListElements('lossratio')}
                   </ul>
                 </li>
               </ul>
