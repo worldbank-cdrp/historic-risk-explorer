@@ -34,11 +34,40 @@ const overlayMetric = function (state = defaultOverlayMetric, action) {
   return state;
 };
 
+const defaultDisaster = { set: false };
+
+const disaster = function (state = defaultDisaster, action) {
+  switch (action.type) {
+    case actions.SET_DISASTER:
+      state = Object.assign({}, state);
+      state = action.disaster;
+      state.set = true;
+      break;
+    case actions.CLEAR_DISASTER:
+      return defaultDisaster;
+  }
+  return state;
+};
+
+const defaultDisasterIndex = { index: 0 };
+
+const initialDisaster = function (state = defaultDisasterIndex, action) {
+  switch (action.type) {
+    case actions.SET_INITIAL_DISASTER_INDEX:
+      state = Object.assign({}, state);
+      state.index = action.index;
+      break;
+  }
+  return state;
+};
+
 const reducer = combineReducers({
+  disaster,
   disasters,
-  visibleLayer,
+  initialDisaster,
   overlayMetric,
-  routing: routerReducer
+  routing: routerReducer,
+  visibleLayer
 });
 
 export default reducer;

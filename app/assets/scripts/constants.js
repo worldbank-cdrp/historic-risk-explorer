@@ -31,7 +31,8 @@ export const DISASTERS = [
     n: 'Chile',
     c: 'chl',
     bbox: [[-73.94645, -41.173], [-69.992715, -30.618278]],
-    dmetric: 'MMI'
+    dmetric: 'MMI',
+    image: 'chile-earthquake-2010.jpg'
   },
   {
     y: 1930,
@@ -49,7 +50,8 @@ export const DISASTERS = [
     dcode: 'EQ',
     n: 'El Salvador',
     c: 'slv',
-    bbox: [[-90.10, 12.8666984737], [-87.6475524902, 14.4306903608]]
+    bbox: [[-90.10, 12.8666984737], [-87.6475524902, 14.4306903608]],
+    image: 'elsalvador-earthquake-2001.jpg'
   },
   {
     y: 2016,
@@ -61,7 +63,8 @@ export const DISASTERS = [
     bbox: [
       [176.82925416074016, -18.902845971458092],
       [180.63157704385975, -16.029183627613975]
-    ]
+    ],
+    image: 'fiji-cyclone-2016.jpg'
   },
   {
     y: 1815,
@@ -84,7 +87,8 @@ export const DISASTERS = [
     n: 'Armenia',
     c: 'arm',
     bbox: [[43.529896, 38.850496], [46.589228, 41.322855]],
-    dmetric: 'Intensity'
+    dmetric: 'Intensity',
+    image: 'armenia-earthquake-1988.jpg'
   },
   {
     y: 2015,
@@ -104,7 +108,7 @@ export const DISASTERS = [
     c: 'pak',
     bbox: [[62.4682617187, 23.3825982842], [72.1362304687, 30.0500765217]],
     dmetrics: 'Intensity',
-    image: ''
+    image: 'pakistan-earthquake-2005.png'
   },
   {
     y: 2010,
@@ -128,6 +132,6 @@ export const DISASTERS = [
     c: 'pak',
     bbox: [[68.6810302734, 26.819168595], [75.3607177734, 33.7745813637]],
     dmetric: 'water_depth',
-    image: ''
+    image: 'pakistan-flood-2010.jpg'
   }
 ];
