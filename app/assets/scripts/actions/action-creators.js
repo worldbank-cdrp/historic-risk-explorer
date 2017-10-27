@@ -45,3 +45,11 @@ export function setInitialDisasterIndex (index) {
     receivedAt: Date.now()
   };
 }
+
+export function setCurrentLegendMetricVal (val) {
+  return {
+    type: actions.SET_CURRENT_LEGEND_METRIC_VAL,
+    val: val,
+    receivedAt: Date.now()
+  };
+}

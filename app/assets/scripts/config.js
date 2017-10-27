@@ -201,15 +201,18 @@ export default {
   legend: {
     'exposure-loss': {
       title: 'Building Stock Exposure',
-      idUnits: 'some unit'
+      idUnits: 'some unit',
+      layerProp: 'exp'
     },
     'annualized-loss': {
       title: 'Annualized Loss',
-      idUnits: 'some unit'
+      idUnits: 'some unit',
+      layerProp: 'aloss'
     },
     'loss-ratio': {
       title: 'Loss Ratio',
-      idUnits: 'some unit'
+      idUnits: 'some unit',
+      layerProp: 'lr'
     }
   }
   // ------------- //

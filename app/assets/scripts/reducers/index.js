@@ -61,11 +61,24 @@ const initialDisaster = function (state = defaultDisasterIndex, action) {
   return state;
 };
 
+const defaultMap = { val: 0 };
+
+const map = function (state = defaultMap, action) {
+  switch (action.type) {
+    case actions.SET_CURRENT_LEGEND_METRIC_VAL:
+      state = Object.assign({}, state);
+      state.val = action.val;
+      break;
+  }
+  return state;
+};
+
 const reducer = combineReducers({
   disaster,
   disasters,
   initialDisaster,
   overlayMetric,
+  map,
   routing: routerReducer,
   visibleLayer
 });

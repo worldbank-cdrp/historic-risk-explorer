@@ -8,7 +8,8 @@ import {
   clearDisaster,
   setOverlayMetric,
   setDisaster,
-  setPaginationDirection
+  setPaginationDirection,
+  setCurrentLegendMetricVal
 } from '../actions/action-creators';
 
 import {
@@ -36,7 +37,8 @@ class DisasterProfile extends Component {
     history: PropTypes.object.isRequired,
     _clearDisaster: PropTypes.func.isRequired,
     _setDisaster: PropTypes.func.isRequired,
-    _setOverlayMetric: PropTypes.func.isRequired
+    _setOverlayMetric: PropTypes.func.isRequired,
+    _setCurrentLegendMetricVal: PropTypes.func.isRequired
   }
 
   componentWillMount () {
@@ -65,7 +67,11 @@ class DisasterProfile extends Component {
       return (
         <li key={m}><button className='button button--large button--base-bounded'
           value={m.replace(' ', '-').toLowerCase()}
-          onClick={(e) => { this.props._setOverlayMetric(e.target.value); }}>{m}</button></li>
+          onClick={(e) => {
+            e.preventDefault();
+            this.props._setOverlayMetric(e.target.value);
+            this.props._setCurrentLegendMetricVal(0);
+          }}>{m}</button></li>
       );
     });
   }
@@ -197,7 +203,8 @@ const dispatcher = (dispatch) => {
     _clearDisaster: () => dispatch(clearDisaster()),
     _setOverlayMetric: (metric) => dispatch(setOverlayMetric(metric)),
     _setDisaster: (disaster) => dispatch(setDisaster(disaster)),
-    _setPaginationDirection: (direction) => dispatch(setPaginationDirection(direction))
+    _setPaginationDirection: (direction) => dispatch(setPaginationDirection(direction)),
+    _setCurrentLegendMetricVal: (val) => dispatch(setCurrentLegendMetricVal(val))
   };
 };
 
