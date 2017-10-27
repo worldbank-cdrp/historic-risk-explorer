@@ -36,6 +36,9 @@ export const DISASTERS = [
     houses: '5,669,900',
     capstock: '132,227',
     magnitude: 'Mw 8.8',
+    deaths: '',
+    homeless: '',
+    housesDestroyed: '',
     annloss: {
       Historic: null,
       Modelled: null
@@ -61,6 +64,9 @@ export const DISASTERS = [
     houses: '300,000',
     capstock: '110',
     magnitude: 'Category 4-5',
+    deaths: '',
+    homeless: '',
+    housesDestroyed: '',
     annloss: {
       Historic: null,
       Modelled: null
@@ -86,6 +92,9 @@ export const DISASTERS = [
     houses: '1,562,366',
     capstock: '21,024',
     magnitude: 'Mw 7.7',
+    deaths: '',
+    homeless: '',
+    housesDestroyed: '',
     annloss: {
       Historic: null,
       Modelled: null
@@ -114,6 +123,9 @@ export const DISASTERS = [
     houses: '178,231',
     capstock: '6,505',
     magnitude: 'Category 5',
+    deaths: '',
+    homeless: '',
+    housesDestroyed: '',
     annloss: {
       Historic: null,
       Modelled: null
@@ -143,6 +155,9 @@ export const DISASTERS = [
     houses: '2,250,000',
     capstock: '1,456',
     magnitude: 'VEI-7',
+    deaths: '',
+    homeless: '',
+    housesDestroyed: '',
     annloss: {
       Historic: null,
       Modelled: null
@@ -169,6 +184,9 @@ export const DISASTERS = [
     houses: '868,391',
     capstock: '2,123',
     magnitude: 'Ms6.8',
+    deaths: '',
+    homeless: '',
+    housesDestroyed: '',
     annloss: {
       Historic: null,
       Modelled: null
@@ -194,6 +212,9 @@ export const DISASTERS = [
     houses: '6,110,007',
     capstock: '21,833',
     magnitude: 'n/a',
+    deaths: '',
+    homeless: '',
+    housesDestroyed: '',
     annloss: {
       Historic: null,
       Modelled: '0.41'
@@ -220,6 +241,9 @@ export const DISASTERS = [
     houses: '23,113,493',
     capstock: '84,061',
     magnitude: 'Mw 7.6',
+    deaths: '',
+    homeless: '',
+    housesDestroyed: '',
     annloss: {
       Historic: null,
       Modelled: null
@@ -248,6 +272,9 @@ export const DISASTERS = [
     houses: '2,281,839',
     capstock: '24,079',
     magnitude: 'Mw 7.0',
+    deaths: '',
+    homeless: '',
+    housesDestroyed: '',
     annloss: {
       Historic: null,
       Modelled: null
@@ -275,6 +302,9 @@ export const DISASTERS = [
     houses: null,
     capstock: null,
     magnitude: null,
+    deaths: '',
+    homeless: '',
+    housesDestroyed: '',
     annloss: {
       Historic: null,
       Modelled: null

@@ -23,7 +23,6 @@ class AnalysisMap extends Component {
     this._removeLayers = this._removeLayers.bind(this);
     this._addNavigation = this._addNavigation.bind(this);
     this._updateVisibleLayers = this._updateVisibleLayers.bind(this);
-    this.makeRelativeValue = this.makeRelativeValue.bind(this);
   }
   static propTypes = {
     _setCurrentLegendMetricVal: PropTypes.func.isRequired,
