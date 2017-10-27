@@ -1,7 +1,7 @@
 import React, { Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { setVisibleLayer } from '../actions/action-creators';
+import { setVisibleLayer, setValueType } from '../actions/action-creators';
 import config from '../config';
 
 class AnalysisLayerControl extends Component {
@@ -11,6 +11,7 @@ class AnalysisLayerControl extends Component {
   }
   static propTypes = {
     disaster: PropTypes.object.isRequired,
+    _setValueType: PropTypes.func.isRequired,
     _setVisibleLayer: PropTypes.func.isRequired
   }
 
@@ -36,8 +37,8 @@ class AnalysisLayerControl extends Component {
           </ul>
           <p className='map-layer__title'>DATA VALUES</p>
             <div className='button-group--horizontal'>
-              <button className='button button--small button--base-bounded'>Absolute Value</button>
-              <button className='button button--small button--base-bounded'>Relative Value</button>
+              <button className='button button--small button--base-bounded' onClick={(e) => { this.props._setValueType('absolute'); } }>Absolute Value</button>
+              <button className='button button--small button--base-bounded' onClick={(e) => { this.props._setValueType('relative'); } }>Relative Value</button>
             </div>
         </div>
     );
@@ -48,6 +49,7 @@ const selector = (state) => { return {}; };
 
 const dispatcher = (dispatch) => {
   return {
+    _setValueType: (type) => { dispatch(setValueType(type)); },
     _setVisibleLayer: (layer) => { dispatch(setVisibleLayer(layer)); }
   };
 };

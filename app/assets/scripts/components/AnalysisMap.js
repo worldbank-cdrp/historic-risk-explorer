@@ -23,11 +23,13 @@ class AnalysisMap extends Component {
     this._removeLayers = this._removeLayers.bind(this);
     this._addNavigation = this._addNavigation.bind(this);
     this._updateVisibleLayers = this._updateVisibleLayers.bind(this);
+    this.makeRelativeValue = this.makeRelativeValue.bind(this);
   }
   static propTypes = {
     _setCurrentLegendMetricVal: PropTypes.func.isRequired,
     disaster: PropTypes.object.isRequired,
     overlayMetric: PropTypes.string.isRequired,
+    valueType: PropTypes.string.isRequired,
     visibleLayer: PropTypes.object.isRequired
   }
   _loadLayers (props) {
@@ -125,6 +127,7 @@ class AnalysisMap extends Component {
   }
   componentWillReceiveProps (nextProps) {
     if (this.props.overlayMetric !== nextProps.overlayMetric) { return; }
+    if (this.props.valueType !== nextProps.valueType) { return; }
     if (this.props.disaster !== nextProps.disaster) {
       this._map.fitBounds(nextProps.disaster.bbox, {
         animate: false,
@@ -152,6 +155,7 @@ class AnalysisMap extends Component {
 
 const selector = (state) => {
   return {
+    valueType: state.map.valType,
     visibleLayer: state.visibleLayer,
     overlayMetric: state.overlayMetric.metric
   };

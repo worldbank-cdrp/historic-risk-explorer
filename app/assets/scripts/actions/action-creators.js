@@ -53,3 +53,11 @@ export function setCurrentLegendMetricVal (val) {
     receivedAt: Date.now()
   };
 }
+
+export function setValueType (valType) {
+  return {
+    type: actions.SET_VALUE_TYPE,
+    valType: valType,
+    receivedAt: Date.now()
+  };
+}
