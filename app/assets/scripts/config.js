@@ -1,4 +1,15 @@
 export default {
+  // --- PROFILE HEADINGS --- //
+  profileHeader: [
+    { header: 'Magnitude:', info: 'magnitude' },
+    { header: 'Residential Capital Stock at Time - $USDmm:', info: 'capstockRes' },
+    { header: 'Nonresidential Capital Stock at Time - $USDmm:', info: 'capstockNonRes' },
+    { header: 'Population at Time:', info: 'pop' },
+    { header: 'Houses at the Time:', info: 'houses' },
+    { header: 'Deaths: ', info: 'deaths' },
+    { header: 'Houses Destroyed:', info: 'housesDestroyed' }
+  ],
+
   // --- MAPBOX ACCT --- //
   // account specifics
   mapboxAccountName: 'wbg-cdrp',

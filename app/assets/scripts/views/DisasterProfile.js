@@ -1,6 +1,7 @@
 
 'use strict';
 import React, { Component } from 'react';
+import config from '../config';
 import { connect } from 'react-redux';
 import { map, pickBy } from 'lodash';
 import PropTypes from 'prop-types';
@@ -26,6 +27,7 @@ class DisasterProfile extends Component {
     super(props);
     this.makeMetricButtons = this.makeMetricButtons.bind(this);
     this.renderDisasterProfile = this.renderDisasterProfile.bind(this);
+    this.makeHeaderListElements = this.makeHeaderListElements.bind(this);
     this.makeDataListElements = this.makeDataListElements.bind(this);
   }
   static propTypes = {
@@ -86,6 +88,15 @@ class DisasterProfile extends Component {
     });
   }
 
+  makeHeaderListElements () {
+    return config.profileHeader.map((element) => (
+      <li className='metrics__item'>
+        <h1>{element.header}</h1>
+        <p>{this.props.disaster[element.info] || 'N/A'}</p>
+      </li>
+    ));
+  }
+
   renderDisasterProfile () {
     return (
       <div>
@@ -101,22 +112,7 @@ class DisasterProfile extends Component {
           <section className='overview'>
             <div className='inner'>
               <ul className='metrics'>
-                <li className='metrics__item'>
-                  <h1>Magnitude:</h1>
-                  <p>{this.props.disaster.magnitude}</p>
-                </li>
-                <li className='metrics__item'>
-                  <h1>Country Population at Time:</h1>
-                  <p>{this.props.disaster.pop}</p>
-                </li>
-                <li className='metrics__item'>
-                  <h1>Capital Stock at Time (Res) - $USDmm:</h1>
-                  <p>{this.props.disaster.capstock}</p>
-                </li>
-                <li className='metrics__item'>
-                  <h1>Houses existing at time:</h1>
-                  <p>{this.props.disaster.houses}</p>
-                </li>
+               {this.makeHeaderListElements()}
               </ul>
               <div className='download-profile'>
                 <button className='button button--large button--base-bounded'>Download Disaster Profile</button>
