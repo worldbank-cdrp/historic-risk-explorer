@@ -335,7 +335,10 @@ export const DISASTERS = [
       Historic: null,
       Modelled: null
     },
-    preImage: '-pre-pak-2010',
-    postImage: '-post-pak-2010'
+    pre: '-pre-pak-2010',
+    post: '-post-pak-2010',
+    sliderBbox: [[69.700513, 34.140129], [30.76625, 72.482998]],
+    sliderCenter: [71.11724975524088, 32.460008863242194],
+    sliderZoom: [8]
   }
 ];
