@@ -324,6 +324,8 @@ export const DISASTERS = [
     lossratio: {
       Historic: null,
       Modelled: null
-    }
+    },
+    preImage: '-pre-pak-2010',
+    postImage: '-post-pak-2010'
   }
 ];
