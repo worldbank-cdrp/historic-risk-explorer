@@ -13,6 +13,7 @@ class DisasterProfile extends Component {
     super(props);
     this.parseURL = this.parseURL.bind(this);
     this.makeMetricButtons = this.makeMetricButtons.bind(this);
+    this.makeProfilePath = this.makeProfilePath.bind(this);
   }
   static propTypes = {
     disasters: PropTypes.array.isRequired,
@@ -33,7 +34,11 @@ class DisasterProfile extends Component {
       );
     });
   }
+
+  makeProfilePath (profile) { console.log(`assets/profiles/${profile}`); return `assets/profiles/${profile}.pdf`; }
+
   render () {
+    console.log(this.props.disaster);
     this.parseURL();
     return (
       <div>
@@ -67,7 +72,7 @@ class DisasterProfile extends Component {
                 </li>
               </ul>
               <div className='download-profile'>
-            <a href={this.disaster.profile} onClick={(e) => { e.preventDefault(); }} className='button button--large button--base-bounded'>Download Disaster Profile</a>
+            <a href={this.makeProfilePath(this.disaster.profile)} onClick={(e) => { e.preventDefault(); }} className='button button--large button--base-bounded'>Download Disaster Profile</a>
               </div>
             </div>
           </section>
