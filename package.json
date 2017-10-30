@@ -77,7 +77,6 @@
   "dependencies": {
     "history": "^4.7.2",
     "lodash": "^4.17.4",
-    "lodash.defaultsdeep": "^4.6.0",
     "mapbox-gl": "^0.39.1",
     "mapbox-gl-compare": "^0.1.0",
     "react": "^15.6.1",
