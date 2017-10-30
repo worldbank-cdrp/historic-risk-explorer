@@ -1,9 +1,0 @@
-# example
-sensors:
-  {landsat8, sentinel2, or landsat5}:
-    hazards:
-      {hazard_loc-hazard_year}: 
-        pre: 
-          - {scene-id}
-        post:
-          - {scene-id}
