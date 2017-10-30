@@ -34,5 +34,5 @@ jobs:
           sudo apt-get install -t trusty-backports shellcheck
       # lint
       - run: yarn lint
-      - run: flake8 lib/*.py
-      - run: shellcheck -e SC2044 lib/*.sh
+      #- run: flake8 lib/*.py
+      #- run: shellcheck -e SC2044 lib/*.sh

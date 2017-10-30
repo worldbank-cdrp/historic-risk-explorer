@@ -15,6 +15,7 @@ import { Route, Switch } from 'react-router-dom';
 /* VIEWS */
 import About from './views/About';
 import Home from './views/Home';
+import DisasterProfile from './views/DisasterProfile';
 import HistoricDisasters from './views/HistoricDisasters';
 
 /* HEADER AND FOOTER */
@@ -34,11 +35,12 @@ render((
   <Provider store={store} >
     <Router history={history}>
       <div>
-      <Header/>
+      <Header history={history}/>
       <Switch>
         <Route exact path='/' component={Home} />
         <Route path='/about' component={About} />
         <Route path='/disasters' component={HistoricDisasters} />
+        <Route path='/:disaster' component={DisasterProfile} />
       </Switch>
       <Footer/>
       </div>

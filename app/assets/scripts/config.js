@@ -1,4 +1,15 @@
 export default {
+  // --- PROFILE HEADINGS --- //
+  profileHeader: [
+    { header: 'Magnitude:', info: 'magnitude' },
+    { header: 'Residential Capital Stock at Time - $USDmm:', info: 'capstockRes' },
+    { header: 'Nonresidential Capital Stock at Time - $USDmm:', info: 'capstockNonRes' },
+    { header: 'Population at Time:', info: 'pop' },
+    { header: 'Houses at the Time:', info: 'houses' },
+    { header: 'Deaths: ', info: 'deaths' },
+    { header: 'Houses Destroyed:', info: 'housesDestroyed' }
+  ],
+
   // --- MAPBOX ACCT --- //
   // account specifics
   mapboxAccountName: 'wbg-cdrp',
@@ -201,15 +212,18 @@ export default {
   legend: {
     'exposure-loss': {
       title: 'Building Stock Exposure',
-      idUnits: 'some unit'
+      idUnits: 'some unit',
+      layerProp: 'exp'
     },
     'annualized-loss': {
       title: 'Annualized Loss',
-      idUnits: 'some unit'
+      idUnits: 'some unit',
+      layerProp: 'aloss'
     },
     'loss-ratio': {
       title: 'Loss Ratio',
-      idUnits: 'some unit'
+      idUnits: 'some unit',
+      layerProp: 'lr'
     }
   }
   // ------------- //

@@ -1,9 +1,23 @@
-'use strict';
 
+'use strict';
 import React, { Component } from 'react';
+import config from '../config';
+import { map, pickBy } from 'lodash';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { setOverlayMetric } from '../actions/action-creators';
+import {
+  clearDisaster,
+  setOverlayMetric,
+  setDisaster,
+  setPaginationDirection,
+  setCurrentLegendMetricVal
+} from '../actions/action-creators';
+
+import {
+  nextDisaster,
+  nextDisasterText,
+  makeNextDisaster
+} from '../utils/pagination';
 
 import AnalysisMap from '../components/AnalysisMap';
 import SliderMap from '../components/SliderMap';
@@ -11,42 +25,89 @@ import SliderMap from '../components/SliderMap';
 class DisasterProfile extends Component {
   constructor (props) {
     super(props);
-    this.parseURL = this.parseURL.bind(this);
     this.makeMetricButtons = this.makeMetricButtons.bind(this);
     this.makeProfilePath = this.makeProfilePath.bind(this);
+    this.renderDisasterProfile = this.renderDisasterProfile.bind(this);
+    this.makeHeaderListElements = this.makeHeaderListElements.bind(this);
+    this.makeDataListElements = this.makeDataListElements.bind(this);
   }
   static propTypes = {
     disasters: PropTypes.array.isRequired,
+    disaster: PropTypes.object.isRequired,
+    initialDisasterIndex: PropTypes.number.isRequired,
     match: PropTypes.object.isRequired,
-    _setOverlayMetric: PropTypes.func.isRequired
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    _clearDisaster: PropTypes.func.isRequired,
+    _setDisaster: PropTypes.func.isRequired,
+    _setOverlayMetric: PropTypes.func.isRequired,
+    _setCurrentLegendMetricVal: PropTypes.func.isRequired
   }
-  // uses route url to query disasters list for matching disaster
-  parseURL () {
-    const disastersInfo = this.props.match.url.split('/disasters/')[1].split('-');
-    this.disaster = this.props.disasters.find(d => d.c === disastersInfo[0]);
+
+  componentWillMount () {
+    let disasterInfo = this.props.match.url.split('/')[1].split('-');
+    let disaster = this.props.disasters.find(d => d.c === disasterInfo[0]);
+    disaster.index = this.props.disasters.findIndex(d => d.c === disasterInfo[0]);
+    this.props._setDisaster(disaster);
   }
+
+  componentWillReceiveProps (nextProps) {
+    if (this.props.location.pathname !== nextProps.location.pathname) {
+      let disasterInfo = nextProps.location.pathname.split('/')[1].split('-');
+      let disaster = this.props.disasters.find(d => `${d.c}-${d.y}` === `${disasterInfo[0]}-${disasterInfo[1]}`);
+      disaster.index = this.props.disasters.findIndex(d => `${d.c}-${d.y}` === `${disasterInfo[0]}-${disasterInfo[1]}`);
+      nextProps._setDisaster(disaster);
+    }
+    if (this.props.disaster !== nextProps.disaster) { window.scrollTo(0, 0); }
+  }
+
+  componentWillUnmount () {
+    this.props._clearDisaster();
+  }
+
   makeMetricButtons () {
     return ['Exposure', 'Annualized Loss', 'Loss Ratio'].map((m, i) => {
       return (
         <li key={m}><button className='button button--large button--base-bounded'
           value={m.replace(' ', '-').toLowerCase()}
-          onClick={(e) => { this.props._setOverlayMetric(e.target.value); }}>{m}</button></li>
+          onClick={(e) => {
+            e.preventDefault();
+            this.props._setOverlayMetric(e.target.value);
+            this.props._setCurrentLegendMetricVal(0);
+          }}>{m}</button></li>
       );
     });
   }
 
-  makeProfilePath (profile) { console.log(`assets/profiles/${profile}`); return `assets/profiles/${profile}.pdf`; }
+  makeDataListElements (metric) {
+    let metricData = this.props.disaster[metric];
+    // filter only those in list with property values
+    metricData = pickBy(metricData, (m, k) => { return m; });
+    return map(metricData, (m, k) => {
+      if (metric === 'lossratio') { return (<li key={`${k}-${m}`}><h3 className='heading--small'>{`${m}%`}<small>{k}</small></h3></li>); }
+      return (<li key={`${k}-${m}`} ><h3 className='heading--small'>{`$${m}M`}<small>{k}</small></h3></li>);
+    });
+  }
 
-  render () {
-    console.log(this.props.disaster);
-    this.parseURL();
+  makeProfilePath (profile) { return `assets/profiles/${profile}.pdf`; }
+
+  makeHeaderListElements () {
+    return config.profileHeader.map((element) => (
+      <li key={`${this.props.disaster.c}-${element.header}`} className='metrics__item'>
+        <h1>{element.header}</h1>
+        <p>{this.props.disaster[element.info] || 'N/A'}</p>
+      </li>
+    ));
+  }
+
+  renderDisasterProfile () {
     return (
       <div>
         <section className='inpage__header'>
           <div className='inner'>
-            <p className='subheading'>{this.disaster.m} {this.disaster.y}</p>
-            <h1 className='heading--xxlarge'>{this.disaster.n} {this.disaster.y} {this.disaster.t}</h1>
-            <hr style={{textAlign: 'left'}}></hr>
+            <p className='subheading'>{this.props.disaster.m} {this.props.disaster.y}</p>
+            <h1 className='heading--xxlarge'>{this.props.disaster.n} {this.props.disaster.y} {this.props.disaster.t}</h1>
+            <hr align='left'></hr>
             <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum tempor ornare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempu</p>
           </div>
         </section>
@@ -54,25 +115,10 @@ class DisasterProfile extends Component {
           <section className='overview'>
             <div className='inner'>
               <ul className='metrics'>
-                <li className='metrics__item'>
-                  <h1>Magnitude:</h1>
-                  <p> Mw7.0 (S. Haiti)</p>
-                </li>
-                <li className='metrics__item'>
-                  <h1>Country Population at Time:</h1>
-                  <p> 9,926,000</p>
-                </li>
-                <li className='metrics__item'>
-                  <h1>Capital Stock at Time (Res) - $USDmm:</h1>
-                  <p> 16,082</p>
-                </li>
-                <li className='metrics__item'>
-                  <h1>Houses existing at time:</h1>
-                  <p> 2,281,839</p>
-                </li>
+               {this.makeHeaderListElements()}
               </ul>
               <div className='download-profile'>
-            <a href={this.makeProfilePath(this.disaster.profile)} onClick={(e) => { e.preventDefault(); }} className='button button--large button--base-bounded'>Download Disaster Profile</a>
+            <a href={this.makeProfilePath(this.props.disaster.profile)} download className='button button--large button--base-bounded'>Download Disaster Profile</a>
               </div>
             </div>
           </section>
@@ -83,22 +129,19 @@ class DisasterProfile extends Component {
                 <li className='national-metrics__item'>
                   <h2 className='alt-heading'>Annualized Loss</h2>
                   <ul>
-                    <li><h3 className='heading--small'>$152M<small>Historic</small></h3></li>
-                    <li><h3 className='heading--small'>$152M<small>Modelled</small></h3></li>
+                    {this.makeDataListElements('annloss')}
                   </ul>
                 </li>
                 <li className='national-metrics__item'>
                   <h2 className='alt-heading'>Exposure</h2>
                   <ul>
-                    <li><h3 className='heading--small'>$152M<small>Historic</small></h3></li>
-                    <li><h3 className='heading--small'>$152M<small>Modelled</small></h3></li>
+                    {this.makeDataListElements('exposure')}
                   </ul>
                 </li>
                 <li className='national-metrics__item'>
                   <h2 className='alt-heading'>Loss Ratio</h2>
                   <ul>
-                    <li><h3 className='heading--small'>$152M<small>Historic</small></h3></li>
-                    <li><h3 className='heading--small'>$152M<small>Modelled</small></h3></li>
+                    {this.makeDataListElements('lossratio')}
                   </ul>
                 </li>
               </ul>
@@ -115,7 +158,7 @@ dolor si  t amet, consectetur adipiscing elit. Duis sed nisl augue</p>
               </ul>
             </div>
             <div>
-             <AnalysisMap disaster={this.disaster} />
+             <AnalysisMap disaster={this.props.disaster} />
             </div>
           </section>
           <section className='images'>
@@ -129,26 +172,38 @@ dolor si  t amet, consectetur adipiscing elit. Duis sed nisl augue</p>
           </section>
         </section>
         <section className='inpage__footer'>
-          <div className='inner'>
+          <div className='inner' >
             <h2 className='alt-heading'>Next</h2>
-            <h1 className='heading--xlarge'> Pakistan Floods 2010</h1>
-            <a className='link--primary-light' href=''>View Case Study</a>
+            <h1 className='heading--xlarge'>{nextDisasterText(nextDisaster(this.props.disaster, this.props.disasters))}</h1>
+            <a href='' onClick={(e) => { e.preventDefault(); makeNextDisaster(this.props); }} className='link--primary-light'>
+              View Case Study
+            </a>
           </div>
         </section>
       </div>
     );
   }
+
+  render () {
+    return this.props.disaster.set ? this.renderDisasterProfile() : (<div/>);
+  }
 }
 
 const selector = (state) => {
   return {
-    disasters: state.disasters
+    disasters: state.disasters,
+    disaster: state.disaster,
+    initialDisasterIndex: state.initialDisaster.index
   };
 };
 
 const dispatcher = (dispatch) => {
   return {
-    _setOverlayMetric: (metric) => dispatch(setOverlayMetric(metric))
+    _clearDisaster: () => dispatch(clearDisaster()),
+    _setOverlayMetric: (metric) => dispatch(setOverlayMetric(metric)),
+    _setDisaster: (disaster) => dispatch(setDisaster(disaster)),
+    _setPaginationDirection: (direction) => dispatch(setPaginationDirection(direction)),
+    _setCurrentLegendMetricVal: (val) => dispatch(setCurrentLegendMetricVal(val))
   };
 };
 
