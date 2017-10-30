@@ -101,10 +101,6 @@ class DisasterProfile extends Component {
     ));
   }
 
-  makeSliderDiv () {
-    
-  }
-
   renderSliderMap () {
     if (this.props.disaster.sliderCenter) {
       return (
