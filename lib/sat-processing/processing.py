@@ -18,7 +18,7 @@ for sensor in config['sensors']:
         pre_sensor.downloader()
         pre_sensor.processor()
         # down post event images
-        # post = config['sensors'][sensor]['hazards'][hazard]['post']
-        # post_sensor = Sensor(sensor, post)
-        # post_sensor.downloader()
-        # post_sensor.processor()
+        post = config['sensors'][sensor]['hazards'][hazard]['post']
+        post_sensor = Sensor(sensor, post)
+        post_sensor.downloader()
+        post_sensor.processor()

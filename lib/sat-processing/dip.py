@@ -22,20 +22,20 @@ def process_scene_list(scene_list, hazard_path, sensor):
         # # for each band rescale values to raw min/max and apply standard deviation stretchto new distribution
         print ('Contrast Enhancement: gathering extrema for bands in ' + image)
         extrema = get_band_extrema(bands)
-        # for i, x in enumerate(band_names):
-        #     band_name = band_names[i] 
-        #     print ('Contrast Enhancement: applying standard deviation stretch to autoscaled ' + band_name + ' band')
-        #     band_extrema = extrema[i]
-        #     band_min = band_extrema['min'] ; band_max = band_extrema['max']
-        #     geo_image[band_name] = geo_image[band_name].autoscale(band_min, band_max, percent=10.0)
-        # geo_image.save(out_image_path, dtype='byte')
+        for i, x in enumerate(band_names):  
+            band_name = band_names[i] 
+            print ('Contrast Enhancement: applying standard deviation stretch to autoscaled ' + band_name + ' band')
+            band_extrema = extrema[i]
+            band_min = band_extrema['min'] ; band_max = band_extrema['max']
+            geo_image[band_name] = geo_image[band_name].autoscale(band_min, band_max, percent=10.0)
+        geo_image.save(out_image_path, dtype='byte')
 
         # # generate new image with null values represented as 0 (making them transparent)
-        # remove_nulls(hazard_path, out_image)
-        # # get rid of original corrected image
-        # os.remove(out_image_path + '.tif')
-        # os.remove(out_image_path + '.tif.aux.xml')
-        # print ('')
+        remove_nulls(hazard_path, out_image)
+        # get rid of original corrected image
+        os.remove(out_image_path + '.tif')
+        os.remove(out_image_path + '.tif.aux.xml')
+        print ('')
 
 def match_histograms(source, truth, match):
     """
@@ -58,7 +58,7 @@ def mosaic_images(image_list, mosaic):
     :mosaic:
         path to mosaic being created
     """
-    merge_command = 'gdal_merge.py -n 0 -a_nodata 0 -of GTiff -o ' + mosaic + ' ' + ' '.join([img for img in image_list])
+    merge_command = 'gdalwarp -dstnodata 0 -of GTiff ' + ' '.join([img for img in image_list]) + ' ' + mosaic
     merge_exec = Popen([merge_command], shell=True);
     merge_exec.communicate()
 
@@ -69,8 +69,8 @@ def jp2_to_gtiff (band):
     """
 
     band_name = band.split('.')[0]
-    out_band = band_name + '.tif'
     translate_command = 'gdal_translate -of GTiff -ot Byte -scale 0 65525 0 255 ' + band + ' ' + out_band
+    out_band = band_name + '.tif'
     translate_command = command.split(' ')
     translate = Popen(translate_command)
     translate.communicate()
@@ -101,15 +101,11 @@ def get_band_extrema(bands):
     for i, x in enumerate(bands):
         stats_command = ["gdalinfo","-mm", "-stats", bands[i]]
         stats_command = Popen(stats_command, stdout=PIPE, stderr=PIPE)
-        stats_result = [
-            chunk.decode('utf-8') for chunk in stats_command.communicate()
-            if re.search('STATISTICS_MINMUM', chunk.decode('utf-8')) or re.search('STATISTICS_MAXIMUM', chunk.decode('utf-8'))
-        ]
-        print(stats_result)
-        # minimum = stats['bands'][0]['computedMin']
-        # maximum = stats['bands'][0]['computedMax']
-        # extrema.append({'min': minimum, 'max': maximum})
-    # return extrema
+        stats_result = stats_command.communicate()[0].decode('utf-8')
+        minimum = re.search('STATISTICS_MINIMUM=(.*)\n', stats_result).group(1)
+        maximum = re.search('STATISTICS_MAXIMUM=(.*)\n', stats_result).group(1)
+        extrema.append({'min': int(minimum), 'max': int(maximum)})
+    return extrema
 
 def remove_nulls(hazard_path, image):
     """
