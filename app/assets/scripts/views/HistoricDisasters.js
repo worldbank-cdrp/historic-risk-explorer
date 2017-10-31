@@ -18,7 +18,7 @@ class HistoricDisasters extends Component {
   }
 
   render () {
-    return (<HistoricDisastersMain />);
+    return (<HistoricDisastersMain disasters={this.props.disasters} />);
   }
 }
 
