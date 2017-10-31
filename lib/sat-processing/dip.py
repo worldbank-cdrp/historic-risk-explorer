@@ -6,9 +6,15 @@ import re
 import json
 import os
 
-def process_scene_list(scene_list, hazard_path, sensor):
+def process_scene_list(scene_list, hazard_path, sensor, relTime):
     for image in scene_list:
+        image = str(image)
         print ('Processing: ' + image + '\n')
+        if sensor == 'dg':
+            mosaic_out = relTime + hazard_path.split('/')[-1] + '.tif'
+            mosaic_out_path = os.path.join(hazard_path, mosaic_out)
+            mosaic_images(scene_list, mosaic_out_path)
+            return
         # make gippy GeoImage w/image bands
         image_path = os.path.join(hazard_path, image)
         out_image = 'corrected-' + image

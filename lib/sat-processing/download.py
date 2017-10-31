@@ -29,5 +29,7 @@ def download_scenes(sensor, hazard, hazard_path, config):
         download_scene_list(pre_images, sensor, hazard, hazard_path)
         download_scene_list(post_images, sensor, hazard, hazard_path)
     else:
+        print (pre_images)
+        print (post_images)
         download_scene_list(pre_images, sensor, hazard, hazard_path, 'pre')
         download_scene_list(post_images, sensor, hazard, hazard_path, 'post')
