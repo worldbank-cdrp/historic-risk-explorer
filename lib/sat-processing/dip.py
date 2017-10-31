@@ -1,4 +1,4 @@
-# dip == digital image procesing #
+# dip == digital image processing #
 
 from gippy import GeoImage
 from subprocess import Popen, PIPE
@@ -8,9 +8,7 @@ import os
 
 def process_scene_list(scene_list, hazard_path, sensor):
     for image in scene_list:
-
         print ('Processing: ' + image + '\n')
-
         # make gippy GeoImage w/image bands
         image_path = os.path.join(hazard_path, image)
         out_image = 'corrected-' + image
@@ -19,7 +17,7 @@ def process_scene_list(scene_list, hazard_path, sensor):
         band_names = ['blue', 'green', 'red']
         geo_image = GeoImage.open(filenames=bands, bandnames=band_names, nodata=0)
 
-        # # for each band rescale values to raw min/max and apply standard deviation stretchto new distribution
+        # for each band re-scale values to raw min/max and apply standard deviation stretch to new distribution
         print ('Contrast Enhancement: gathering extrema for bands in ' + image)
         extrema = get_band_extrema(bands)
         for i, x in enumerate(band_names):  
@@ -30,7 +28,7 @@ def process_scene_list(scene_list, hazard_path, sensor):
             geo_image[band_name] = geo_image[band_name].autoscale(band_min, band_max, percent=10.0)
         geo_image.save(out_image_path, dtype='byte')
 
-        # # generate new image with null values represented as 0 (making them transparent)
+        # generate new image with null values represented as 0 (making them transparent)
         remove_nulls(hazard_path, out_image)
         # get rid of original corrected image
         os.remove(out_image_path + '.tif')
