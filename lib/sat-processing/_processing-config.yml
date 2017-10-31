@@ -1,7 +1,24 @@
-sensor: landsat8
-scenes:
-  - loc: Nsanje
-    pre:
-      - LC81670712014347LGN00
-    post:
-      - LC81670722015046LGN00
+sensors:
+  {sensor-name}:
+    hazards:
+      {hazard-id}:
+        pre:
+          - {a-image-id}
+          - {b-image-id}
+        post:
+          - {c-image-id}
+          - {c-image-id}
+        # for instances where mosaicing is needed, an a mosiac object
+        mosaic:
+          # needed set to true is required
+          needed:
+            True
+          # add pre and post images to mosaic. if histogram matching is also neccessary before mosaicing,
+          # append to the object key '-color-match'
+          pre-color-match:
+            - {a-image-id}
+            - {b-image-id}
+          post:
+            - {c-image-id}
+            - {d-image-id}
+
