@@ -19,7 +19,7 @@ def download_scenes(sensor, hazard, hazard_path, config):
     # each scene is downloaded to its own folder (named after the scene)
 
     pre_images = [ evt for evt in config['sensors'][sensor]['hazards'][hazard]['pre'] ]
-    post_images = [ evt for evt in config['sensors'][sensor]['hazards'][hazard]['post'] ]
+    # post_images = [ evt for evt in config['sensors'][sensor]['hazards'][hazard]['post'] ]
 
     download_scene_list(pre_images, sensor, hazard, hazard_path)
-    download_scene_list(post_images, sensor, hazard, hazard_path)
+    # download_scene_list(post_images, sensor, hazard, hazard_path)

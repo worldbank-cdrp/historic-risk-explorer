@@ -2,6 +2,7 @@
 
 from gippy import GeoImage
 from subprocess import Popen, PIPE
+import re
 import json
 import os
 
@@ -21,20 +22,20 @@ def process_scene_list(scene_list, hazard_path, sensor):
         # # for each band rescale values to raw min/max and apply standard deviation stretchto new distribution
         print ('Contrast Enhancement: gathering extrema for bands in ' + image)
         extrema = get_band_extrema(bands)
-        for i, x in enumerate(band_names):
-            band_name = band_names[i] 
-            print ('Contrast Enhancement: applying standard deviation stretch to autoscaled ' + band_name + ' band')
-            band_extrema = extrema[i]
-            band_min = band_extrema['min'] ; band_max = band_extrema['max']
-            geo_image[band_name] = geo_image[band_name].autoscale(band_min, band_max, percent=10.0)
-        geo_image.save(out_image_path, dtype='byte')
+        # for i, x in enumerate(band_names):
+        #     band_name = band_names[i] 
+        #     print ('Contrast Enhancement: applying standard deviation stretch to autoscaled ' + band_name + ' band')
+        #     band_extrema = extrema[i]
+        #     band_min = band_extrema['min'] ; band_max = band_extrema['max']
+        #     geo_image[band_name] = geo_image[band_name].autoscale(band_min, band_max, percent=10.0)
+        # geo_image.save(out_image_path, dtype='byte')
 
-        # generate new image with null values represented as 0 (making them transparent)
-        remove_nulls(hazard_path, out_image)
-        # get rid of original corrected image
-        os.remove(out_image_path + '.tif')
-        os.remove(out_image_path + '.tif.aux.xml')
-        print ('')
+        # # generate new image with null values represented as 0 (making them transparent)
+        # remove_nulls(hazard_path, out_image)
+        # # get rid of original corrected image
+        # os.remove(out_image_path + '.tif')
+        # os.remove(out_image_path + '.tif.aux.xml')
+        # print ('')
 
 def match_histograms(source, truth, match):
     """
@@ -98,14 +99,17 @@ def get_band_extrema(bands):
     """
     extrema = []
     for i, x in enumerate(bands):
-        stats_command = ["gdalinfo","-mm", "-stats", "-json", bands[i]]
+        stats_command = ["gdalinfo","-mm", "-stats", bands[i]]
         stats_command = Popen(stats_command, stdout=PIPE, stderr=PIPE)
-        stats_result = [chunk.decode('utf-8') for chunk in stats_command.communicate()]
-        stats = json.loads('\n'.join(chunk for chunk in stats_result))
-        minimum = stats['bands'][0]['computedMin']
-        maximum = stats['bands'][0]['computedMax']
-        extrema.append({'min': minimum, 'max': maximum})
-    return extrema
+        stats_result = [
+            chunk.decode('utf-8') for chunk in stats_command.communicate()
+            if re.search('STATISTICS_MINMUM', chunk.decode('utf-8')) or re.search('STATISTICS_MAXIMUM', chunk.decode('utf-8'))
+        ]
+        print(stats_result)
+        # minimum = stats['bands'][0]['computedMin']
+        # maximum = stats['bands'][0]['computedMax']
+        # extrema.append({'min': minimum, 'max': maximum})
+    # return extrema
 
 def remove_nulls(hazard_path, image):
     """

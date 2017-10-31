@@ -1,11 +1,11 @@
+#!/bin/sh
 # ignore some shellchecks
 # shellcheck disable=SC2044,SC1091,SC2148
 
-cd ${1}
+cd /processing
 echo "Downloading and processing landsat and sentinel scenes"
-# python processing-downloading.py processing-config.yml download
-# python processing-downloading.py processing-config.yml process
-
+python processing-downloading.py processing-config.yml download
+python processing-downloading.py processing-config.yml process
 
 echo "Downloading and processing dg scenes"
 
@@ -25,7 +25,7 @@ do
     FILENAME=$PREFIX-$HAZARD
     FILEPATH=./$HAZARD/$FILENAME.tif
     echo "Uploading ${MAPBOX_ACCOUNT}.${LOCATION}-${FILENAME}"
-    mapbox upload "${MAPBOX_ACCOUNT}.${LOCATION}-${FILENAME}" "$FILEPATH"
+    # mapbox upload "${MAPBOX_ACCOUNT}.${LOCATION}-${FILENAME}" "$FILEPATH"
   done;
 done
 echo "Files sent to mapbox"
