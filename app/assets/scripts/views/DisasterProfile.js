@@ -2,8 +2,8 @@
 'use strict';
 import React, { Component } from 'react';
 import config from '../config';
-import { connect } from 'react-redux';
 import { map, pickBy } from 'lodash';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   clearDisaster,
@@ -26,6 +26,7 @@ class DisasterProfile extends Component {
   constructor (props) {
     super(props);
     this.makeMetricButtons = this.makeMetricButtons.bind(this);
+    this.makeProfilePath = this.makeProfilePath.bind(this);
     this.renderDisasterProfile = this.renderDisasterProfile.bind(this);
     this.makeHeaderListElements = this.makeHeaderListElements.bind(this);
     this.makeDataListElements = this.makeDataListElements.bind(this);
@@ -88,9 +89,11 @@ class DisasterProfile extends Component {
     });
   }
 
+  makeProfilePath (profile) { return `assets/profiles/${profile}.pdf`; }
+
   makeHeaderListElements () {
     return config.profileHeader.map((element) => (
-      <li className='metrics__item'>
+      <li key={`${this.props.disaster.c}-${element.header}`} className='metrics__item'>
         <h1>{element.header}</h1>
         <p>{this.props.disaster[element.info] || 'N/A'}</p>
       </li>
@@ -115,7 +118,7 @@ class DisasterProfile extends Component {
                {this.makeHeaderListElements()}
               </ul>
               <div className='download-profile'>
-                <button className='button button--large button--base-bounded'>Download Disaster Profile</button>
+            <a href={this.makeProfilePath(this.props.disaster.profile)} download className='button button--large button--base-bounded'>Download Disaster Profile</a>
               </div>
             </div>
           </section>
