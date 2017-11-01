@@ -1,10 +1,14 @@
 'use strict';
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import DisastersList from './DisastersList';
 import CentralAmericaExplorer from './CentralAmericaExplorer';
 
 class HistoricDisastersMain extends Component {
+  static propTypes = {
+    disasters: PropTypes.array.isRequired
+  }
   render () {
     return (
       <div>
@@ -16,7 +20,7 @@ class HistoricDisastersMain extends Component {
         </header>
         <section className='inpage__body'>
           <div className='inner'>
-            <DisastersList />
+            <DisastersList disasters={this.props.disasters} />
           </div>
         </section>
         <CentralAmericaExplorer />

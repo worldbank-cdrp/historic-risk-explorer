@@ -41,16 +41,10 @@ class DisastersList extends Component {
   }
 }
 
-const selector = (state) => {
-  return {
-    disasters: state.disasters
-  };
-};
-
 const dispatcher = (dispatch) => {
   return {
     _setInitialDisasterIndex: (index) => dispatch(setInitialDisasterIndex(index))
   };
 };
 
-export default connect(selector, dispatcher)(DisastersList);
+export default connect(dispatcher)(DisastersList);
