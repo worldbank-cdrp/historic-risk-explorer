@@ -51,6 +51,7 @@ export function getVisibleExposureLayers (layerId, layers, id) {
   return visibleLayers;
 }
 
+// TOFIX: remove disaster parameter
 export function makeFootPrintLayer (disaster, id) {
   return {
     id: id,
@@ -59,6 +60,27 @@ export function makeFootPrintLayer (disaster, id) {
     paint: {
       'raster-opacity': 0.06
     }
+  };
+}
+
+/**
+ * @param {object} disaster disaster object
+ * @param {string} relTime string, pre or post, to load correct layer fromm config
+ * @return {object} mapbox-gl source object
+ */
+export function makeSliderSource (disaster, relTime) {
+  return {
+    type: 'raster',
+    url: `mapbox://${config.mapboxAccountName}.${disaster[relTime]}`
+  };
+}
+
+export function makeSliderLayer (id) {
+  return {
+    id: id,
+    type: 'raster',
+    source: id,
+    paint: {}
   };
 }
 

@@ -28,6 +28,7 @@ class DisasterProfile extends Component {
     this.makeMetricButtons = this.makeMetricButtons.bind(this);
     this.makeProfilePath = this.makeProfilePath.bind(this);
     this.renderDisasterProfile = this.renderDisasterProfile.bind(this);
+    this.renderSliderMap = this.renderSliderMap.bind(this);
     this.makeHeaderListElements = this.makeHeaderListElements.bind(this);
     this.makeDataListElements = this.makeDataListElements.bind(this);
   }
@@ -46,8 +47,8 @@ class DisasterProfile extends Component {
 
   componentWillMount () {
     let disasterInfo = this.props.match.url.split('/')[1].split('-');
-    let disaster = this.props.disasters.find(d => d.c === disasterInfo[0]);
-    disaster.index = this.props.disasters.findIndex(d => d.c === disasterInfo[0]);
+    let disaster = this.props.disasters.find(d => `${d.c}-${d.y}` === `${disasterInfo[0]}-${disasterInfo[1]}`);
+    disaster.index = this.props.disasters.findIndex(d => `${d.c}-${d.y}` === `${disasterInfo[0]}-${disasterInfo[1]}`);
     this.props._setDisaster(disaster);
   }
 
@@ -98,6 +99,21 @@ class DisasterProfile extends Component {
         <p>{this.props.disaster[element.info] || 'N/A'}</p>
       </li>
     ));
+  }
+
+  renderSliderMap () {
+    if (this.props.disaster.sliderCenter) {
+      return (
+      <div className='inner'>
+        <h2>Before and After the Disaster</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum
+    tempor o  rnare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempus. Lorem ipsum
+    dolor si  t amet, consectetur adipiscing elit. Duis sed nisl augue</p>
+        <SliderMap disaster={this.props.disaster} />
+      </div>
+      );
+    }
+    return (<div/>);
   }
 
   renderDisasterProfile () {
@@ -162,13 +178,7 @@ dolor si  t amet, consectetur adipiscing elit. Duis sed nisl augue</p>
             </div>
           </section>
           <section className='images'>
-            <div className='inner'>
-              <h2>Before and After the Disaster</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum
-tempor o  rnare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempus. Lorem ipsum
-dolor si  t amet, consectetur adipiscing elit. Duis sed nisl augue</p>
-              <SliderMap disaster={this.disaster} />
-            </div>
+            {this.renderSliderMap()}
           </section>
         </section>
         <section className='inpage__footer'>
