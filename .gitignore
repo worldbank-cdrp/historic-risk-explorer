@@ -1,13 +1,17 @@
 .DS_Store
-# imagery processing
+
+# data processing
 **/src
 lib/.python-version
 **/__pycache__
 **/.env
 data/*
 **/.python-version
+
 # node
 node_modules
+yarn-error.log
+
 # no vim swaps
 **/*.swo
 **/*.swp
