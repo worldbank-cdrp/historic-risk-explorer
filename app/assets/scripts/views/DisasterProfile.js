@@ -19,6 +19,8 @@ import {
   makeNextDisaster
 } from '../utils/pagination';
 
+import { makeImage } from '../utils/disaster';
+
 import AnalysisMap from '../components/AnalysisMap';
 import SliderMap from '../components/SliderMap';
 
@@ -119,7 +121,7 @@ class DisasterProfile extends Component {
   renderDisasterProfile () {
     return (
       <div>
-        <section className='inpage__header'>
+        <section className='inpage__header' style={makeImage(this.props.disaster)}>
           <div className='inner'>
             <p className='subheading'>{this.props.disaster.m} {this.props.disaster.y}</p>
             <h1 className='heading--xxlarge'>{this.props.disaster.n} {this.props.disaster.y} {this.props.disaster.t}</h1>

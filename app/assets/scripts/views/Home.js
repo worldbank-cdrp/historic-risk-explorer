@@ -1,10 +1,19 @@
 'use strict';
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import CentralAmericaExplorer from '../components/CentralAmericaExplorer';
+import DisastersList from '../components/DisastersList';
 
 class Home extends Component {
+  static propTypes = {
+    disasters: PropTypes.array.isRequired
+  }
   render () {
+    // get objects from disasters for those to be featured.
+    let featuredDisasters = ['arm-1988-earthquake', 'hti-2010-earthquake', 'pak-2010-flood', 'moz-2015-flood'];
+    featuredDisasters = this.props.disasters.filter(d => featuredDisasters.includes(`${d.c}-${d.y}-${d.t.toLowerCase()}`));
     return (
       <div>
         <header className='index__header'>
@@ -30,45 +39,7 @@ class Home extends Component {
             <div className='inner'>
               <h2>Featured Historic Disasters</h2>
               <p>orem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue.</p>
-              <ul className='disasters-list'>
-                <li>
-                  <a className='disasters-list__item'>
-                    <span className='disaster__bg'><div className='bg-img'></div></span>
-                    <span className='disaster__content'>
-                      <p className='subheading'>January 2015</p>
-                      <h2 className='heading--medium'>Armenia Earthquake</h2>
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a className='disasters-list__item'>
-                    <span className='disaster__bg'><div className='bg-img'></div></span>
-                    <span className='disaster__content'>
-                      <p className='subheading'>January 2015</p>
-                      <h2 className='heading--medium'>Armenia Earthquake</h2>
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a className='disasters-list__item'>
-                    <span className='disaster__bg'><div className='bg-img'></div></span>
-                    <span className='disaster__content'>
-                      <p className='subheading'>January 2015</p>
-                      <h2 className='heading--medium'>Armenia Earthquake</h2>
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a className='disasters-list__item'>
-                    <span className='disaster__bg'><div className='bg-img'></div></span>
-                    <span className='disaster__content'>
-                      <p className='subheading'>January 2015</p>
-                      <h2 className='heading--medium'>Armenia Earthquake</h2>
-                    </span>
-                  </a>
-                </li>
-              </ul>
-              <a className='button button--large button--base-bounded'href=''>See All Disasters</a>
+              <DisastersList disasters={featuredDisasters}/>
             </div>
           </section>
           <CentralAmericaExplorer/>
@@ -78,4 +49,10 @@ class Home extends Component {
   }
 }
 
-export default Home;
+const selector = (state) => {
+  return {
+    disasters: state.disasters
+  };
+};
+
+export default connect(selector)(Home);

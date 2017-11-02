@@ -52,7 +52,8 @@ export const DISASTERS = [
     lossratio: {
       Historic: '2.98',
       Modelled: '3.84'
-    }
+    },
+    image: 'chile-earthquake-2010.jpg'
   },
   {
     y: 1930,
@@ -82,7 +83,8 @@ export const DISASTERS = [
     lossratio: {
       Historic: '15.98',
       Modelled: '9.79'
-    }
+    },
+    staticXYZ: [-70.146875, 18.702846, 7]
   },
   {
     y: 2001,
@@ -112,7 +114,8 @@ export const DISASTERS = [
     lossratio: {
       Historic: '1.66',
       Modelled: '1.33'
-    }
+    },
+    image: 'elsalvador-earthquake-2001.jpg'
   },
   {
     y: 2016,
@@ -145,7 +148,8 @@ export const DISASTERS = [
     lossratio: {
       Historic: '7.03',
       Modelled: '7.19'
-    }
+    },
+    image: 'fiji-cyclone-2016.jpg'
   },
   {
     y: 1815,
@@ -179,7 +183,8 @@ export const DISASTERS = [
     lossratio: {
       Historic: null,
       Modelled: '1.06'
-    }
+    },
+    staticXYZ: [117.98527197489355, -8.272296169056332, 7]
   },
   {
     y: 1988,
@@ -210,7 +215,8 @@ export const DISASTERS = [
     lossratio: {
       Historic: '7.06',
       Modelled: '4.28'
-    }
+    },
+    image: 'armenia-earthquake-1988.jpg'
   },
   {
     y: 2015,
@@ -240,7 +246,8 @@ export const DISASTERS = [
     lossratio: {
       Historic: '0.30',
       Modelled: '0.41'
-    }
+    },
+    staticXYZ: [34.37072753905, -16.70792094935, 7]
   },
   {
     y: 2005,
@@ -271,7 +278,8 @@ export const DISASTERS = [
     lossratio: {
       Historic: '1.23',
       Modelled: '1.12'
-    }
+    },
+    image: 'pakistan-earthquake-2005.png'
   },
   {
     y: 2010,
@@ -304,7 +312,8 @@ export const DISASTERS = [
       // TODO: ask/understand which the reported loss ratios is correct
       Historic: '13.74',
       Modelled: '14.43'
-    }
+    },
+    image: 'Haiti-2010.jpg'
   },
   {
     y: 2010,
@@ -339,6 +348,7 @@ export const DISASTERS = [
     post: '-post-pak-2010',
     sliderBbox: [[69.700513, 34.140129], [30.76625, 72.482998]],
     sliderCenter: [71.11724975524088, 32.460008863242194],
-    sliderZoom: [8]
+    sliderZoom: [8],
+    image: 'pakistan-flood-2010.jpg'
   }
 ];
