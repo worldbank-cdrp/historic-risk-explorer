@@ -8,8 +8,8 @@ import Compare from 'mapbox-gl-compare';
 import config from '../config';
 
 import {
-  makeFootPrintSource,
-  makeFootPrintLayer
+  makeSliderLayer,
+  makeSliderSource
  } from '../utils/map';
 
 class SliderMap extends Component {
@@ -17,14 +17,25 @@ class SliderMap extends Component {
     disaster: PropTypes.object.isRequired
   }
 
-  _loadLayers (props) {
+  _loadLayers (props, map, time) {
     // base layer
-    if (props.disaster.dmetric) {
-      let id = `${config.mapLayers[props.disaster.dmetric].id}-${props.disaster.c}`;
-      let footprintSource = makeFootPrintSource(props.disaster);
-      this._preDisasterMap.addSource(id, footprintSource);
-      this._preDisasterMap.addLayer(makeFootPrintLayer(props.disaster, id));
-    }
+    let id = props.disaster[time];
+    let sliderSource = makeSliderSource(props.disaster, time);
+    this[map].addSource(id, sliderSource);
+    this[map].addLayer(makeSliderLayer(id));
+  }
+
+  _removeLayers () {
+    // remove pre and post layers
+    ['pre', 'post'].forEach(time => {
+      let id = this.props.disaster[time];
+      let map = `_${time}DisasterMap`;
+      if (this._getLayer(id)) { this[map].removeLayer(id); }
+    });
+    // remove source for pre and post.
+    Object.keys(this._map.style.sourceCaches).forEach((source) => {
+      if (source !== 'composite') { if (this._map.getSource(source)) { this._map.removeSource(source); } }
+    });
   }
 
   componentDidMount () {
@@ -32,34 +43,37 @@ class SliderMap extends Component {
     this._preDisasterMap = new mapboxgl.Map({
       container: 'pre-disaster',
       style: config['disaster-data'],
-      center: [0, 0],
-      zoom: [0]
-    }).fitBounds(this.props.disaster.bbox, { animate: false, padding: config.boundsPadding });
+      center: this.props.disaster.sliderCenter,
+      zoom: this.props.disaster.sliderZoom
+    });
     this._postDisasterMap = new mapboxgl.Map({
       container: 'post-disaster',
       style: config['disaster-data'],
-      center: [0, 0],
-      zoom: [0]
-    }).fitBounds(this.props.disaster.bbox, { animate: false, padding: config.boundsPadding });
+      center: this.props.disaster.sliderCenter,
+      zoom: this.props.disaster.sliderZoom
+    });
     this._preDisasterMap.scrollZoom.disable();
     this._postDisasterMap.scrollZoom.disable();
     this._map = new Compare(this._preDisasterMap, this._postDisasterMap);
-    // this._preDisasterMap.on('load', () => {
-    //   this._loadLayers(this.props);
-    // });
+    this._preDisasterMap.on('load', () => {
+      this._loadLayers(this.props, '_preDisasterMap', 'pre');
+    });
+    this._postDisasterMap.on('load', () => {
+      this._loadLayers(this.props, '_postDisasterMap', 'post');
+    });
   }
 
   componentWillReceiveProps (nextProps) {
     if (this.props.disaster !== nextProps.disaster) {
-      this._preDisasterMap.fitBounds(nextProps.disaster.bbox, {
+      this._removeLayers();
+      this._preDisasterMap.fitBounds(nextProps.disaster.sliderBbox, {
         animate: false,
         padding: config.boundsPadding
       });
-      this._postDisasterMap.fitBounds(nextProps.disaster.bbox, {
+      this._postDisasterMap.fitBounds(nextProps.disaster.sliderBbox, {
         animate: false,
         padding: config.boundsPadding
       });
-      // this._loadLayers(nextProps);
     }
   }
 

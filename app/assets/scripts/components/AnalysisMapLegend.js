@@ -5,6 +5,7 @@ import config from '../config';
 
 class AnalysisMapLegend extends Component {
   static propTypes = {
+    currentMapVal: PropTypes.number.isRequired,
     visibleLayer: PropTypes.object.isRequired,
     overlayMetric: PropTypes.object.isRequired
   }
@@ -18,13 +19,14 @@ class AnalysisMapLegend extends Component {
     let overlayMetricIdUnits = config.legend[overlayMetric].idUnits;
     let overlayMetricUOA = this.props.visibleLayer.layer;
     overlayMetricIdUnits = overlayMetricUOA === 'grid' ? `${overlayMetricIdUnits} per # km` : `${overlayMetricIdUnits} per province`;
+    const overlayMetricText = this.props.currentMapVal === 0 ? overlayMetricIdUnits : `${this.props.currentMapVal} ${overlayMetricIdUnits}`;
     // for subNational, units are be expressed in #km
     // TODO: add additional logic to pick subnational from ids per zoom
     return (
         <div className='map-legend'>
           <p className='map-layer__title'>{overlayMetricTitle}</p>
           {/* place for color ramp */}
-          {overlayMetricIdUnits}
+          {overlayMetricText}
         </div>
     );
   }
@@ -33,7 +35,8 @@ class AnalysisMapLegend extends Component {
 const selector = (state) => {
   return {
     visibleLayer: state.visibleLayer,
-    overlayMetric: state.overlayMetric
+    overlayMetric: state.overlayMetric,
+    currentMapVal: state.map.val
   };
 };
 

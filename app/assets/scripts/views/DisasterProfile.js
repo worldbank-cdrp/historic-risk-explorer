@@ -1,13 +1,16 @@
-'use strict';
 
+'use strict';
 import React, { Component } from 'react';
+import config from '../config';
+import { map, pickBy } from 'lodash';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   clearDisaster,
   setOverlayMetric,
   setDisaster,
-  setPaginationDirection
+  setPaginationDirection,
+  setCurrentLegendMetricVal
 } from '../actions/action-creators';
 
 import {
@@ -25,7 +28,11 @@ class DisasterProfile extends Component {
   constructor (props) {
     super(props);
     this.makeMetricButtons = this.makeMetricButtons.bind(this);
+    this.makeProfilePath = this.makeProfilePath.bind(this);
     this.renderDisasterProfile = this.renderDisasterProfile.bind(this);
+    this.renderSliderMap = this.renderSliderMap.bind(this);
+    this.makeHeaderListElements = this.makeHeaderListElements.bind(this);
+    this.makeDataListElements = this.makeDataListElements.bind(this);
   }
   static propTypes = {
     disasters: PropTypes.array.isRequired,
@@ -36,13 +43,14 @@ class DisasterProfile extends Component {
     history: PropTypes.object.isRequired,
     _clearDisaster: PropTypes.func.isRequired,
     _setDisaster: PropTypes.func.isRequired,
-    _setOverlayMetric: PropTypes.func.isRequired
+    _setOverlayMetric: PropTypes.func.isRequired,
+    _setCurrentLegendMetricVal: PropTypes.func.isRequired
   }
 
   componentWillMount () {
     let disasterInfo = this.props.match.url.split('/')[1].split('-');
     let disaster = this.props.disasters.find(d => `${d.c}-${d.y}` === `${disasterInfo[0]}-${disasterInfo[1]}`);
-    disaster.index = this.props.disasters.findIndex(d => d.c === disasterInfo[0]);
+    disaster.index = this.props.disasters.findIndex(d => `${d.c}-${d.y}` === `${disasterInfo[0]}-${disasterInfo[1]}`);
     this.props._setDisaster(disaster);
   }
 
@@ -65,9 +73,49 @@ class DisasterProfile extends Component {
       return (
         <li key={m}><button className='button button--large button--base-bounded'
           value={m.replace(' ', '-').toLowerCase()}
-          onClick={(e) => { this.props._setOverlayMetric(e.target.value); }}>{m}</button></li>
+          onClick={(e) => {
+            e.preventDefault();
+            this.props._setOverlayMetric(e.target.value);
+            this.props._setCurrentLegendMetricVal(0);
+          }}>{m}</button></li>
       );
     });
+  }
+
+  makeDataListElements (metric) {
+    let metricData = this.props.disaster[metric];
+    // filter only those in list with property values
+    metricData = pickBy(metricData, (m, k) => { return m; });
+    return map(metricData, (m, k) => {
+      if (metric === 'lossratio') { return (<li key={`${k}-${m}`}><h3 className='heading--small'>{`${m}%`}<small>{k}</small></h3></li>); }
+      return (<li key={`${k}-${m}`} ><h3 className='heading--small'>{`$${m}M`}<small>{k}</small></h3></li>);
+    });
+  }
+
+  makeProfilePath (profile) { return `assets/profiles/${profile}.pdf`; }
+
+  makeHeaderListElements () {
+    return config.profileHeader.map((element) => (
+      <li key={`${this.props.disaster.c}-${element.header}`} className='metrics__item'>
+        <h1>{element.header}</h1>
+        <p>{this.props.disaster[element.info] || 'N/A'}</p>
+      </li>
+    ));
+  }
+
+  renderSliderMap () {
+    if (this.props.disaster.sliderCenter) {
+      return (
+      <div className='inner'>
+        <h2>Before and After the Disaster</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum
+    tempor o  rnare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempus. Lorem ipsum
+    dolor si  t amet, consectetur adipiscing elit. Duis sed nisl augue</p>
+        <SliderMap disaster={this.props.disaster} />
+      </div>
+      );
+    }
+    return (<div/>);
   }
 
   renderDisasterProfile () {
@@ -85,25 +133,10 @@ class DisasterProfile extends Component {
           <section className='overview'>
             <div className='inner'>
               <ul className='metrics'>
-                <li className='metrics__item'>
-                  <h1>Magnitude:</h1>
-                  <p> Mw7.0 (S. Haiti)</p>
-                </li>
-                <li className='metrics__item'>
-                  <h1>Country Population at Time:</h1>
-                  <p> 9,926,000</p>
-                </li>
-                <li className='metrics__item'>
-                  <h1>Capital Stock at Time (Res) - $USDmm:</h1>
-                  <p> 16,082</p>
-                </li>
-                <li className='metrics__item'>
-                  <h1>Houses existing at time:</h1>
-                  <p> 2,281,839</p>
-                </li>
+               {this.makeHeaderListElements()}
               </ul>
               <div className='download-profile'>
-                <button className='button button--large button--base-bounded'>Download Disaster Profile</button>
+            <a href={this.makeProfilePath(this.props.disaster.profile)} download className='button button--large button--base-bounded'>Download Disaster Profile</a>
               </div>
             </div>
           </section>
@@ -114,22 +147,19 @@ class DisasterProfile extends Component {
                 <li className='national-metrics__item'>
                   <h2 className='alt-heading'>Annualized Loss</h2>
                   <ul>
-                    <li><h3 className='heading--small'>$152M<small>Historic</small></h3></li>
-                    <li><h3 className='heading--small'>$152M<small>Modelled</small></h3></li>
+                    {this.makeDataListElements('annloss')}
                   </ul>
                 </li>
                 <li className='national-metrics__item'>
                   <h2 className='alt-heading'>Exposure</h2>
                   <ul>
-                    <li><h3 className='heading--small'>$152M<small>Historic</small></h3></li>
-                    <li><h3 className='heading--small'>$152M<small>Modelled</small></h3></li>
+                    {this.makeDataListElements('exposure')}
                   </ul>
                 </li>
                 <li className='national-metrics__item'>
                   <h2 className='alt-heading'>Loss Ratio</h2>
                   <ul>
-                    <li><h3 className='heading--small'>$152M<small>Historic</small></h3></li>
-                    <li><h3 className='heading--small'>$152M<small>Modelled</small></h3></li>
+                    {this.makeDataListElements('lossratio')}
                   </ul>
                 </li>
               </ul>
@@ -150,13 +180,7 @@ dolor si  t amet, consectetur adipiscing elit. Duis sed nisl augue</p>
             </div>
           </section>
           <section className='images'>
-            <div className='inner'>
-              <h2>Before and After the Disaster</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum
-tempor o  rnare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempus. Lorem ipsum
-dolor si  t amet, consectetur adipiscing elit. Duis sed nisl augue</p>
-              <SliderMap disaster={this.disaster} />
-            </div>
+            {this.renderSliderMap()}
           </section>
         </section>
         <section className='inpage__footer'>
@@ -190,7 +214,8 @@ const dispatcher = (dispatch) => {
     _clearDisaster: () => dispatch(clearDisaster()),
     _setOverlayMetric: (metric) => dispatch(setOverlayMetric(metric)),
     _setDisaster: (disaster) => dispatch(setDisaster(disaster)),
-    _setPaginationDirection: (direction) => dispatch(setPaginationDirection(direction))
+    _setPaginationDirection: (direction) => dispatch(setPaginationDirection(direction)),
+    _setCurrentLegendMetricVal: (val) => dispatch(setCurrentLegendMetricVal(val))
   };
 };
 

@@ -4,11 +4,14 @@ import PropTypes from 'prop-types';
 
 import mapboxgl from 'mapbox-gl';
 import config from '../config';
+
 import {
   makeExposureLayer,
   makeFootPrintSource,
   makeFootPrintLayer
  } from '../utils/map';
+
+import { setCurrentLegendMetricVal } from '../actions/action-creators';
 
 import AnalysisLayerControl from './AnalysisLayerControl';
 import AnalysisMapLegend from './AnalysisMapLegend';
@@ -22,13 +25,17 @@ class AnalysisMap extends Component {
     this._updateVisibleLayers = this._updateVisibleLayers.bind(this);
   }
   static propTypes = {
+    _setCurrentLegendMetricVal: PropTypes.func.isRequired,
     disaster: PropTypes.object.isRequired,
+    overlayMetric: PropTypes.string.isRequired,
+    valueType: PropTypes.string.isRequired,
     visibleLayer: PropTypes.object.isRequired
   }
   _loadLayers (props) {
     // base layer
     if (props.disaster.dmetric) {
       let id = `${config.mapLayers[props.disaster.dmetric].id}-${props.disaster.c}`;
+      this.querySource = id;
       let footprintSource = makeFootPrintSource(props.disaster);
       this._map.addSource(id, footprintSource);
       this._map.addLayer(makeFootPrintLayer(props.disaster, id));
@@ -107,8 +114,19 @@ class AnalysisMap extends Component {
     this._map.on('load', () => {
       this._loadLayers(this.props);
     });
+    this._map.on('mousemove', (e) => {
+      let queriedFeatures = this._map.queryRenderedFeatures(e.point);
+      queriedFeatures = queriedFeatures.find((f) => this.layers.includes(f.layer.id));
+      if (queriedFeatures) {
+        const metricPropKey = config.legend[this.props.overlayMetric].layerProp;
+        const metricVal = queriedFeatures.properties[metricPropKey];
+        this.props._setCurrentLegendMetricVal(metricVal);
+      }
+    });
   }
   componentWillReceiveProps (nextProps) {
+    if (this.props.overlayMetric !== nextProps.overlayMetric) { return; }
+    if (this.props.valueType !== nextProps.valueType) { return; }
     if (this.props.disaster !== nextProps.disaster) {
       this._map.fitBounds(nextProps.disaster.bbox, {
         animate: false,
@@ -136,8 +154,16 @@ class AnalysisMap extends Component {
 
 const selector = (state) => {
   return {
-    visibleLayer: state.visibleLayer
+    valueType: state.map.valType,
+    visibleLayer: state.visibleLayer,
+    overlayMetric: state.overlayMetric.metric
   };
 };
 
-export default connect(selector)(AnalysisMap);
+const dispatcher = (dispatch) => {
+  return {
+    _setCurrentLegendMetricVal: (val) => dispatch(setCurrentLegendMetricVal(val))
+  };
+};
+
+export default connect(selector, dispatcher)(AnalysisMap);
