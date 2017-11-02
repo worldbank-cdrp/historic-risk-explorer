@@ -3,12 +3,9 @@
 # shellcheck disable=SC2044,SC1091,SC2148
 
 cd /processing
-echo "Downloading and processing landsat and sentinel scenes"
+echo "Downloading and processing scenes"
 python processing-downloading.py processing-config.yml download
 python processing-downloading.py processing-config.yml process
-
-echo "Downloading and processing dg scenes"
-
 
 # send geotiffs to mapbox
 echo "Uploading scenes to mapbox"

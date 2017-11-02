@@ -7,6 +7,7 @@
 from tempfile import mkdtemp
 from sdownloader import Landsat8, Sentinel2
 from landsat5 import Landsat5
+from dg import DG
 from subprocess import Popen
 from tempfile import mkdtemp
 import os
@@ -24,7 +25,7 @@ class Sensor:
         self.hazard = hazard
         self.folder = folder
 
-    def downloader(self):
+    def downloader(self, relTime):
         """
         Returns object with band GeoTIFFs and scene name for provided scenes.
         Will call sensor specific methods from txt file provided.
@@ -37,9 +38,15 @@ class Sensor:
             downloads = Landsat8(download_dir=self.folder)
             bands_to_down = [2, 3, 4]
         elif self.name.lower() == 'landsat5':
-           downloads = Landsat5(download_dir=self.folder)
-           bands_to_down = [3, 2, 1]
+            downloads = Landsat5(download_dir=self.folder)
+            bands_to_down = [3, 2, 1]
+        elif self.name.lower() == 'dg':
+            downloads = DG(download_dir=self.folder)
+            bands_to_down = []
         else:
             print("sensor not specified")
             # add an error
-        self.disaster_data = [downloads.download(self.scenes, bands=bands_to_down)]
+        if self.name != 'dg':
+            self.disaster_data = [downloads.download(self.scenes, bands=bands_to_down)]
+        else:
+            self.disaster_data = [downloads.download(self.scenes, relTime)]

@@ -1,7 +1,7 @@
 
 """
 # code: landsat5.py
-# purpose: use gsutil to download landsat5 scenes
+# purpose: download landsat5 images from google storage
 """
 
 # libs 
