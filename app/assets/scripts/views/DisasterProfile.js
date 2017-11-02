@@ -41,7 +41,7 @@ class DisasterProfile extends Component {
 
   componentWillMount () {
     let disasterInfo = this.props.match.url.split('/')[1].split('-');
-    let disaster = this.props.disasters.find(d => d.c === disasterInfo[0]);
+    let disaster = this.props.disasters.find(d => `${d.c}-${d.y}` === `${disasterInfo[0]}-${disasterInfo[1]}`);
     disaster.index = this.props.disasters.findIndex(d => d.c === disasterInfo[0]);
     this.props._setDisaster(disaster);
   }
