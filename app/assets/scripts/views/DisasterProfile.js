@@ -16,6 +16,8 @@ import {
   makeNextDisaster
 } from '../utils/pagination';
 
+import { makeImage } from '../utils/disaster';
+
 import AnalysisMap from '../components/AnalysisMap';
 import SliderMap from '../components/SliderMap';
 
@@ -39,7 +41,7 @@ class DisasterProfile extends Component {
 
   componentWillMount () {
     let disasterInfo = this.props.match.url.split('/')[1].split('-');
-    let disaster = this.props.disasters.find(d => d.c === disasterInfo[0]);
+    let disaster = this.props.disasters.find(d => `${d.c}-${d.y}` === `${disasterInfo[0]}-${disasterInfo[1]}`);
     disaster.index = this.props.disasters.findIndex(d => d.c === disasterInfo[0]);
     this.props._setDisaster(disaster);
   }
@@ -71,7 +73,7 @@ class DisasterProfile extends Component {
   renderDisasterProfile () {
     return (
       <div>
-        <section className='inpage__header'>
+        <section className='inpage__header' style={makeImage(this.props.disaster)}>
           <div className='inner'>
             <p className='subheading'>{this.props.disaster.m} {this.props.disaster.y}</p>
             <h1 className='heading--xxlarge'>{this.props.disaster.n} {this.props.disaster.y} {this.props.disaster.t}</h1>
