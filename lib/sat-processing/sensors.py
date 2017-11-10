@@ -25,7 +25,7 @@ class Sensor:
         self.hazard = hazard
         self.folder = folder
 
-    def downloader(self, relTime):
+    def downloader(self, relTime=''):
         """
         Returns object with band GeoTIFFs and scene name for provided scenes.
         Will call sensor specific methods from txt file provided.

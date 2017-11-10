@@ -16,7 +16,7 @@ def process_scenes(sensor, hazard, hazard_path, config):
     else:
         process_scene_list(pre_images, hazard_path, sensor, 'pre')
         process_scene_list(post_images, hazard_path, sensor, 'post')
-    # mosaic where neccessar
+    # mosaic where neccessary
     try:
         mosaic = config['sensors'][sensor]['hazards'][hazard]['mosaic']
         mosaic_scene_list(mosaic, hazard, hazard_path)

@@ -14,22 +14,23 @@ download, contrast enhance, and upload to mapbox satellite imagery before and af
   - find landsat5 imagery on [earthexplorer](https://earthexplorer.usgs.gov/)
   - find open digital globe imagery onn their open data portal [https://www.digitalglobe.com/opendata]
 
-2. create a .env file with these two environmental variables
+2. set the Mapbox credentials in your local environment
 
 ```
-MAPBOX_ACCESS_TOKEN='mapbox.api.key'
-MAPBOX_ACCOUNT='mapbox.usrname'
+export MAPBOX_ACCOUNT='mapbox.usrname'
+export MAPBOX_ACCESS_TOKEN='mapbox.api.key'
 ```
 
 note - the `MAPBOX_ACCESS_TOKEN` needs to be have upload privileges. see: https://www.mapbox.com/help/create-api-access-token/
 
-## run
+## build the image and execute it with the environment's credentials
 
-./process-scenes.sh
+```
+docker build -t process-scenes .
+docker run -e MAPBOX_ACCOUNT -e MAPBOX_ACCESS_TOKEN -it process-scenes
+```
 
 this will:
- 1. build a docker image
- 2. run the container to:
   1. download imagery specified in config file
   2. conduct contrast enhancement on images on each band
    - specifically, it will autoscale bands their min and max values, then conduct a standard deviation stretch
@@ -37,5 +38,3 @@ this will:
   3. mosaic images if specified in the config file
    - histogram match images being mosaiced (if specified in the config)
   4. upload imagery to map box
-
-

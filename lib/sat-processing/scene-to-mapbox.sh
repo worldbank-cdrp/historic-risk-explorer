@@ -14,6 +14,7 @@ echo "Uploading scenes to mapbox"
 HAZARDS=$(for sensor in $(cat ./processing-config.yml | shyaml keys sensors); do cat ./processing-config.yml | shyaml keys sensors.$sensor.hazards; done)
 
 # output folder where images are held
+ls -alF ./moz-2015
 
 for HAZARD in $HAZARDS;
 do
@@ -21,8 +22,8 @@ do
   do
     FILENAME=$PREFIX-$HAZARD
     FILEPATH=./$HAZARD/$FILENAME.tif
-    echo "Uploading ${MAPBOX_ACCOUNT}.${LOCATION}-${FILENAME}"
-    # mapbox upload "${MAPBOX_ACCOUNT}.${LOCATION}-${FILENAME}" "$FILEPATH"
+    echo "Uploading ${MAPBOX_ACCOUNT}.${FILENAME}"
+    mapbox upload "${MAPBOX_ACCOUNT}.${FILENAME}" "$FILEPATH"
   done;
 done
 echo "Files sent to mapbox"

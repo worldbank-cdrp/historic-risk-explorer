@@ -6,7 +6,7 @@ import re
 import json
 import os
 
-def process_scene_list(scene_list, hazard_path, sensor, relTime):
+def process_scene_list(scene_list, hazard_path, sensor, relTime=''):
     for image in scene_list:
         image = str(image)
         print ('Processing: ' + image + '\n')

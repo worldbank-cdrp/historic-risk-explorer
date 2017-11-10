@@ -10,8 +10,6 @@ config_file = sys.argv[1]
 with open(config_file, 'r') as file_stream:
     config = yaml.load(file_stream)
 
-
-
 # initial download & processing
 for sensor in config['sensors']:
     hazards = config['sensors'][sensor]['hazards']

@@ -1,7 +1,7 @@
 
 from sensors import Sensor
 
-def download_scene_list(scene_list, sensor, hazard, hazard_path, relTime):
+def download_scene_list(scene_list, sensor, hazard, hazard_path, relTime=''):
     for image in scene_list:
         image = str(image)
         image_sensor = Sensor(sensor, [image], hazard, hazard_path)
