@@ -42,12 +42,12 @@ export const DISASTERS = [
     homeless: '1,150,000',
     housesDestroyed: '81,444',
     annloss: {
-      Historic: null,
-      Modelled: null
+      Historic: '3,943',
+      Modelled: '6,819'
     },
     exposure: {
-      Historic: null,
-      Modelled: null
+      Historic: '132,226',
+      Modelled: '177,402'
     },
     lossratio: {
       Historic: '2.98',
@@ -67,18 +67,18 @@ export const DISASTERS = [
     pop: '1,256,000',
     houses: '300,000',
     capstockRes: null,
-    capstockNonRes: '110',
+    capstockNonRes: null,
     magnitude: 'Category 4-5',
     deaths: '2,000 to 8,000',
     homeless: '80,000',
     housesDestroyed: '15,000',
     annloss: {
-      Historic: null,
-      Modelled: null
+      Historic: '18',
+      Modelled: '14,995'
     },
     exposure: {
-      Historic: null,
-      Modelled: null
+      Historic: '110',
+      Modelled: '153,099'
     },
     lossratio: {
       Historic: '15.98',
@@ -104,16 +104,16 @@ export const DISASTERS = [
     homeless: '1,329,000',
     housesDestroyed: '108,949',
     annloss: {
-      Historic: null,
-      Modelled: null
+      Historic: '250',
+      Modelled: '461'
     },
     exposure: {
-      Historic: null,
-      Modelled: null
+      Historic: '14,567',
+      Modelled: '27,370'
     },
     lossratio: {
-      Historic: '1.66',
-      Modelled: '1.33'
+      Historic: '1.72',
+      Modelled: '1.69'
     },
     image: 'elsalvador-earthquake-2001.jpg'
   },
@@ -138,16 +138,16 @@ export const DISASTERS = [
     homeless: '55,000',
     housesDestroyed: '11,500',
     annloss: {
-      Historic: null,
-      Modelled: null
+      Historic: '356',
+      Modelled: '336'
     },
     exposure: {
-      Historic: null,
-      Modelled: null
+      Historic: '4,094',
+      Modelled: '4,094'
     },
     lossratio: {
-      Historic: '7.03',
-      Modelled: '7.19'
+      Historic: '8.70',
+      Modelled: '8.20'
     },
     image: 'fiji-cyclone-2016.jpg'
   },
@@ -174,11 +174,11 @@ export const DISASTERS = [
     housesDestroyed: '25,000',
     annloss: {
       Historic: null,
-      Modelled: null
+      Modelled: '9,708'
     },
     exposure: {
-      Historic: null,
-      Modelled: null
+      Historic: '171.5',
+      Modelled: '915,846'
     },
     lossratio: {
       Historic: null,
@@ -205,12 +205,12 @@ export const DISASTERS = [
     homeless: '517,000',
     housesDestroyed: '61,000',
     annloss: {
-      Historic: null,
-      Modelled: null
+      Historic: '150',
+      Modelled: '419'
     },
     exposure: {
-      Historic: null,
-      Modelled: null
+      Historic: '2,123',
+      Modelled: '9,791'
     },
     lossratio: {
       Historic: '7.06',
@@ -236,16 +236,16 @@ export const DISASTERS = [
     homeless: '157000',
     housesDestroyed: '12,612',
     annloss: {
-      Historic: null,
-      Modelled: '0.41'
+      Historic: '56',
+      Modelled: '61'
     },
     exposure: {
-      Historic: null,
-      Modelled: null
+      Historic: '9,750',
+      Modelled: '9,750'
     },
     lossratio: {
-      Historic: '0.30',
-      Modelled: '0.41'
+      Historic: '0.57',
+      Modelled: '0.63'
     },
     staticXYZ: [34.37072753905, -16.70792094935, 7]
   },
@@ -268,12 +268,12 @@ export const DISASTERS = [
     homeless: '1,250,000 - 3,500,000',
     housesDestroyed: '437,536',
     annloss: {
-      Historic: null,
-      Modelled: null
+      Historic: '1,031',
+      Modelled: '1,889'
     },
     exposure: {
-      Historic: null,
-      Modelled: null
+      Historic: '84,061',
+      Modelled: '169,039'
     },
     lossratio: {
       Historic: '1.23',
@@ -297,21 +297,20 @@ export const DISASTERS = [
     houses: '2,281,839',
     capstock: '24,079',
     magnitude: 'Mw 7.0',
-    deaths: '',
-    homeless: '',
-    housesDestroyed: '',
+    deaths: 'ca. 80,000',
+    homeless: '700,000 to 2,200,000',
+    housesDestroyed: '105,369',
     annloss: {
-      Historic: null,
-      Modelled: null
+      Historic: '2,333',
+      Modelled: '3,184'
     },
     exposure: {
-      Historic: null,
-      Modelled: null
+      Historic: '16,082',
+      Modelled: '21,174'
     },
     lossratio: {
-      // TODO: ask/understand which the reported loss ratios is correct
-      Historic: '13.74',
-      Modelled: '14.43'
+      Historic: '14.51',
+      Modelled: '15.04'
     },
     image: 'Haiti-2010.jpg'
   },
@@ -325,20 +324,20 @@ export const DISASTERS = [
     bbox: [[68.6810302734, 26.819168595], [75.3607177734, 33.7745813637]],
     dmetric: 'water_depth',
     profile: 'Risk Profile - Pakistan - 2010 EQ Scenario vFinal',
-    pop: null,
-    houses: null,
-    capstock: null,
+    pop: '170,920,000',
+    houses: '26,832,025',
+    capstock: '119,849',
     magnitude: null,
-    deaths: '',
-    homeless: '',
-    housesDestroyed: '',
+    deaths: '1,985',
+    homeless: 'ca. 8,000,000',
+    housesDestroyed: '913,307',
     annloss: {
-      Historic: null,
-      Modelled: null
+      Historic: '119,849',
+      Modelled: '169,039'
     },
     exposure: {
-      Historic: null,
-      Modelled: null
+      Historic: '1,513',
+      Modelled: '2,436'
     },
     lossratio: {
       Historic: '1.26',

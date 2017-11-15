@@ -84,9 +84,8 @@ class DisasterProfile extends Component {
 
   makeDataListElements (metric) {
     let metricData = this.props.disaster[metric];
-    // filter only those in list with property values
-    metricData = pickBy(metricData, (m, k) => { return m; });
     return map(metricData, (m, k) => {
+      if (!m) { return (<li key={`${k}-${m}`} ><h3 className='heading--small'>unknown<small>{k}</small></h3></li>); }
       if (metric === 'lossratio') { return (<li key={`${k}-${m}`}><h3 className='heading--small'>{`${m}%`}<small>{k}</small></h3></li>); }
       return (<li key={`${k}-${m}`} ><h3 className='heading--small'>{`$${m}M`}<small>{k}</small></h3></li>);
     });
@@ -95,12 +94,16 @@ class DisasterProfile extends Component {
   makeProfilePath (profile) { return `assets/profiles/${profile}.pdf`; }
 
   makeHeaderListElements () {
-    return config.profileHeader.map((element) => (
-      <li key={`${this.props.disaster.c}-${element.header}`} className='metrics__item'>
-        <h1>{element.header}</h1>
-        <p>{this.props.disaster[element.info] || 'N/A'}</p>
-      </li>
-    ));
+    return config.profileHeader.map((element) =>
+      this.props.disaster[element.info]
+      ? (
+          <li key={`${this.props.disaster.c}-${element.header}`} className='metrics__item'>
+            <h1>{element.header}</h1>
+            <p>{this.props.disaster[element.info]}</p>
+          </li>
+        )
+      : ''
+    );
   }
 
   renderSliderMap () {
@@ -142,10 +145,10 @@ class DisasterProfile extends Component {
           </section>
           <section className='national-overview'>
             <div className='inner'>
-              <h2>National Historic Losses vs. Modelled</h2>
+              <h2>National Residential Stock, and Disaster Impact</h2>
               <ul className='national-metrics'>
                 <li className='national-metrics__item'>
-                  <h2 className='alt-heading'>Annualized Loss</h2>
+                  <h2 className='alt-heading'>Loss</h2>
                   <ul>
                     {this.makeDataListElements('annloss')}
                   </ul>
