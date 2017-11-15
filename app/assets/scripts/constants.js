@@ -341,8 +341,8 @@ export const DISASTERS = [
       Modelled: null
     },
     lossratio: {
-      Historic: null,
-      Modelled: null
+      Historic: '1.26',
+      Modelled: '1.44'
     },
     pre: '-pre-pak-2010',
     post: '-post-pak-2010',
