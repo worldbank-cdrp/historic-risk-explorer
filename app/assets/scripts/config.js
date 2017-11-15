@@ -36,7 +36,7 @@ export default {
    *       //   c = country, dcode = distaster code, y = year
    *       main: 'c_dcode_y_grid',
    *       // ids - layer group specifc identifiers found in specific tileset ids
-   *       ids: ['1km', '5km', '25km']
+   *       ids: ['1km', '5km', '20km']
    *     }
    *   }
    * }
@@ -52,7 +52,7 @@ export default {
           'admin': 'admin',
           '1km': 'grid1km',
           '5km': 'grid5km',
-          '25km': 'grid25km'
+          '20km': 'grid20km'
         },
         zooms: {
           'grid1km': {
@@ -63,7 +63,7 @@ export default {
             minZoom: 6,
             maxZoom: 9
           },
-          'grid25km': {
+          'grid20km': {
             maxZoom: 6
           }
         },
@@ -79,7 +79,7 @@ export default {
           'admin': 'admin',
           '1km': 'grid1km',
           '5km': 'grid5km',
-          '25km': 'grid25km'
+          '20km': 'grid20km'
         },
         zooms: {
           'grid1km': {
@@ -90,7 +90,7 @@ export default {
             minZoom: 6,
             maxZoom: 9
           },
-          'grid25km': {
+          'grid20km': {
             maxZoom: 6
           }
         },
@@ -106,7 +106,7 @@ export default {
           'admin': 'admin',
           '1km': 'grid1km',
           '5km': 'grid5km',
-          '25km': 'grid25km'
+          '20km': 'grid20km'
         },
         zooms: {
           'grid1km': {
@@ -117,7 +117,7 @@ export default {
             minZoom: 6,
             maxZoom: 9
           },
-          'grid25km': {
+          'grid20km': {
             maxZoom: 6
           }
         },
@@ -176,7 +176,7 @@ export default {
    *     textIds: {
    *      '1km': 'Sub National',
    *      '2km': 'National',
-   *      '25km': 'Regional
+   *      '20km': 'Regional
    *     }
    *   }
    *   ....
@@ -185,8 +185,8 @@ export default {
    */
   control: {
     'exposure-loss': {
-      admin: 'National',
-      grid: 'Sub National'
+      admin: 'Sub-Admin',
+      grid: 'Gridded'
     }
   },
   // ------------------------ //
@@ -203,7 +203,7 @@ export default {
    *     idUnits: {
    *       '1km': '?',
    *       '2km': '?',
-   *       '25km': '?'
+   *       '20km': '?'
    *     }
    *   },
    *   ....

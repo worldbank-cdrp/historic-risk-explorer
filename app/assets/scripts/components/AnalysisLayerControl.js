@@ -35,11 +35,6 @@ class AnalysisLayerControl extends Component {
           <ul>
            {this.renderExposureLayerSelect()}
           </ul>
-          <p className='map-layer__title'>DATA VALUES</p>
-            <div className='button-group--horizontal'>
-              <button className='button button--small button--base-bounded' onClick={(e) => { this.props._setValueType('absolute'); } }>Absolute Value</button>
-              <button className='button button--small button--base-bounded' onClick={(e) => { this.props._setValueType('relative'); } }>Relative Value</button>
-            </div>
         </div>
     );
   }
