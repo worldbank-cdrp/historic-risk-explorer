@@ -17,10 +17,7 @@ class AnalysisMapLegend extends Component {
     let overlayMetric = this.props.overlayMetric.metric;
     let overlayMetricTitle = config.legend[overlayMetric].title;
     let overlayMetricIdUnits = config.legend[overlayMetric].idUnits;
-    let overlayMetricUOA = this.props.visibleLayer.layer;
-    overlayMetricIdUnits = overlayMetricUOA === 'grid' ? `${overlayMetricIdUnits} per # km` : `${overlayMetricIdUnits} per province`;
     const overlayMetricText = this.props.currentMapVal === 0 ? overlayMetricIdUnits : `${this.props.currentMapVal} ${overlayMetricIdUnits}`;
-    // for subNational, units are be expressed in #km
     // TODO: add additional logic to pick subnational from ids per zoom
     return (
         <div className='map-legend'>

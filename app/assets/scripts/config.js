@@ -185,7 +185,7 @@ export default {
    */
   control: {
     'exposure-loss': {
-      admin: 'Sub-Admin',
+      admin: 'Sub-National',
       grid: 'Gridded'
     }
   },
@@ -212,17 +212,17 @@ export default {
   legend: {
     'exposure-loss': {
       title: 'Building Stock Exposure',
-      idUnits: 'some unit',
+      idUnits: 'US Dollars ($)',
       layerProp: 'exp'
     },
     'annualized-loss': {
       title: 'Annualized Loss',
-      idUnits: 'some unit',
+      idUnits: 'US Dollars ($)',
       layerProp: 'aloss'
     },
     'loss-ratio': {
       title: 'Loss Ratio',
-      idUnits: 'some unit',
+      idUnits: 'USD ($) Loss / USD ($) Exposure',
       layerProp: 'lr'
     }
   }
