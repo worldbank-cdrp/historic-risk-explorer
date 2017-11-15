@@ -3,6 +3,7 @@
 ################################################
 # data processing files
 ################################################
+
 /lib/src
 lib/.python-version
 **/__pycache__
@@ -11,7 +12,6 @@ data/*
 
 ################################################
 # Node.js / NPM
-#
 ################################################
 
 node_modules
@@ -22,6 +22,7 @@ lib-cov
 *.out
 *.pid
 npm-debug.log
+yarn-error.log
 
 ################################################
 # Miscellaneous
@@ -41,7 +42,9 @@ tmp
 dist
 shell
 **/*/collecticons-lib
-
+**/*.swo
+**/*.swp
+.todos.json
 
 ################################################
 # Sat Processing

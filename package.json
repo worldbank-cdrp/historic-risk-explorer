@@ -6,6 +6,7 @@
     "name": "Development Seed",
     "url": "https://developmentseed.org"
   },
+  "license": "MIT",
   "scripts": {
     "postinstall": "[ -f app/assets/scripts/config/local.js ] || echo \"'use strict';\n\nexport default {\n  environment: 'development'\n};\" > app/assets/scripts/config/local.js",
     "serve": "DS_ENV=development gulp collecticons && gulp serve",
@@ -43,10 +44,13 @@
     "browser-sync": "^2.18.8",
     "browserify": "^14.1.0",
     "collecticons-processor": "^3.1.0",
+    "decimal.js": "^7.3.0",
     "del": "^2.2.2",
     "envify": "^4.0.0",
     "eslint": "^3.18.0",
     "eslint-config-standard": "^7.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-react": "^7.3.0",
     "eslint-plugin-standard": "^2.1.1",
@@ -71,6 +75,7 @@
     "node-notifier": "^5.1.2",
     "node-sass": "^4.5.1",
     "require-globify": "^1.4.1",
+    "turf-polygon": "^1.0.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.9.0"
