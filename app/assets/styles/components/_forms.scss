@@ -1,0 +1,493 @@
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+.option {
+  display: block;
+}
+
+.form {
+  > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.modal__form {
+  form {
+    @include column(12/12);
+    padding-top: $global-spacing;
+  }
+  footer {
+    @include column(10/12);
+  }
+}
+
+.form__control {
+  display: block;
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: $base-font-color;
+  background: $action-color;
+  box-shadow: inset 0 0 0 2px rgba($base-color, 0);
+  border: 0;
+  font-family: inherit;
+  font-weight: $base-font-light;
+
+  /* Placeholder */
+  &::placeholder {
+    opacity: 0.64;
+  }
+
+  /* States */
+  &[disabled] {
+    @extend .disabled;
+  }
+
+  &[readonly] {
+    cursor: text;
+    opacity: 0.64;
+  }
+
+  &:focus {
+    outline: 0;
+    box-shadow: inset 0 0 0 2px $secondary-color;
+    color: $primary-color;
+  }
+
+  .form__control:focus {
+
+
+  }
+
+
+  /* Animation */
+  transition: all 0.24s ease 0s;
+  transform: translateZ(0);
+}
+
+/* Select */
+
+.style-select {
+  padding: 0.25rem $global-spacing;
+  position: relative;
+  width: 250px;
+  height: $global-spacing * 2;
+/*  background-color: $tertiary-color;*/
+  color: $primary-color;
+  font-weight: $base-font-light;
+  font-size: 0.875rem;
+  &:hover {
+    box-shadow: inset 0 0 0 2px $secondary-color;
+  };
+}
+
+.style-select select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: absolute;
+  left: 10px;
+  width: 250px;
+}
+
+select.form__control {
+  cursor: pointer;
+  color: $primary-color;
+  font-weight: $base-font-light;
+ /* border: solid 2px $secondary-color;*/
+/*  background-color: $tertiary-color;*/
+  padding: 0 $global-spacing;
+  position: relative;
+  border-radius: 0;
+
+/*  &:hover {
+    background: darken($tertiary-color, 5%);
+
+  }
+
+  &:active {
+    background: darken($tertiary-color, 5%);
+  }*/
+}
+
+option {
+  color: $primary-color;
+}
+
+/* Textarea */
+
+textarea.form__control {
+  height: auto;
+  resize: vertical;
+}
+
+
+/* Form control size modifiers
+   ========================================================================== */
+
+.form__control {
+  &.text-input--disabled {
+    border: 2px solid #ff0000;
+  }
+}
+
+:invalid:focus,  {
+  border: 2px solid #ff0000;
+}
+
+/* Small (24px) */
+
+.form__control--small {
+  padding: 0.125rem 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  height: 1.5rem;
+}
+
+/* Medium (32px)
+   Default
+*/
+
+.form__control--medium {
+  padding: 0.25rem 0.5rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  height: 2rem;
+}
+
+/* Large (40px) */
+
+.form__control--large {
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  height: 2.5rem;
+}
+
+/* XLarge (48px) */
+
+.form__control--xlarge {
+  padding: 0.5rem 0.75rem;
+  font-size: 1.25rem;
+  line-height: 2rem;
+  height: 3rem;
+}
+
+/* Form groups
+   ========================================================================== */
+
+.form__group {
+  margin-bottom: $global-spacing * 2;
+  @extend .clearfix;
+}
+
+/* Input groups
+   ========================================================================== */
+.form__row {
+  .form__group {
+    @include column(6/12);
+  }
+}
+.form__input-group {
+  position: relative;
+  display: table;
+  border-collapse: separate;
+  width: 50%;
+}
+
+.form__input-group-button:first-child > .button,
+.form__input-group-button:first-child > .button-group {
+  position: relative;
+  z-index: 2;
+  margin-right: -2px;
+}
+
+.form__input-group-button:last-child > .button,
+.form__input-group-button:last-child > .button-group {
+  position: relative;
+  z-index: 2;
+  margin-left: -2px;
+}
+
+.form__input-group .form__control:first-child,
+.form__input-group-button:first-child > .button,
+.form__input-group-button:first-child > .button-group > .button,
+.form__input-group-button:first-child > .dropdown-toggle,
+.form__input-group-button:last-child > .button-group:not(:last-child) > .button {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.form__input-group .form__control:last-child,
+.form__input-group-button:first-child > .button-group:not(:first-child) > .button,
+.form__input-group-button:first-child > .button:not(:first-child),
+.form__input-group-button:last-child > .button,
+.form__input-group-button:last-child > .button-group > .button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form__input-group .form__control {
+  position: relative;
+  float: left;
+  width: 100%;
+  margin-bottom: 0;
+  &:focus {
+    z-index: 2;
+  }
+}
+
+.form__input-group-button {
+  position: relative;
+  font-size: 0;
+  width: 1%;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.form__input-group .form__control,
+.form__input-group-button {
+  display: table-cell;
+}
+
+
+/* Form fieldsets
+   ========================================================================== */
+.modal {
+  fieldset {
+    margin-top: $global-spacing * 2;
+  }
+}
+
+.form__fieldset {
+  padding: 0 0 ($global-spacing * 1.5) 0;
+  margin: 0 0 ($global-spacing * 1.5) 0;
+  border: 0;
+  position: relative;
+
+  &:last-child {
+    padding-bottom: 0;
+    box-shadow: none;
+  }
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.form__legend {
+  @extend .heading-alt;
+  display: block;
+  width: 100%;
+  border: 0;
+  margin: 0 0 $global-spacing 0;
+  padding: 0;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+
+/* Form labels
+   ========================================================================== */
+
+label[for] {
+  cursor: pointer;
+}
+
+.form__label {
+  display: block;
+  font-family: $base-font-family;
+  font-weight: $base-font-bold;
+  font-size: 1rem;
+  color: $base-color;
+  line-height: 1.5;
+  margin: 0 0 ($global-spacing / 2) 0;
+}
+
+.form__label-dark {
+  display: block;
+  font-family: $base-font-family;
+  font-weight: $base-font-bold;
+  font-size: 0.875rem;
+  color: $primary-color;
+  line-height: 1.5;
+  margin: 0 0 ($global-spacing / 2) 0;
+}
+
+.form__label__description {
+  font-size: 0.87rem;
+  color: rgba($primary-color, 0.7);
+  font-weight: $base-font-light;
+}
+
+.filters__headline{
+  font-size: 1.25rem;
+}
+
+
+
+/* Form options (radios and checkboxes)
+   ========================================================================== */
+
+.form__option {
+  position: relative;
+  display: inline-block;
+  margin-bottom: $global-spacing;
+  line-height: 1rem;
+  font-weight: $base-font-regular;
+  cursor: pointer;
+  padding-left: $global-spacing * 1.25;
+  input {
+    position: absolute;
+    top: $global-spacing / 4;
+    left: 0;
+  }
+  .form__option__text {
+    color: rgba($base-color, .4);
+    margin-left: -10px;
+  }
+  .form__text__group {
+    float: left;
+    width: 130px;
+    @include media(medium-up-nav) {
+      width: 200px;
+    }  
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
+  font-size: 0.875rem;
+  @include media(xxlarge-up) {
+    font-size: 1rem;
+  }
+}
+
+
+
+.form__option__description {
+  font-size: 0.87rem;
+  color: rgba($primary-color, 0.7);
+  font-weight: $base-font-light;
+}
+
+.form__option:not(.form__option--inline) {
+  display: table; // Hack-ish. Please fix me.
+}
+
+.form__option + .form__option {
+  margin-top: -$global-spacing/2;
+}
+
+/* Form option inline modifier */
+
+.form__option--inline {
+  display: inline-block;
+  margin-right: $global-spacing;
+  &:last-child {
+    margin-right: none;
+  };
+}
+
+.form__option--inline + .form__option--inline {
+  margin-left: $global-spacing;
+}
+
+
+/* Form custom options modifiers (radios and checkboxes)
+   ========================================================================== */
+.form__option--custom-radio,
+.form__option--custom-checkbox {
+  padding-left: $global-spacing * 2;
+
+  input {
+    @extend .visually-hidden;
+  }
+
+  .form__option__ui {
+    position: absolute;
+    top: 0;
+    left: 0;;
+    height: 1rem;
+    width: 1rem;
+    background: $base-color;
+    box-shadow: inset 0 0 0 2px rgba($base-color, 0);
+    transition: all 0.24s ease 0s;
+
+    &:before {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: all 0.16s ease 0s;
+    }
+  }
+
+  &:focus,
+  &:active {
+    .form__option__ui {
+      box-shadow: inset 0 0 0 2px $secondary-color;
+    }
+  }
+
+  input:checked ~ .form__option__ui:before {
+    opacity: 1;
+  }
+
+  input:checked ~ .form__option__ui {
+    box-shadow: inset 0 0 0 2px $secondary-color;
+  }
+}
+
+.form__option--custom-radio {
+  .form__option__ui {
+    &, &:before {
+      border-radius: $full-border-radius;
+      background-color: rgba($action-color, 0.8);
+    }
+
+    &:before {
+      content: "";
+      height: 0.5rem;
+      width: 0.5rem;
+      background: rgba($base-color, 0.80);
+    }
+  }
+}
+
+.form__option--custom-checkbox {
+  .form__option__ui {
+    &, &:before {
+      border-radius: $base-border-radius;
+      box-shadow: inset 0 0 0 -2px $primary-color;
+    }
+    &:before {
+/*      @extend %collecticons-tick;*/
+      font-size: 0.75rem;
+      color: rgba($primary-color, 0.80);
+      box-shadow: inset 0 0 0 -2px $primary-color;
+    }
+  }
+}
+
+/*.button--search-icon:before {
+  @extend %collecticon-magnifier-right;
+}
+
+.button--newsletter-icon:before {
+  @extend %collecticon-envelope;
+}
+*/
+/* Form misc
+   ========================================================================== */
+
+.form__help {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: rgba($base-font-color, 0.64);
+  margin-top: $global-spacing / 2;
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
+}

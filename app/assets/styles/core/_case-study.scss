@@ -1,0 +1,181 @@
+.inpage__header {
+  padding: ($global-spacing * 8) 0;
+  background-color: $secondary-color;
+  box-shadow: 0 4px 3px -1px rgba($base-color, 0.06);
+  @include media(small-down) {
+    padding: ($global-spacing * 4) 0;
+  }
+  p, h1 {
+    position: relative;
+    color: rgba(#FFF, 0);
+    width: 70%;
+    padding-bottom: $global-spacing;
+    animation: 2s ease 1s 1 text-load;
+    animation-fill-mode: forwards;
+    @include media(small-down) {
+      width: 90%;
+    }
+  }
+  hr {
+    animation: 2s ease 1s 1 deco-load;
+    animation-fill-mode: forwards;
+  }
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: 
+    linear-gradient(
+      rgba(0, 0, 0, 0.7),
+      rgba(0, 0, 0, 0.7)
+    ), url('/assets/graphics/content/Haiti-2010.jpg');
+}
+
+@keyframes text-load {
+  0% {
+    color: rgba(#FFF, 0.0);
+    bottom: -10rem;
+  }
+  100%{
+    color: rgba(#FFF, 1);
+    bottom: 0rem;
+  }
+}
+
+@keyframes deco-load {
+  0% {
+    background-color: rgba(#FFF, 0.0);
+    bottom: -10rem;
+  }
+  100%{
+    background-color: rgba(#FFF, 1);
+    bottom: 0rem;
+  }
+}
+
+.inpage__header--alt {
+  padding: ($global-spacing * 4) 0;
+  background-color: $secondary-color;
+  box-shadow: 0 4px 3px -1px rgba($base-color, 0.06);
+  p, h1 {
+    width: 70%;
+    @include media(small-down) {
+      width: 90%;
+    }
+  }
+}
+
+
+.inpage__body {
+  padding: ($global-spacing * 4) 0 ($global-spacing * 4) 0;
+  section  {
+    padding: ($global-spacing * 2) 0;
+  }
+  .explore {
+    padding-bottom: 0;
+    padding-top: $global-spacing * 4;
+  }
+  .images {
+    padding-top: $global-spacing * 6;
+  }
+}
+
+.metrics {
+  @include column(8/12);
+  @include media(small-down) {
+    @include column(12/12);
+  }
+}
+
+.metrics__item {
+  display: inline-block;
+  @include column(5/12);
+  @include media(small-down) {
+    @include column(12/12);
+  }
+  h1 {
+    font-family: $base-font-family;
+    font-size: 1rem;
+    line-height: 1.25rem;
+    font-weight: $base-font-light;
+    margin-bottom: 0;
+  }
+  p {
+    font-weight: $base-font-bold;
+    color: $primary-color;
+  }
+}
+
+.download-profile {
+  @include column (3/12);
+  float: right;
+  @include media(small-down) {
+    @include column(12/12);
+  }
+}
+
+.national-metrics {
+  list-style: none;
+}
+
+.national-metrics__item { 
+  box-shadow: $base-shadow;
+  @include column(4/12);
+  padding: $global-spacing * 2;
+  li {
+    list-style: none;
+    float: left;
+    margin-top: $global-spacing;
+    &:last-child {
+      margin-left: $global-spacing;
+      padding-left: $global-spacing;
+      border-left: solid 1px darken($secondary-color, 5%);
+    }
+    h3 {
+      position: relative;
+      margin-bottom: 0;
+      color: $primary-color;
+    }
+    small {
+      color: rgba($base-color, .4);
+      display: block;
+      margin-top: -5px;
+      font-family: $base-font-family;
+    }
+  }
+  @include media(small-down) {
+    @include column(6.5/12);
+    margin-top: $global-spacing;
+  }
+  @include media(xsmall-only) {
+    @include column(11/12);
+    margin-top: $global-spacing;
+  }
+}
+
+.explore {
+  margin-top: ($global-spacing * 4);
+  box-shadow: $base-shadow;
+  p {
+    width: 80%;
+  }
+}
+
+.map-actions {
+  list-style: none;
+  li {
+    display: inline-block;
+    margin-right: $global-spacing;
+    @include media(xsmall-only) {
+      @include column(12/12);
+      margin-top: $global-spacing;
+    }
+  }
+}
+
+section.inpage__footer {
+  padding: ($global-spacing * 6) 0;
+  background-color: $primary-color;
+  h1, h2, a {
+    color: #FFF;
+  }
+}
+

@@ -32,8 +32,7 @@ jobs:
           sudo apt-add-repository "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe"
           sudo apt-get update
           sudo apt-get install -t trusty-backports shellcheck
-
       # lint
       - run: yarn lint
-      - run: flake8 lib/*.py
-      - run: shellcheck lib/*.sh
+      #- run: flake8 lib/*.py
+      #- run: shellcheck -e SC2044 lib/*.sh

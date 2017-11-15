@@ -1,6 +1,0 @@
--e git://github.com/sat-utils/sat-download.git@master#egg=sat-download
-numpy<=1.9
-six==1.10.0
-stestdata==0.0.1
-PyYAML==3.12
-flake8==3.3
