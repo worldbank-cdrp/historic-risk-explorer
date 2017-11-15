@@ -19,33 +19,55 @@ mkdir -p ./data/worldbank/tiles
 mkdir -p ./data/worldbank/tmp
 
 echo "Create grids (the smallest grid may take a while)"
-for size in 1 5 25
+for size in 20 5 1
 do
 	echo "Create ${size}km grid"
+	psql -d "historic-risk-explorer" -c "
+		CREATE TABLE grid${size}km (
+			ogc_fid SERIAL PRIMARY KEY,
+			wkb_geometry GEOMETRY(Polygon, 4326)
+		);
+		CREATE INDEX grid${size}km_wkb_geometry_geom_idx ON grid${size}km USING GIST(wkb_geometry);
+	"
+	# Have to create the grid in several pieces, and then append together
+	# in PostGIS; otherwise the smallest-cell grid GeoJSON is too large
+	# for `ogr2ogr` to open
 	./lib/worldbank/create-grid.js $size
-	ogr2ogr \
-		--config PG_USE_COPY YES \
-		-overwrite \
-		-nln "grid${size}km" \
-		-f "PostgreSQL" \
-		PG:'dbname=historic-risk-explorer' \
-		"./data/other/grid${size}km.geojson"
+
+	find "./data/other" -name "grid${size}km-*.geojson" |
+	while read -r f; do
+		echo "Ingesting $(basename "$f") into PostGIS"
+		ogr2ogr \
+			--config PG_USE_COPY YES \
+			-append \
+			-nln "grid${size}km" \
+			-f "PostgreSQL" \
+			PG:'dbname=historic-risk-explorer' \
+			"$f"
+	done
 done
 
-# echo "Get admin boundaries"
-# # `rm` with `--force` option will be silent if no files are found
-# rm -f ./data/other/ne_10m_admin_1_states_provinces.*
-# curl \
-# 	--output ./data/other/ne_10m_admin_1_states_provinces.zip \
-# 	http://naciscdn.org/naturalearth/10m/cultural/ne_10m_admin_1_states_provinces.zip
-# unzip -o -d ./data/other ./data/other/ne_10m_admin_1_states_provinces.zip
-# # Could've just loaded the SHP directly into PostGIS,
-# # but we'll need the GeoJSON later, for creating MBTiles
-# ogr2ogr \
-# 	-f GeoJSON \
-# 	./data/other/ne_10m_admin_1_states_provinces.geojson \
-# 	./data/other/ne_10m_admin_1_states_provinces.shp
-# # COPY is much faster than INSERT, so speed up using that clause
+echo "Get admin boundaries"
+# `rm` with `--force` option will be silent if no files are found
+rm -f ./data/other/ne_10m_admin_1_states_provinces.*
+curl \
+	--output ./data/other/ne_10m_admin_1_states_provinces.zip \
+	http://naciscdn.org/naturalearth/10m/cultural/ne_10m_admin_1_states_provinces.zip
+unzip -o -d ./data/other ./data/other/ne_10m_admin_1_states_provinces.zip
+# Could've just loaded the SHP directly into PostGIS,
+# but we'll need the GeoJSON later, for creating MBTiles
+# Also, filter down to only relevant countries, since otherwise
+# the resultant shapefile and MBTiles are too heavy
+ogr2ogr \
+	-f GeoJSON \
+	-sql "
+		SELECT *
+		FROM ne_10m_admin_1_states_provinces
+		WHERE iso_a2 IN ('AM', 'CL', 'DO', 'FJ', 'HT', 'ID', 'MZ', 'PK', 'SV')
+	" \
+	./data/other/ne_10m_admin_1_states_provinces.geojson \
+	./data/other/ne_10m_admin_1_states_provinces.shp
+# COPY is much faster than INSERT, so speed up using that clause
 ogr2ogr \
 	--config PG_USE_COPY YES \
 	-overwrite \
@@ -67,6 +89,7 @@ while read -r f; do
 	country="${bn:0:3}"
 
 	# Also, ignore the non-point versions of the point files
+	# This leaves each disaster being processed exactly once
 	case "$country" in
 		"ARM") country_iso="AM" ;;
 		"CHL") country_iso="CL" ;;
@@ -74,15 +97,17 @@ while read -r f; do
 		"FJI") country_iso="FJ"; if [[ "$f" != *"Point Format"* ]]; then continue; fi; ;;
 		"HTI") country_iso="HT"; if [[ "$f" != *"Point Format"* ]]; then continue; fi; ;;
 		"IDN") country_iso="ID" ;;
-		"MOZ") country_iso="MZ" ;;
+		# "MOZ") country_iso="MZ" ;;
+		"MOZ") continue ;;
 		"PAK") country_iso="PK" ;;
 		"SLV") country_iso="SV"; if [[ "$f" != *"Point Format"* ]]; then continue; fi; ;;
-	esac	
+	esac
 
 	echo "Processing ${disaster_code}"
 	rm -f ./data/worldbank/tmp/exposure_loss.geojson
 	ogr2ogr \
 		-f GeoJSON \
+		-wrapdateline -t_srs EPSG:4326 \
 		./data/worldbank/tmp/exposure_loss.geojson \
 		"$f"
 	ogr2ogr \
@@ -124,7 +149,7 @@ while read -r f; do
 	psql --quiet -d "historic-risk-explorer" -c "DROP TABLE exposure_loss_aggregate"
 
 	echo "Create vector grids from the point-based exposure-loss files"
-	for size in 1 5 25
+	for size in 20 5 1
 	do
 		echo "Intersect the exposure-loss data with the ${size}km grid"
 		psql -d "historic-risk-explorer" -c "
@@ -134,7 +159,7 @@ while read -r f; do
 					SUM(B.EXP) AS EXP,
 					SUM(B.ALOSS) AS ALOSS,
 					SUM(B.ALOSS)/NULLIF(SUM(B.EXP), 0) AS LR
-				FROM grid AS A
+				FROM ""grid${size}km"" AS A
 				JOIN exposure_loss AS B
 				ON ST_Contains(A.wkb_geometry, B.wkb_geometry)
 				GROUP BY A.wkb_geometry;
@@ -147,7 +172,6 @@ while read -r f; do
 			-sql 'SELECT * FROM exposure_loss_aggregate'
 
 		echo "Clean up temporary files and tables"
-		rm ./data/other/grid.geojson
 		psql --quiet -d "historic-risk-explorer" -c "DROP TABLE exposure_loss_aggregate"
 	done
 	rm ./data/worldbank/tmp/exposure_loss.geojson
