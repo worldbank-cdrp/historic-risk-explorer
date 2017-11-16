@@ -22,7 +22,7 @@ const visibleLayer = function (state = {}, action) {
 };
 
 const defaultOverlayMetric = {
-  metric: 'exposure-loss'
+  metric: 'exposure'
 };
 
 const overlayMetric = function (state = defaultOverlayMetric, action) {

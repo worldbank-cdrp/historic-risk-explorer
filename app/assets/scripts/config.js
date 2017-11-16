@@ -27,9 +27,9 @@ export default {
    *
    * mapLayers: {
    *  // layer group - generalized group of layers that exist for multiple DISASTERS
-   *  'exposure-loss': {
+   *  'exposure': {
    *     // id - base id used to generate id and source-layer in map
-   *     id: 'exposure-loss',
+   *     id: 'exposure',
    *     // layers - object with spec for given layer group
    *     layers: {
    *       // main - base tileset id for layers in layer group
@@ -44,7 +44,7 @@ export default {
    */
   mapLayers: {
     // TODO: simplify overlay layers into their own obj
-    'exposure-loss': {
+    'exposure': {
       id: 'exposure-loss',
       layers: {
         main: 'c_dcode_y_',
@@ -57,13 +57,14 @@ export default {
         zooms: {
           'grid1km': {
             minZoom: 9,
-            maxZoom: 0
+            maxZoom: 13
           },
           'grid5km': {
             minZoom: 6,
             maxZoom: 9
           },
           'grid20km': {
+            minZoom: 4,
             maxZoom: 6
           }
         },
@@ -71,8 +72,8 @@ export default {
         type: 'vector'
       }
     },
-    'annualized-loss': {
-      id: 'annualized-loss',
+    'loss': {
+      id: 'loss',
       layers: {
         main: 'c_dcode_y_',
         ids: {
@@ -84,13 +85,14 @@ export default {
         zooms: {
           'grid1km': {
             minZoom: 9,
-            maxZoom: 0
+            maxZoom: 13
           },
           'grid5km': {
             minZoom: 6,
             maxZoom: 9
           },
           'grid20km': {
+            minZoom: 4,
             maxZoom: 6
           }
         },
@@ -111,13 +113,14 @@ export default {
         zooms: {
           'grid1km': {
             minZoom: 9,
-            maxZoom: 0
+            maxZoom: 13
           },
           'grid5km': {
             minZoom: 6,
             maxZoom: 9
           },
           'grid20km': {
+            minZoom: 4,
             maxZoom: 6
           }
         },
@@ -171,7 +174,7 @@ export default {
    *
    * control: {
    *   layer group - generalized group of layers that exist for multiple DISASTERS
-   *   'exposure-loss' : {
+   *   'exposure' : {
    *     // textIds - text to match button triggering matching layer id's rendering
    *     textIds: {
    *      '1km': 'Sub National',
@@ -184,8 +187,8 @@ export default {
    *
    */
   control: {
-    'exposure-loss': {
-      admin: 'Sub-National',
+    'exposure': {
+      admin: 'Administrative',
       grid: 'Gridded'
     }
   },
@@ -196,7 +199,7 @@ export default {
    *
    * legend: {
    *   layer group - generalized group of layers that exist for multiple DISASTERS
-   *   'exposure-loss': {
+   *   'exposure': {
    *     // title - legend title for layer group
    *     title: 'Building Stock Exposure',
    *     // idUnits units for specif id in layer group
@@ -210,19 +213,19 @@ export default {
    * }
    */
   legend: {
-    'exposure-loss': {
+    'exposure': {
       title: 'Building Stock Exposure',
-      idUnits: 'US Dollars ($)',
+      idUnits: 'USD',
       layerProp: 'exp'
     },
-    'annualized-loss': {
-      title: 'Annualized Loss',
-      idUnits: 'US Dollars ($)',
+    'loss': {
+      title: 'Loss',
+      idUnits: 'USD',
       layerProp: 'aloss'
     },
     'loss-ratio': {
       title: 'Loss Ratio',
-      idUnits: 'USD ($) Loss / USD ($) Exposure',
+      idUnits: '%',
       layerProp: 'lr'
     }
   }

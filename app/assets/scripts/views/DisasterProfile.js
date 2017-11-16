@@ -2,7 +2,7 @@
 'use strict';
 import React, { Component } from 'react';
 import config from '../config';
-import { map, pickBy } from 'lodash';
+import { map } from 'lodash';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -69,14 +69,14 @@ class DisasterProfile extends Component {
   }
 
   makeMetricButtons () {
-    return ['Exposure', 'Annualized Loss', 'Loss Ratio'].map((m, i) => {
+    return ['Loss', 'Exposure', 'Loss Ratio'].map((m, i) => {
       return (
         <li key={m}><button className='button button--large button--base-bounded'
           value={m.replace(' ', '-').toLowerCase()}
           onClick={(e) => {
             e.preventDefault();
             this.props._setOverlayMetric(e.target.value);
-            this.props._setCurrentLegendMetricVal(0);
+            this.props._setCurrentLegendMetricVal(null);
           }}>{m}</button></li>
       );
     });
@@ -126,9 +126,8 @@ class DisasterProfile extends Component {
       <div>
         <section className='inpage__header' style={makeImage(this.props.disaster)}>
           <div className='inner'>
-            <p className='subheading'>{this.props.disaster.m} {this.props.disaster.y}</p>
-            <h1 className='heading--xxlarge'>{this.props.disaster.n} {this.props.disaster.y} {this.props.disaster.t}</h1>
-            <hr align='left'></hr>
+            <h1 className='heading--xxlarge'>{this.props.disaster.n} {this.props.disaster.t}, {this.props.disaster.y}</h1>
+            <hr></hr>
             <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum tempor ornare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempu</p>
           </div>
         </section>

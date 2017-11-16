@@ -5,7 +5,7 @@ import config from '../config';
 
 class AnalysisMapLegend extends Component {
   static propTypes = {
-    currentMapVal: PropTypes.number.isRequired,
+    currentMapVal: PropTypes.number,
     visibleLayer: PropTypes.object.isRequired,
     overlayMetric: PropTypes.object.isRequired
   }
@@ -14,15 +14,16 @@ class AnalysisMapLegend extends Component {
     return true;
   }
   render () {
+    if (this.props.currentMapVal === null) { return null; }
+
     let overlayMetric = this.props.overlayMetric.metric;
     let overlayMetricTitle = config.legend[overlayMetric].title;
     let overlayMetricIdUnits = config.legend[overlayMetric].idUnits;
-    const overlayMetricText = this.props.currentMapVal === 0 ? overlayMetricIdUnits : `${this.props.currentMapVal} ${overlayMetricIdUnits}`;
+    const overlayMetricText = `${this.props.currentMapVal} ${overlayMetricIdUnits}`;
     // TODO: add additional logic to pick subnational from ids per zoom
     return (
         <div className='map-legend'>
           <p className='map-layer__title'>{overlayMetricTitle}</p>
-          {/* place for color ramp */}
           {overlayMetricText}
         </div>
     );

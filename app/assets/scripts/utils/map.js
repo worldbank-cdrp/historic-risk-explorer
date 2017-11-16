@@ -9,21 +9,21 @@ import config from '../config';
  */
 export function makeExposureLayer (disaster, layerIdBase) {
   // make source and source layer needed to generate id, source.url, and source-layer
-  const sourceBase = `${config.mapLayers['exposure-loss'].layers.main}${layerIdBase}`;
+  const sourceBase = `${config.mapLayers['exposure'].layers.main}${layerIdBase}`;
   let source = makeDisasterSource(sourceBase, disaster);
-  let sourceLayer = `${config.mapLayers['exposure-loss'].id}`;
+  let sourceLayer = `${config.mapLayers['exposure'].id}`;
   // use source, sourceLayer, geomType, and type to make base styleSpec
   let styleSpec = {
     id: `${sourceLayer}-${layerIdBase}`,
-    type: config.mapLayers['exposure-loss'].layers.geomType,
+    type: config.mapLayers['exposure'].layers.geomType,
     source: {
-      type: config.mapLayers['exposure-loss'].layers.type,
+      type: config.mapLayers['exposure'].layers.type,
       url: `mapbox://${config.mapboxAccountName}.${source}`
     },
     'source-layer': sourceLayer
   };
   // add layer specific zoom
-  let zoom = config.mapLayers['exposure-loss'].layers.zooms[layerIdBase];
+  let zoom = config.mapLayers['exposure'].layers.zooms[layerIdBase];
   if (zoom) {
     if (zoom.maxZoom) {
       styleSpec.maxzoom = zoom.maxZoom;

@@ -42,14 +42,14 @@ class AnalysisMap extends Component {
       this.layers.push(id);
       // add & hide overlay layers
       if (this._map.getLayer(id)) {
-        Object.keys(config.mapLayers['exposure-loss'].layers.ids).forEach((key) => {
+        Object.keys(config.mapLayers['exposure'].layers.ids).forEach((key) => {
           // add layer
-          let layerIdBase = config.mapLayers['exposure-loss'].layers.ids[key];
+          let layerIdBase = config.mapLayers['exposure'].layers.ids[key];
           let exposureLayer = makeExposureLayer(props.disaster, layerIdBase);
           this._map.addLayer(exposureLayer);
           this.layers.push(exposureLayer.id);
           // hide layer
-          let layerId = `${config.mapLayers['exposure-loss'].id}-${layerIdBase}`;
+          let layerId = `${config.mapLayers['exposure'].id}-${layerIdBase}`;
           if (this._map.getLayer(layerId)) {
             this._map.setLayoutProperty(layerId, 'visibility', 'none');
           }
@@ -71,21 +71,21 @@ class AnalysisMap extends Component {
 
   _updateVisibleLayers (current, next) {
     let nextLayer = new RegExp(next.visibleLayer.layer);
-    const idKeys = Object.keys(config.mapLayers['exposure-loss'].layers.ids);
+    const idKeys = Object.keys(config.mapLayers['exposure'].layers.ids);
     const sameLayer = next.visibleLayer.layer === current.visibleLayer.layer;
     // if next and current layers are not the same, make all layers invisible.
     if (!sameLayer) {
       idKeys.forEach(l => {
-        let lId = `${config.mapLayers['exposure-loss'].id}-${config.mapLayers['exposure-loss'].layers.ids[l]}`;
+        let lId = `${config.mapLayers['exposure'].id}-${config.mapLayers['exposure'].layers.ids[l]}`;
         l = this._map.getStyle().layers.find(lyr => lyr.id === lId);
         if (l) { this._map.setLayoutProperty(l.id, 'visibility', 'none'); }
       });
     }
     // make visible/invisible next layers
     idKeys.forEach(l => {
-      let lConfig = config.mapLayers['exposure-loss'].layers.ids[l];
+      let lConfig = config.mapLayers['exposure'].layers.ids[l];
       if (nextLayer.test(lConfig)) {
-        let lId = `${config.mapLayers['exposure-loss'].id}-${config.mapLayers['exposure-loss'].layers.ids[l]}`;
+        let lId = `${config.mapLayers['exposure'].id}-${config.mapLayers['exposure'].layers.ids[l]}`;
         l = this._map.getStyle().layers.find(lyr => lyr.id === lId);
         l.layout.visibility === 'visible' ? this._map.setLayoutProperty(l.id, 'visibility', 'none') : this._map.setLayoutProperty(l.id, 'visibility', 'visible');
       }
@@ -101,7 +101,9 @@ class AnalysisMap extends Component {
     mapboxgl.accessToken = config.mapboxApiKey;
     this._map = new mapboxgl.Map({
       container: 'analysisMap',
-      style: config['disaster-data']
+      style: config['disaster-data'],
+      minZoom: 4,
+      maxZoom: 13
     });
     this._map.scrollZoom.disable();
     // remove scroll zoom
@@ -121,6 +123,8 @@ class AnalysisMap extends Component {
         const metricPropKey = config.legend[this.props.overlayMetric].layerProp;
         const metricVal = queriedFeatures.properties[metricPropKey];
         this.props._setCurrentLegendMetricVal(metricVal);
+      } else {
+        this.props._setCurrentLegendMetricVal(null);
       }
     });
   }

@@ -16,12 +16,12 @@ class AnalysisLayerControl extends Component {
   }
 
   renderExposureLayerSelect () {
-    return Object.keys(config.control['exposure-loss']).map((k, i) => {
+    return Object.keys(config.control['exposure']).map((k, i) => {
       return (
         <li key={k}>
           <label className='form__option form__option--custom-radio'>
             <input type='radio' value={k} onClick={(e) => { e.preventDefault(); this.props._setVisibleLayer(e.target.value); }}/>
-            <span className='form__option__text'>{config.control['exposure-loss'][k]}</span>
+            <span className='form__option__text'>{config.control['exposure'][k]}</span>
             <span className='form__option__ui'></span>
           </label>
         </li>
