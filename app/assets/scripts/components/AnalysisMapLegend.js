@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import config from '../config';
+import numeral from 'numeral';
 
 class AnalysisMapLegend extends Component {
   static propTypes = {
@@ -19,7 +20,7 @@ class AnalysisMapLegend extends Component {
     let overlayMetric = this.props.overlayMetric.metric;
     let overlayMetricTitle = config.legend[overlayMetric].title;
     let overlayMetricIdUnits = config.legend[overlayMetric].idUnits;
-    const overlayMetricText = `${this.props.currentMapVal} ${overlayMetricIdUnits}`;
+    const overlayMetricText = `${numeral(this.props.currentMapVal).format('0.0a')} ${overlayMetricIdUnits}`;
     // TODO: add additional logic to pick subnational from ids per zoom
     return (
         <div className='map-legend'>
