@@ -10,7 +10,8 @@ import {
   setOverlayMetric,
   setDisaster,
   setPaginationDirection,
-  setCurrentLegendMetricVal
+  setCurrentLegendMetricVal,
+  setCurrentLegendName
 } from '../actions/action-creators';
 
 import {
@@ -44,7 +45,8 @@ class DisasterProfile extends Component {
     _clearDisaster: PropTypes.func.isRequired,
     _setDisaster: PropTypes.func.isRequired,
     _setOverlayMetric: PropTypes.func.isRequired,
-    _setCurrentLegendMetricVal: PropTypes.func.isRequired
+    _setCurrentLegendMetricVal: PropTypes.func.isRequired,
+    _setCurrentLegendName: PropTypes.func.isRequired
   }
 
   componentWillMount () {
@@ -77,6 +79,7 @@ class DisasterProfile extends Component {
             e.preventDefault();
             this.props._setOverlayMetric(e.target.value);
             this.props._setCurrentLegendMetricVal(null);
+            this.props._setCurrentLegendName(null);
           }}>{m}</button></li>
       );
     });
@@ -217,7 +220,8 @@ const dispatcher = (dispatch) => {
     _setOverlayMetric: (metric) => dispatch(setOverlayMetric(metric)),
     _setDisaster: (disaster) => dispatch(setDisaster(disaster)),
     _setPaginationDirection: (direction) => dispatch(setPaginationDirection(direction)),
-    _setCurrentLegendMetricVal: (val) => dispatch(setCurrentLegendMetricVal(val))
+    _setCurrentLegendMetricVal: (val) => dispatch(setCurrentLegendMetricVal(val)),
+    _setCurrentLegendName: (name) => dispatch(setCurrentLegendName(name))
   };
 };
 

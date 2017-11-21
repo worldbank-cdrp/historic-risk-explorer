@@ -18,6 +18,9 @@ export default {
   // map styles
   'disaster-cover': 'mapbox://styles/wbg-cdrp/cj7c8ii6d002w2rlgcwwsvbie',
   'disaster-data': 'mapbox://styles/wbg-cdrp/cj7c8ii6d002w2rlgcwwsvbie',
+  // map coloring
+  minColor: '#EECBE7',
+  maxColor: '#A50081',
   // glob padding
   boundsPadding: 15,
   // ------------------ //
@@ -57,63 +60,7 @@ export default {
         zooms: {
           'grid1km': {
             minZoom: 9,
-            maxZoom: 13
-          },
-          'grid5km': {
-            minZoom: 6,
-            maxZoom: 9
-          },
-          'grid20km': {
-            minZoom: 4,
-            maxZoom: 6
-          }
-        },
-        geomType: 'fill',
-        type: 'vector'
-      }
-    },
-    'loss': {
-      id: 'loss',
-      layers: {
-        main: 'c_dcode_y_',
-        ids: {
-          'admin': 'admin',
-          '1km': 'grid1km',
-          '5km': 'grid5km',
-          '20km': 'grid20km'
-        },
-        zooms: {
-          'grid1km': {
-            minZoom: 9,
-            maxZoom: 13
-          },
-          'grid5km': {
-            minZoom: 6,
-            maxZoom: 9
-          },
-          'grid20km': {
-            minZoom: 4,
-            maxZoom: 6
-          }
-        },
-        geomType: 'fill',
-        type: 'vector'
-      }
-    },
-    'loss-ratio': {
-      id: 'loss-ratio',
-      layers: {
-        main: 'c_dcode_y_',
-        ids: {
-          'admin': 'admin',
-          '1km': 'grid1km',
-          '5km': 'grid5km',
-          '20km': 'grid20km'
-        },
-        zooms: {
-          'grid1km': {
-            minZoom: 9,
-            maxZoom: 13
+            maxZoom: 13.01
           },
           'grid5km': {
             minZoom: 6,

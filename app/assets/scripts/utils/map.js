@@ -20,7 +20,20 @@ export function makeExposureLayer (disaster, layerIdBase) {
       type: config.mapLayers['exposure'].layers.type,
       url: `mapbox://${config.mapboxAccountName}.${source}`
     },
-    'source-layer': sourceLayer
+    'source-layer': sourceLayer,
+    paint: {
+      'fill-color': {
+        // This style assumes that `exp` is the default color-by variable
+        property: 'exp',
+        type: 'exponential',
+        'colorSpace': 'lab',
+        stops: [
+          [0, config.minColor],
+          [disaster.maxValues.exp[layerIdBase], config.maxColor]
+        ]
+      },
+      'fill-opacity': 0.5
+    }
   };
   // add layer specific zoom
   let zoom = config.mapLayers['exposure'].layers.zooms[layerIdBase];

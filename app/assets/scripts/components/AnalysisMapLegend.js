@@ -7,25 +7,37 @@ import numeral from 'numeral';
 class AnalysisMapLegend extends Component {
   static propTypes = {
     currentMapVal: PropTypes.number,
+    currentName: PropTypes.string,
     visibleLayer: PropTypes.object.isRequired,
-    overlayMetric: PropTypes.object.isRequired
+    overlayMetric: PropTypes.object.isRequired,
+    maxValue: PropTypes.number
   }
   shouldComponentUpdate (nextProps) {
     if (nextProps.visibleLayer.layer === this.props.visibleLayer) { return false; }
     return true;
   }
   render () {
-    if (this.props.currentMapVal === null) { return null; }
-
     let overlayMetric = this.props.overlayMetric.metric;
     let overlayMetricTitle = config.legend[overlayMetric].title;
     let overlayMetricIdUnits = config.legend[overlayMetric].idUnits;
     const overlayMetricText = `${numeral(this.props.currentMapVal).format('0.0a')} ${overlayMetricIdUnits}`;
-    // TODO: add additional logic to pick subnational from ids per zoom
     return (
         <div className='map-legend'>
           <p className='map-layer__title'>{overlayMetricTitle}</p>
-          {overlayMetricText}
+          {this.props.maxValue
+            ? <div>
+              <div style={{height: '15px', width: '100px', opacity: 0.5, backgroundImage: `linear-gradient(to right, ${config.minColor}, ${config.maxColor})`}}></div>
+              <p>0 to {`${numeral(this.props.maxValue).format('0.0a')} ${overlayMetricIdUnits}`}</p>
+            </div>
+            : ''
+          }
+          {this.props.currentMapVal !== null
+            ? <div>
+              <p>{this.props.currentName}</p>
+              <p>{overlayMetricText}</p>
+            </div>
+            : ''
+          }
         </div>
     );
   }
@@ -35,7 +47,9 @@ const selector = (state) => {
   return {
     visibleLayer: state.visibleLayer,
     overlayMetric: state.overlayMetric,
-    currentMapVal: state.map.val
+    currentMapVal: state.map.val,
+    currentName: state.map.name,
+    maxValue: state.map.maxValue
   };
 };
 

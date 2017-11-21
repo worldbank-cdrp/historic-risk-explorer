@@ -53,7 +53,24 @@ export const DISASTERS = [
       Historic: '2.98',
       Modelled: '3.84'
     },
-    image: 'chile-earthquake-2010.jpg'
+    image: 'chile-earthquake-2010.jpg',
+    maxValues: {
+      exp:
+      { admin: 86960417859.1402,
+        grid1km: 964881085.45,
+        grid20km: 40015044502.3,
+        grid5km: 5661434989 },
+      aloss:
+      { admin: 3370824851.94523,
+        grid1km: 162309243.02798,
+        grid20km: 1136731450.4604,
+        grid5km: 370736831.982591 },
+      lr:
+      { admin: 0.109539265818004,
+        grid1km: 0.668105445642129,
+        grid20km: 0.597670175844118,
+        grid5km: 0.648989912014646 }
+    }
   },
   {
     y: 1930,
@@ -84,7 +101,24 @@ export const DISASTERS = [
       Historic: '15.98',
       Modelled: '9.79'
     },
-    staticXYZ: [-70.146875, 18.702846, 7]
+    staticXYZ: [-70.146875, 18.702846, 7],
+    maxValues: {
+      exp:
+      { admin: 46313680973.67,
+        grid1km: 1820506075,
+        grid20km: 41456625318.1,
+        grid5km: 13636281761.61 },
+      aloss:
+      { admin: 7784435335.71893,
+        grid1km: 309028273.4,
+        grid20km: 7077252168.6039,
+        grid5km: 2314739107.279 },
+      lr:
+      { admin: 0.173089774787602,
+        grid1km: 0.222531131869642,
+        grid20km: 0.184671226810559,
+        grid5km: 0.22253113033212 }
+    }
   },
   {
     y: 2001,
@@ -115,7 +149,24 @@ export const DISASTERS = [
       Historic: '1.72',
       Modelled: '1.69'
     },
-    image: 'elsalvador-earthquake-2001.jpg'
+    image: 'elsalvador-earthquake-2001.jpg',
+    maxValues: {
+      exp:
+      { admin: 13766630762.65,
+        grid1km: 315694918.7,
+        grid20km: 9718132616.87,
+        grid5km: 3132643573.48 },
+      aloss:
+      { admin: 206932278.628317,
+        grid1km: 12416454.42,
+        grid20km: 100060573.279086,
+        grid5km: 34009592.130761 },
+      lr:
+      { admin: 0.117221064835307,
+        grid1km: 0.498408234523868,
+        grid20km: 0.178380376467591,
+        grid5km: 0.407363206593802 }
+    }
   },
   {
     y: 2016,
@@ -149,7 +200,24 @@ export const DISASTERS = [
       Historic: '8.70',
       Modelled: '8.20'
     },
-    image: 'fiji-cyclone-2016.jpg'
+    image: 'fiji-cyclone-2016.jpg',
+    maxValues: {
+      exp:
+      { admin: 2573763814.2332,
+        grid1km: 75698880.369,
+        grid20km: 1649674565.0231,
+        grid5km: 634380793.257 },
+      aloss:
+      { admin: 191592171.45366,
+        grid1km: 8520607.285,
+        grid20km: 56714052.213,
+        grid5km: 19247847.172 },
+      lr:
+      { admin: 0.246678590836786,
+        grid1km: 0.902641348133092,
+        grid20km: 0.902641348133092,
+        grid5km: 0.902641348133092 }
+    }
   },
   {
     y: 1815,
@@ -184,7 +252,24 @@ export const DISASTERS = [
       Historic: null,
       Modelled: '1.06'
     },
-    staticXYZ: [117.98527197489355, -8.272296169056332, 7]
+    staticXYZ: [117.98527197489355, -8.272296169056332, 7],
+    maxValues: {
+      exp:
+      { admin: 193343377860.545,
+        grid1km: 478344671.2,
+        grid20km: 20321889699.79,
+        grid5km: 2743997105.82 },
+      aloss:
+      { admin: 5837476257.46952,
+        grid1km: 73404219.72,
+        grid20km: 798777806.707417,
+        grid5km: 252093205.4201 },
+      lr:
+      { admin: 0.428407939418624,
+        grid1km: 1.02536694042473,
+        grid20km: 1.02535377439102,
+        grid5km: 1.02535485953714 }
+    }
   },
   {
     y: 1988,
@@ -216,7 +301,24 @@ export const DISASTERS = [
       Historic: '7.06',
       Modelled: '4.28'
     },
-    image: 'armenia-earthquake-1988.jpg'
+    image: 'armenia-earthquake-1988.jpg',
+    maxValues: {
+      exp:
+      { admin: 3064163511.4639,
+        grid1km: 51641713.691,
+        grid20km: 1969066192.96635,
+        grid5km: 496925240.82479 },
+      aloss:
+      { admin: 246630777.832264,
+        grid1km: 12351549.9648016,
+        grid20km: 145676631.637437,
+        grid5km: 64028114.2160292 },
+      lr:
+      { admin: 0.328061318264958,
+        grid1km: 0.997556641827419,
+        grid20km: 0.961671002629395,
+        grid5km: 0.997556641827419 }
+    }
   },
   {
     y: 2015,
@@ -247,7 +349,8 @@ export const DISASTERS = [
       Historic: '0.57',
       Modelled: '0.63'
     },
-    staticXYZ: [34.37072753905, -16.70792094935, 7]
+    staticXYZ: [34.37072753905, -16.70792094935, 7],
+    maxValues: null
   },
   {
     y: 2005,
@@ -279,7 +382,24 @@ export const DISASTERS = [
       Historic: '1.23',
       Modelled: '1.12'
     },
-    image: 'pakistan-earthquake-2005.png'
+    image: 'pakistan-earthquake-2005.png',
+    maxValues: {
+      exp:
+      { admin: 100942919042.801,
+        grid1km: 153691650,
+        grid20km: 14636588772.1024,
+        grid5km: 2017983415.09 },
+      aloss:
+      { admin: 1126481958.53168,
+        grid1km: 25590906,
+        grid20km: 245630433.481585,
+        grid5km: 95178547.77014 },
+      lr:
+      { admin: 0.221059254938626,
+        grid1km: 0.999436996523037,
+        grid20km: 0.997086047917852,
+        grid5km: 0.999076347170775 }
+    }
   },
   {
     y: 2010,
@@ -312,7 +432,24 @@ export const DISASTERS = [
       Historic: '14.51',
       Modelled: '15.04'
     },
-    image: 'Haiti-2010.jpg'
+    image: 'Haiti-2010.jpg',
+    maxValues: {
+      exp:
+      { admin: 16754791640.16,
+        grid1km: 552727859.47,
+        grid20km: 6999803240.09,
+        grid5km: 2581613350.56 },
+      aloss:
+      { admin: 4369380440.52409,
+        grid1km: 157258331.608,
+        grid20km: 2095545171.32992,
+        grid5km: 903152245.16319 },
+      lr:
+      { admin: 0.260783931806768,
+        grid1km: 0.41364755161866,
+        grid20km: 0.382552751236611,
+        grid5km: 0.413647508403853 }
+    }
   },
   {
     y: 2010,
@@ -348,6 +485,23 @@ export const DISASTERS = [
     sliderBbox: [[69.700513, 34.140129], [30.76625, 72.482998]],
     sliderCenter: [71.11724975524088, 32.460008863242194],
     sliderZoom: [8],
-    image: 'pakistan-flood-2010.jpg'
+    image: 'pakistan-flood-2010.jpg',
+    maxValues: {
+      exp:
+      { admin: 100942919042.801,
+        grid1km: 153691650,
+        grid20km: 14636588772.1024,
+        grid5km: 2017983415.09 },
+      aloss:
+      { admin: 1871554097.50986,
+        grid1km: 17653329.38,
+        grid20km: 81787841.6749922,
+        grid5km: 36500287.935166 },
+      lr:
+      { admin: 0.0185407170236111,
+        grid1km: 0.850773217509035,
+        grid20km: 0.604092354726748,
+        grid5km: 0.681781972107596 }
+    }
   }
 ];

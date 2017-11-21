@@ -54,6 +54,22 @@ export function setCurrentLegendMetricVal (val) {
   };
 }
 
+export function setMaxValue (maxValue) {
+  return {
+    type: actions.SET_MAX_VALUE,
+    maxValue: maxValue,
+    receivedAt: Date.now()
+  };
+}
+
+export function setCurrentLegendName (name) {
+  return {
+    type: actions.SET_CURRENT_LEGEND_NAME,
+    name: name,
+    receivedAt: Date.now()
+  };
+}
+
 export function setValueType (valType) {
   return {
     type: actions.SET_VALUE_TYPE,

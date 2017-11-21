@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import mapboxgl from 'mapbox-gl';
 import config from '../config';
@@ -11,7 +12,11 @@ import {
   makeFootPrintLayer
  } from '../utils/map';
 
-import { setCurrentLegendMetricVal } from '../actions/action-creators';
+import {
+  setCurrentLegendMetricVal,
+  setCurrentLegendName,
+  setMaxValue
+} from '../actions/action-creators';
 
 import AnalysisLayerControl from './AnalysisLayerControl';
 import AnalysisMapLegend from './AnalysisMapLegend';
@@ -26,6 +31,8 @@ class AnalysisMap extends Component {
   }
   static propTypes = {
     _setCurrentLegendMetricVal: PropTypes.func.isRequired,
+    _setCurrentLegendName: PropTypes.func.isRequired,
+    _setMaxValue: PropTypes.func.isRequired,
     disaster: PropTypes.object.isRequired,
     overlayMetric: PropTypes.string.isRequired,
     valueType: PropTypes.string.isRequired,
@@ -70,24 +77,27 @@ class AnalysisMap extends Component {
   }
 
   _updateVisibleLayers (current, next) {
+    if (current.overlayMetric !== next.overlayMetric) { return; }
+
     let nextLayer = new RegExp(next.visibleLayer.layer);
     const idKeys = Object.keys(config.mapLayers['exposure'].layers.ids);
-    const sameLayer = next.visibleLayer.layer === current.visibleLayer.layer;
-    // if next and current layers are not the same, make all layers invisible.
-    if (!sameLayer) {
-      idKeys.forEach(l => {
-        let lId = `${config.mapLayers['exposure'].id}-${config.mapLayers['exposure'].layers.ids[l]}`;
-        l = this._map.getStyle().layers.find(lyr => lyr.id === lId);
-        if (l) { this._map.setLayoutProperty(l.id, 'visibility', 'none'); }
-      });
-    }
-    // make visible/invisible next layers
+    // make all layers invisible
+    const alreadyVisible = this._map.getStyle().layers.filter(l =>
+      l.id.startsWith('exposure-loss-') &&
+      l.layout.visibility === 'visible'
+    ).map(l => l.id);
+    alreadyVisible.forEach(l => {
+      this._map.setLayoutProperty(l, 'visibility', 'none');
+    });
+    // Make next layer visible, or keep it hidden if it was already visible
     idKeys.forEach(l => {
       let lConfig = config.mapLayers['exposure'].layers.ids[l];
       if (nextLayer.test(lConfig)) {
         let lId = `${config.mapLayers['exposure'].id}-${config.mapLayers['exposure'].layers.ids[l]}`;
         l = this._map.getStyle().layers.find(lyr => lyr.id === lId);
-        l.layout.visibility === 'visible' ? this._map.setLayoutProperty(l.id, 'visibility', 'none') : this._map.setLayoutProperty(l.id, 'visibility', 'visible');
+        if (!alreadyVisible.includes(l.id)) {
+          this._map.setLayoutProperty(l.id, 'visibility', 'visible');
+        }
       }
     });
   }
@@ -123,14 +133,61 @@ class AnalysisMap extends Component {
         const metricPropKey = config.legend[this.props.overlayMetric].layerProp;
         const metricVal = queriedFeatures.properties[metricPropKey];
         this.props._setCurrentLegendMetricVal(metricVal);
+        if (queriedFeatures.properties.name) {
+          this.props._setCurrentLegendName(queriedFeatures.properties.name);
+        }
       } else {
         this.props._setCurrentLegendMetricVal(null);
+        this.props._setCurrentLegendName(null);
       }
     });
   }
   componentWillReceiveProps (nextProps) {
-    if (this.props.overlayMetric !== nextProps.overlayMetric) { return; }
-    if (this.props.valueType !== nextProps.valueType) { return; }
+    if (this.props.overlayMetric !== nextProps.overlayMetric) {
+      // Switch which color is being used to visualize data on the map
+      this.layers.filter(l => l.startsWith('exposure-loss-'))
+        .forEach(l => {
+          const colorByProperty = {
+            exposure: 'exp',
+            loss: 'aloss',
+            'loss-ratio': 'lr'
+          }[nextProps.overlayMetric];
+          let level = _.isEmpty(nextProps.visibleLayer) ? 'admin' : nextProps.visibleLayer.layer;
+          if (level === 'grid') {
+            const zooms = config.mapLayers.exposure.layers.zooms;
+            level = _.findKey(zooms, z => this._map.getZoom() > z.minZoom && this._map.getZoom() <= z.maxZoom);
+          }
+          const maxValue = this.props.disaster.maxValues[colorByProperty][level];
+          this._map.setPaintProperty(
+            l,
+            'fill-color',
+            {
+              property: colorByProperty,
+              type: 'exponential',
+              'colorSpace': 'lab',
+              stops: [
+                [0, config.minColor],
+                [maxValue, config.maxColor]
+              ]
+            }
+          );
+          this.props._setMaxValue(maxValue);
+        });
+    } else {
+      // Determine which `maxValue` to use in the color ramp legend
+      const metric = {
+        exposure: 'exp',
+        loss: 'aloss',
+        'loss-ratio': 'lr'
+      }[this.props.overlayMetric];
+      let level = (Object.keys(this.props.visibleLayer).length && this.props.visibleLayer.layer);
+      if (level === 'grid') {
+        const zooms = config.mapLayers.exposure.layers.zooms;
+        level = _.findKey(zooms, z => this._map.getZoom() > z.minZoom && this._map.getZoom() <= z.maxZoom);
+      }
+      const layerMaxValue = this.props.disaster.maxValues[metric][level];
+      this.props._setMaxValue(layerMaxValue);
+    }
     if (this.props.disaster !== nextProps.disaster) {
       this._map.fitBounds(nextProps.disaster.bbox, {
         animate: false,
@@ -166,7 +223,9 @@ const selector = (state) => {
 
 const dispatcher = (dispatch) => {
   return {
-    _setCurrentLegendMetricVal: (val) => dispatch(setCurrentLegendMetricVal(val))
+    _setCurrentLegendMetricVal: (val) => dispatch(setCurrentLegendMetricVal(val)),
+    _setCurrentLegendName: (name) => dispatch(setCurrentLegendName(name)),
+    _setMaxValue: maxValue => dispatch(setMaxValue(maxValue))
   };
 };
 
