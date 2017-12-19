@@ -54,20 +54,18 @@ class AnalysisMap extends Component {
       this._map.addLayer(makeFootPrintLayer(props.disaster, id));
       this.layers.push(id);
       // add & hide overlay layers
-      if (this._map.getLayer(id)) {
-        Object.keys(config.mapLayers['exposure'].layers.ids).forEach((key) => {
-          // add layer
-          let layerIdBase = config.mapLayers['exposure'].layers.ids[key];
-          let exposureLayer = makeExposureLayer(props.disaster, layerIdBase);
-          this._map.addLayer(exposureLayer);
-          this.layers.push(exposureLayer.id);
-          // hide layer
-          let layerId = `${config.mapLayers['exposure'].id}-${layerIdBase}`;
-          if (this._map.getLayer(layerId)) {
-            this._map.setLayoutProperty(layerId, 'visibility', 'none');
-          }
-        });
-      }
+      Object.keys(config.mapLayers['exposure'].layers.ids).forEach((key) => {
+        // add layer
+        let layerIdBase = config.mapLayers['exposure'].layers.ids[key];
+        let exposureLayer = makeExposureLayer(props.disaster, layerIdBase);
+        this._map.addLayer(exposureLayer);
+        this.layers.push(exposureLayer.id);
+        // hide layer
+        let layerId = `${config.mapLayers['exposure'].id}-${layerIdBase}`;
+        if (this._map.getLayer(layerId)) {
+          this._map.setLayoutProperty(layerId, 'visibility', 'none');
+        }
+      });
     }
   }
 

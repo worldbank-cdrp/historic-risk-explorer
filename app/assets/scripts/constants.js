@@ -360,7 +360,7 @@ export const DISASTERS = [
     n: 'Pakistan',
     c: 'pak',
     bbox: [[62.4682617187, 23.3825982842], [72.1362304687, 30.0500765217]],
-    dmetrics: 'Intensity',
+    dmetric: 'Intensity',
     profile: 'Risk Profile - Pakistan - 2005 EQ Scenario vFinal',
     pop: '15,416,700',
     houses: '23,113,493',
