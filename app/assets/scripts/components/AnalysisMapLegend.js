@@ -12,10 +12,7 @@ class AnalysisMapLegend extends Component {
     overlayMetric: PropTypes.object.isRequired,
     maxValue: PropTypes.number
   }
-  shouldComponentUpdate (nextProps) {
-    if (nextProps.visibleLayer.layer === this.props.visibleLayer) { return false; }
-    return true;
-  }
+
   render () {
     let overlayMetric = this.props.overlayMetric.metric;
     let overlayMetricTitle = config.legend[overlayMetric].title;

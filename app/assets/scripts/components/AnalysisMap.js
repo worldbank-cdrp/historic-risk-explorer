@@ -21,6 +21,12 @@ import {
 import AnalysisLayerControl from './AnalysisLayerControl';
 import AnalysisMapLegend from './AnalysisMapLegend';
 
+const METRICS = {
+  exposure: 'exp',
+  loss: 'aloss',
+  'loss-ratio': 'lr'
+};
+
 class AnalysisMap extends Component {
   constructor (props) {
     super(props);
@@ -102,6 +108,15 @@ class AnalysisMap extends Component {
     });
   }
 
+  _getLayerLevel (visibleLayer, zoom) {
+    let level = visibleLayer.layer || 'admin';
+    if (level === 'grid') {
+      const zooms = config.mapLayers.exposure.layers.zooms;
+      level = _.findKey(zooms, z => zoom > z.minZoom && zoom <= z.maxZoom);
+    }
+    return level;
+  }
+
   componentWillMount () {
     this.sources = [];
     this.layers = [];
@@ -141,53 +156,38 @@ class AnalysisMap extends Component {
         this.props._setCurrentLegendName(null);
       }
     });
+    this._map.on('zoomend', () => {
+      const metric = METRICS[this.props.overlayMetric];
+      const level = this._getLayerLevel(this.props.visibleLayer, this._map.getZoom());
+      const layerMaxValue = this.props.disaster.maxValues[metric][level];
+      this.props._setMaxValue(layerMaxValue);
+    });
   }
   componentWillReceiveProps (nextProps) {
+    const metric = METRICS[nextProps.overlayMetric];
+    const level = this._getLayerLevel(nextProps.visibleLayer, this._map.getZoom());
+    const maxValue = this.props.disaster.maxValues[metric][level];
+    // Set the max value based on the current level (admin, grid1, grid5, grid20)
+    // and the metric being visualized.
+    this.props._setMaxValue(maxValue);
+
+    // If the metric changed, repaint the layers.
     if (this.props.overlayMetric !== nextProps.overlayMetric) {
       // Switch which color is being used to visualize data on the map
       this.layers.filter(l => l.startsWith('exposure-loss-'))
         .forEach(l => {
-          const colorByProperty = {
-            exposure: 'exp',
-            loss: 'aloss',
-            'loss-ratio': 'lr'
-          }[nextProps.overlayMetric];
-          let level = _.isEmpty(nextProps.visibleLayer) ? 'admin' : nextProps.visibleLayer.layer;
-          if (level === 'grid') {
-            const zooms = config.mapLayers.exposure.layers.zooms;
-            level = _.findKey(zooms, z => this._map.getZoom() > z.minZoom && this._map.getZoom() <= z.maxZoom);
-          }
-          const maxValue = this.props.disaster.maxValues[colorByProperty][level];
-          this._map.setPaintProperty(
-            l,
-            'fill-color',
-            {
-              property: colorByProperty,
-              type: 'exponential',
-              'colorSpace': 'lab',
-              stops: [
-                [0, config.minColor],
-                [maxValue, config.maxColor]
-              ]
-            }
-          );
-          this.props._setMaxValue(maxValue);
+          this._map.setPaintProperty(l, 'fill-color', {
+            property: metric,
+            type: 'exponential',
+            'colorSpace': 'lab',
+            stops: [
+              [0, config.minColor],
+              [maxValue, config.maxColor]
+            ]
+          });
         });
-    } else {
-      // Determine which `maxValue` to use in the color ramp legend
-      const metric = {
-        exposure: 'exp',
-        loss: 'aloss',
-        'loss-ratio': 'lr'
-      }[this.props.overlayMetric];
-      let level = nextProps.visibleLayer.layer || '';
-      if (level === 'grid') {
-        const zooms = config.mapLayers.exposure.layers.zooms;
-        level = _.findKey(zooms, z => this._map.getZoom() > z.minZoom && this._map.getZoom() <= z.maxZoom);
-      }
-      const layerMaxValue = this.props.disaster.maxValues[metric][level];
-      this.props._setMaxValue(layerMaxValue);
     }
+
     if (this.props.disaster !== nextProps.disaster) {
       this._map.fitBounds(nextProps.disaster.bbox, {
         animate: false,
