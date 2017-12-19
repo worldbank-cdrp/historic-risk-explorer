@@ -225,7 +225,7 @@ export const DISASTERS = [
     t: 'Volcano',
     dcode: 'VO',
     n: 'Tambora',
-    c: 'tb',
+    c: 'idn',
     bbox: [
       [117.62120269711221, -8.516058128670451],
       [118.34934125267489, -8.028534209442213]
