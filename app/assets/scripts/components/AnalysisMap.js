@@ -180,7 +180,7 @@ class AnalysisMap extends Component {
         loss: 'aloss',
         'loss-ratio': 'lr'
       }[this.props.overlayMetric];
-      let level = (Object.keys(this.props.visibleLayer).length && this.props.visibleLayer.layer);
+      let level = nextProps.visibleLayer.layer || '';
       if (level === 'grid') {
         const zooms = config.mapLayers.exposure.layers.zooms;
         level = _.findKey(zooms, z => this._map.getZoom() > z.minZoom && this._map.getZoom() <= z.maxZoom);
