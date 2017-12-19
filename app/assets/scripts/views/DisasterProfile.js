@@ -5,6 +5,7 @@ import config from '../config';
 import { map } from 'lodash';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import c from 'classnames';
 import {
   clearDisaster,
   setOverlayMetric,
@@ -39,6 +40,7 @@ class DisasterProfile extends Component {
     disasters: PropTypes.array.isRequired,
     disaster: PropTypes.object.isRequired,
     initialDisasterIndex: PropTypes.number.isRequired,
+    overlayMetric: PropTypes.string.isRequired,
     match: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
@@ -72,12 +74,15 @@ class DisasterProfile extends Component {
 
   makeMetricButtons () {
     return ['Loss', 'Exposure', 'Loss Ratio'].map((m, i) => {
+      const metricName = m.replace(' ', '-').toLowerCase();
+      const cl = c('button button--large', {
+        'button--base-bounded': this.props.overlayMetric !== metricName,
+        'button--base': this.props.overlayMetric === metricName
+      });
       return (
-        <li key={m}><button className='button button--large button--base-bounded'
-          value={m.replace(' ', '-').toLowerCase()}
-          onClick={(e) => {
-            e.preventDefault();
-            this.props._setOverlayMetric(e.target.value);
+        <li key={m}><button className={cl}
+          onClick={() => {
+            this.props._setOverlayMetric(metricName);
             this.props._setCurrentLegendMetricVal(null);
             this.props._setCurrentLegendName(null);
           }}>{m}</button></li>
@@ -210,7 +215,8 @@ const selector = (state) => {
   return {
     disasters: state.disasters,
     disaster: state.disaster,
-    initialDisasterIndex: state.initialDisaster.index
+    initialDisasterIndex: state.initialDisaster.index,
+    overlayMetric: state.overlayMetric.metric
   };
 };
 
