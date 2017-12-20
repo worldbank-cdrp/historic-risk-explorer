@@ -48,11 +48,12 @@ class AnalysisMap extends Component {
   _loadLayers (props) {
     if (props.disaster.maxValues) {
       // add & hide overlay layers
-      const level = this._getLayerLevel(this.props.visibleLayer, this._map.getZoom());
+      const level = this._getLayerLevel(props.visibleLayer, this._map.getZoom());
+      const metric = METRICS[props.overlayMetric];
       Object.keys(config.mapLayers['exposure'].layers.ids).forEach((key) => {
         // add layer
         let layerIdBase = config.mapLayers['exposure'].layers.ids[key];
-        let exposureLayer = makeExposureLayer(props.disaster, layerIdBase);
+        let exposureLayer = makeExposureLayer(props.disaster, layerIdBase, metric);
         this._map.addLayer(exposureLayer);
         this.layers.push(exposureLayer.id);
         // hide layer
