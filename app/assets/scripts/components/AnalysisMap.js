@@ -21,6 +21,12 @@ import {
 import AnalysisLayerControl from './AnalysisLayerControl';
 import AnalysisMapLegend from './AnalysisMapLegend';
 
+const METRICS = {
+  exposure: 'exp',
+  loss: 'aloss',
+  'loss-ratio': 'lr'
+};
+
 class AnalysisMap extends Component {
   constructor (props) {
     super(props);
@@ -36,32 +42,39 @@ class AnalysisMap extends Component {
     disaster: PropTypes.object.isRequired,
     overlayMetric: PropTypes.string.isRequired,
     valueType: PropTypes.string.isRequired,
-    visibleLayer: PropTypes.object.isRequired
+    visibleLayer: PropTypes.object.isRequired,
+    overlayFootprintState: PropTypes.bool.isRequired
   }
   _loadLayers (props) {
-    // base layer
-    if (props.disaster.dmetric) {
-      let id = `${config.mapLayers[props.disaster.dmetric].id}-${props.disaster.c}`;
+    if (props.disaster.maxValues) {
+      // add & hide overlay layers
+      const level = this._getLayerLevel(props.visibleLayer, this._map.getZoom());
+      const metric = METRICS[props.overlayMetric];
+      Object.keys(config.mapLayers['exposure'].layers.ids).forEach((key) => {
+        // add layer
+        let layerIdBase = config.mapLayers['exposure'].layers.ids[key];
+        let exposureLayer = makeExposureLayer(props.disaster, layerIdBase, metric);
+        this._map.addLayer(exposureLayer);
+        this.layers.push(exposureLayer.id);
+        // hide layer
+        let layerId = `${config.mapLayers['exposure'].id}-${layerIdBase}`;
+        if (this._map.getLayer(layerId)) {
+          const visibility = level === layerIdBase ? 'visible' : 'none';
+          this._map.setLayoutProperty(layerId, 'visibility', visibility);
+        }
+      });
+    }
+
+    // Footprint layer.
+    if (props.disaster.footprint) {
+      let id = `ft-${props.disaster.footprint.name}`;
       this.querySource = id;
       let footprintSource = makeFootPrintSource(props.disaster);
       this._map.addSource(id, footprintSource);
       this._map.addLayer(makeFootPrintLayer(props.disaster, id));
       this.layers.push(id);
-      // add & hide overlay layers
-      if (this._map.getLayer(id)) {
-        Object.keys(config.mapLayers['exposure'].layers.ids).forEach((key) => {
-          // add layer
-          let layerIdBase = config.mapLayers['exposure'].layers.ids[key];
-          let exposureLayer = makeExposureLayer(props.disaster, layerIdBase);
-          this._map.addLayer(exposureLayer);
-          this.layers.push(exposureLayer.id);
-          // hide layer
-          let layerId = `${config.mapLayers['exposure'].id}-${layerIdBase}`;
-          if (this._map.getLayer(layerId)) {
-            this._map.setLayoutProperty(layerId, 'visibility', 'none');
-          }
-        });
-      }
+      const visibility = this.props.overlayFootprintState ? 'visible' : 'none';
+      this._map.setLayoutProperty(id, 'visibility', visibility);
     }
   }
 
@@ -100,6 +113,15 @@ class AnalysisMap extends Component {
         }
       }
     });
+  }
+
+  _getLayerLevel (visibleLayer, zoom) {
+    let level = visibleLayer.layer || 'admin';
+    if (level === 'grid') {
+      const zooms = config.mapLayers.exposure.layers.zooms;
+      level = _.findKey(zooms, z => zoom > z.minZoom && zoom <= z.maxZoom);
+    }
+    return level;
   }
 
   componentWillMount () {
@@ -141,53 +163,14 @@ class AnalysisMap extends Component {
         this.props._setCurrentLegendName(null);
       }
     });
-  }
-  componentWillReceiveProps (nextProps) {
-    if (this.props.overlayMetric !== nextProps.overlayMetric) {
-      // Switch which color is being used to visualize data on the map
-      this.layers.filter(l => l.startsWith('exposure-loss-'))
-        .forEach(l => {
-          const colorByProperty = {
-            exposure: 'exp',
-            loss: 'aloss',
-            'loss-ratio': 'lr'
-          }[nextProps.overlayMetric];
-          let level = _.isEmpty(nextProps.visibleLayer) ? 'admin' : nextProps.visibleLayer.layer;
-          if (level === 'grid') {
-            const zooms = config.mapLayers.exposure.layers.zooms;
-            level = _.findKey(zooms, z => this._map.getZoom() > z.minZoom && this._map.getZoom() <= z.maxZoom);
-          }
-          const maxValue = this.props.disaster.maxValues[colorByProperty][level];
-          this._map.setPaintProperty(
-            l,
-            'fill-color',
-            {
-              property: colorByProperty,
-              type: 'exponential',
-              'colorSpace': 'lab',
-              stops: [
-                [0, config.minColor],
-                [maxValue, config.maxColor]
-              ]
-            }
-          );
-          this.props._setMaxValue(maxValue);
-        });
-    } else {
-      // Determine which `maxValue` to use in the color ramp legend
-      const metric = {
-        exposure: 'exp',
-        loss: 'aloss',
-        'loss-ratio': 'lr'
-      }[this.props.overlayMetric];
-      let level = (Object.keys(this.props.visibleLayer).length && this.props.visibleLayer.layer);
-      if (level === 'grid') {
-        const zooms = config.mapLayers.exposure.layers.zooms;
-        level = _.findKey(zooms, z => this._map.getZoom() > z.minZoom && this._map.getZoom() <= z.maxZoom);
-      }
+    this._map.on('zoomend', () => {
+      const metric = METRICS[this.props.overlayMetric];
+      const level = this._getLayerLevel(this.props.visibleLayer, this._map.getZoom());
       const layerMaxValue = this.props.disaster.maxValues[metric][level];
       this.props._setMaxValue(layerMaxValue);
-    }
+    });
+  }
+  componentWillReceiveProps (nextProps) {
     if (this.props.disaster !== nextProps.disaster) {
       this._map.fitBounds(nextProps.disaster.bbox, {
         animate: false,
@@ -197,7 +180,40 @@ class AnalysisMap extends Component {
       this._loadLayers(nextProps);
       return;
     }
-    this._updateVisibleLayers(this.props, nextProps);
+
+    if (this.props.overlayFootprintState !== nextProps.overlayFootprintState && this.props.disaster.footprint) {
+      let id = `ft-${this.props.disaster.footprint.name}`;
+      const visibility = nextProps.overlayFootprintState ? 'visible' : 'none';
+      this._map.setLayoutProperty(id, 'visibility', visibility);
+    }
+
+    if (this.props.disaster.maxValues) {
+      const metric = METRICS[nextProps.overlayMetric];
+      const level = this._getLayerLevel(nextProps.visibleLayer, this._map.getZoom());
+      const maxValue = this.props.disaster.maxValues[metric][level];
+      // Set the max value based on the current level (admin, grid1, grid5, grid20)
+      // and the metric being visualized.
+      this.props._setMaxValue(maxValue);
+
+      // If the metric changed, repaint the layers.
+      if (this.props.overlayMetric !== nextProps.overlayMetric) {
+        // Switch which color is being used to visualize data on the map
+        this.layers.filter(l => l.startsWith('exposure-loss-'))
+          .forEach(l => {
+            this._map.setPaintProperty(l, 'fill-color', {
+              property: metric,
+              type: 'exponential',
+              'colorSpace': 'lab',
+              stops: [
+                [0, config.minColor],
+                [maxValue, config.maxColor]
+              ]
+            });
+          });
+      }
+
+      this._updateVisibleLayers(this.props, nextProps);
+    }
   }
 
   render () {
@@ -217,7 +233,8 @@ const selector = (state) => {
   return {
     valueType: state.map.valType,
     visibleLayer: state.visibleLayer,
-    overlayMetric: state.overlayMetric.metric
+    overlayMetric: state.overlayMetric.metric,
+    overlayFootprintState: state.overlayFootprint.enabled
   };
 };
 

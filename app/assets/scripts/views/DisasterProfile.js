@@ -5,13 +5,15 @@ import config from '../config';
 import { map } from 'lodash';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import c from 'classnames';
 import {
   clearDisaster,
   setOverlayMetric,
   setDisaster,
   setPaginationDirection,
   setCurrentLegendMetricVal,
-  setCurrentLegendName
+  setCurrentLegendName,
+  setOverlayFootprintState
 } from '../actions/action-creators';
 
 import {
@@ -39,14 +41,17 @@ class DisasterProfile extends Component {
     disasters: PropTypes.array.isRequired,
     disaster: PropTypes.object.isRequired,
     initialDisasterIndex: PropTypes.number.isRequired,
+    overlayMetric: PropTypes.string.isRequired,
     match: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
+    overlayFootprintState: PropTypes.bool.isRequired,
     _clearDisaster: PropTypes.func.isRequired,
     _setDisaster: PropTypes.func.isRequired,
     _setOverlayMetric: PropTypes.func.isRequired,
     _setCurrentLegendMetricVal: PropTypes.func.isRequired,
-    _setCurrentLegendName: PropTypes.func.isRequired
+    _setCurrentLegendName: PropTypes.func.isRequired,
+    _setOverlayFootprintState: PropTypes.func.isRequired
   }
 
   componentWillMount () {
@@ -71,18 +76,38 @@ class DisasterProfile extends Component {
   }
 
   makeMetricButtons () {
-    return ['Loss', 'Exposure', 'Loss Ratio'].map((m, i) => {
+    let btns = ['Loss', 'Exposure', 'Loss Ratio'].map((m, i) => {
+      const metricName = m.replace(' ', '-').toLowerCase();
+      const cl = c('button button--large', {
+        'button--base-bounded': this.props.overlayMetric !== metricName,
+        'button--base': this.props.overlayMetric === metricName,
+        'disabled': !this.props.disaster.maxValues
+      });
       return (
-        <li key={m}><button className='button button--large button--base-bounded'
-          value={m.replace(' ', '-').toLowerCase()}
-          onClick={(e) => {
-            e.preventDefault();
-            this.props._setOverlayMetric(e.target.value);
+        <li key={m}><button className={cl}
+          onClick={() => {
+            this.props._setOverlayMetric(metricName);
             this.props._setCurrentLegendMetricVal(null);
             this.props._setCurrentLegendName(null);
           }}>{m}</button></li>
       );
     });
+
+    const cl = c('button button--large button--footprint', {
+      'button--base-bounded': !this.props.overlayFootprintState,
+      'button--base': this.props.overlayFootprintState,
+      'disabled': !this.props.disaster.footprint
+    });
+
+    btns.push(
+      <li key='footprint'>
+        <button className={cl}
+          onClick={() => {
+            this.props._setOverlayFootprintState(!this.props.overlayFootprintState);
+          }}>Footprint</button>
+      </li>
+    );
+    return btns;
   }
 
   makeDataListElements (metric) {
@@ -210,7 +235,9 @@ const selector = (state) => {
   return {
     disasters: state.disasters,
     disaster: state.disaster,
-    initialDisasterIndex: state.initialDisaster.index
+    initialDisasterIndex: state.initialDisaster.index,
+    overlayMetric: state.overlayMetric.metric,
+    overlayFootprintState: state.overlayFootprint.enabled
   };
 };
 
@@ -221,7 +248,8 @@ const dispatcher = (dispatch) => {
     _setDisaster: (disaster) => dispatch(setDisaster(disaster)),
     _setPaginationDirection: (direction) => dispatch(setPaginationDirection(direction)),
     _setCurrentLegendMetricVal: (val) => dispatch(setCurrentLegendMetricVal(val)),
-    _setCurrentLegendName: (name) => dispatch(setCurrentLegendName(name))
+    _setCurrentLegendName: (name) => dispatch(setCurrentLegendName(name)),
+    _setOverlayFootprintState: (...args) => dispatch(setOverlayFootprintState(...args))
   };
 };
 

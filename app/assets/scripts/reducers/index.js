@@ -12,7 +12,11 @@ const disasters = function (state = DISASTERS, action) {
   return state;
 };
 
-const visibleLayer = function (state = {}, action) {
+const defaultVisibleLayer = {
+  layer: 'admin'
+};
+
+const visibleLayer = function (state = defaultVisibleLayer, action) {
   switch (action.type) {
     case actions.SET_VISIBLE_LAYER:
       state = Object.assign({}, state);
@@ -30,6 +34,19 @@ const overlayMetric = function (state = defaultOverlayMetric, action) {
     case actions.SET_OVERLAY_METRIC:
       state = Object.assign({}, state);
       state.metric = action.text !== 'exposure' ? action.text : defaultOverlayMetric.metric;
+  }
+  return state;
+};
+
+const defaultOverlayFootprint = {
+  enabled: false
+};
+
+const overlayFootprint = function (state = defaultOverlayFootprint, action) {
+  switch (action.type) {
+    case actions.SET_OVERLAY_FOOTPRINT_STATE:
+      state = Object.assign({}, state);
+      state.enabled = action.enabled;
   }
   return state;
 };
@@ -97,7 +114,8 @@ const reducer = combineReducers({
   overlayMetric,
   map,
   routing: routerReducer,
-  visibleLayer
+  visibleLayer,
+  overlayFootprint
 });
 
 export default reducer;

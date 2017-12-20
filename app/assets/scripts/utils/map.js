@@ -7,11 +7,11 @@ import config from '../config';
  * @param {object} disaster disaster object with data needed fro map making
  * @return {object} mapboxgl style object for exposure layer
  */
-export function makeExposureLayer (disaster, layerIdBase) {
+export function makeExposureLayer (disaster, layerIdBase, metric) {
   // make source and source layer needed to generate id, source.url, and source-layer
   const sourceBase = `${config.mapLayers['exposure'].layers.main}${layerIdBase}`;
   let source = makeDisasterSource(sourceBase, disaster);
-  let sourceLayer = `${config.mapLayers['exposure'].id}`;
+  let sourceLayer = config.mapLayers['exposure'].id;
   // use source, sourceLayer, geomType, and type to make base styleSpec
   let styleSpec = {
     id: `${sourceLayer}-${layerIdBase}`,
@@ -23,13 +23,12 @@ export function makeExposureLayer (disaster, layerIdBase) {
     'source-layer': sourceLayer,
     paint: {
       'fill-color': {
-        // This style assumes that `exp` is the default color-by variable
-        property: 'exp',
+        property: metric,
         type: 'exponential',
-        'colorSpace': 'lab',
+        colorSpace: 'lab',
         stops: [
           [0, config.minColor],
-          [disaster.maxValues.exp[layerIdBase], config.maxColor]
+          [disaster.maxValues[metric][layerIdBase], config.maxColor]
         ]
       },
       'fill-opacity': 0.5
@@ -71,7 +70,7 @@ export function makeFootPrintLayer (disaster, id) {
     type: 'raster',
     source: id,
     paint: {
-      'raster-opacity': 0.06
+      'raster-opacity': 0.88
     }
   };
 }
@@ -98,13 +97,10 @@ export function makeSliderLayer (id) {
 }
 
 export function makeFootPrintSource (disaster) {
-  // TOFIX: currently this is set to work for only armenia, once data has consistent
-  // nomenclature in mapbox, will switch back to using config
-  // let sourceBase = config.mapLayers[disaster.dmetric].layers.main;
-  // let source = makeDisasterSource(sourceBase, disaster);
   return {
-    type: 'raster',
-    url: `mapbox://${config.mapboxAccountName}.Armenia_EQ_1988_Intensity`
+    type: 'image',
+    url: `/assets/graphics/footprints/${disaster.footprint.name}.png`,
+    coordinates: disaster.footprint.bbox
   };
 }
 

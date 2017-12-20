@@ -1,7 +1,8 @@
 import React, { Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { setVisibleLayer, setValueType } from '../actions/action-creators';
+import c from 'classnames';
+import { setVisibleLayer } from '../actions/action-creators';
 import config from '../config';
 
 class AnalysisLayerControl extends Component {
@@ -11,16 +12,17 @@ class AnalysisLayerControl extends Component {
   }
   static propTypes = {
     disaster: PropTypes.object.isRequired,
-    _setValueType: PropTypes.func.isRequired,
+    exposureLayer: PropTypes.object.isRequired,
     _setVisibleLayer: PropTypes.func.isRequired
   }
 
   renderExposureLayerSelect () {
+    const layer = this.props.exposureLayer.layer || '';
     return Object.keys(config.control['exposure']).map((k, i) => {
       return (
         <li key={k}>
-          <label className='form__option form__option--custom-radio'>
-            <input type='radio' value={k} onClick={(e) => { e.preventDefault(); this.props._setVisibleLayer(e.target.value); }}/>
+          <label className={c('form__option form__option--custom-radio', {disabled: !this.props.disaster.maxValues})}>
+            <input type='radio' name='exposure-layer' value={k} onChange={(e) => { this.props._setVisibleLayer(e.target.value); }} checked={k === layer}/>
             <span className='form__option__text'>{config.control['exposure'][k]}</span>
             <span className='form__option__ui'></span>
           </label>
@@ -40,11 +42,14 @@ class AnalysisLayerControl extends Component {
   }
 }
 
-const selector = (state) => { return {}; };
+const selector = (state) => {
+  return {
+    exposureLayer: state.visibleLayer
+  };
+};
 
 const dispatcher = (dispatch) => {
   return {
-    _setValueType: (type) => { dispatch(setValueType(type)); },
     _setVisibleLayer: (layer) => { dispatch(setVisibleLayer(layer)); }
   };
 };
