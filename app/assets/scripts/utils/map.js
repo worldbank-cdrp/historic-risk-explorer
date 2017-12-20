@@ -70,7 +70,7 @@ export function makeFootPrintLayer (disaster, id) {
     type: 'raster',
     source: id,
     paint: {
-      // 'raster-opacity': 0.06
+      'raster-opacity': 0.88
     }
   };
 }
