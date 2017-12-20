@@ -17,7 +17,9 @@ class AnalysisMapLegend extends Component {
     let overlayMetric = this.props.overlayMetric.metric;
     let overlayMetricTitle = config.legend[overlayMetric].title;
     let overlayMetricIdUnits = config.legend[overlayMetric].idUnits;
-    const overlayMetricText = `${numeral(this.props.currentMapVal).format('0.0a')} ${overlayMetricIdUnits}`;
+    const formatVal = numeral(this.props.currentMapVal).format('0.0a');
+    // If the value is too small (like 1.64870050785193e-9) the format will return "NaN"
+    const overlayMetricText = `${formatVal === 'NaN' ? 0 : formatVal} ${overlayMetricIdUnits}`;
     return (
         <div className='map-legend'>
           <p className='map-layer__title'>{overlayMetricTitle}</p>
