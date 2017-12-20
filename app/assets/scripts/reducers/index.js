@@ -38,6 +38,19 @@ const overlayMetric = function (state = defaultOverlayMetric, action) {
   return state;
 };
 
+const defaultOverlayFootprint = {
+  enabled: false
+};
+
+const overlayFootprint = function (state = defaultOverlayFootprint, action) {
+  switch (action.type) {
+    case actions.SET_OVERLAY_FOOTPRINT_STATE:
+      state = Object.assign({}, state);
+      state.enabled = action.enabled;
+  }
+  return state;
+};
+
 const defaultDisaster = { set: false };
 
 const disaster = function (state = defaultDisaster, action) {
@@ -101,7 +114,8 @@ const reducer = combineReducers({
   overlayMetric,
   map,
   routing: routerReducer,
-  visibleLayer
+  visibleLayer,
+  overlayFootprint
 });
 
 export default reducer;

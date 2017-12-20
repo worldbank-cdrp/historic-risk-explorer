@@ -23,6 +23,13 @@ export function setOverlayMetric (text) {
   };
 }
 
+export function setOverlayFootprintState (enabled) {
+  return {
+    type: actions.SET_OVERLAY_FOOTPRINT_STATE,
+    enabled
+  };
+}
+
 export function setDisaster (disaster) {
   return {
     type: actions.SET_DISASTER,

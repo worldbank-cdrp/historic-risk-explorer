@@ -390,3 +390,12 @@
     font-size: 0.65rem;
   }*/
 }
+
+.button--footprint {
+  margin-top: 2rem;
+
+  @include media(small-up) {
+    margin-top: 0;
+    margin-left: 3rem;
+  }
+}
