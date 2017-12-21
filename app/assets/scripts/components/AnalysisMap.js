@@ -50,6 +50,10 @@ class AnalysisMap extends Component {
       // add & hide overlay layers
       const level = this._getLayerLevel(props.visibleLayer, this._map.getZoom());
       const metric = METRICS[props.overlayMetric];
+      const maxValue = this.props.disaster.maxValues[metric][level];
+      // Set the max value based on the current level (admin, grid1, grid5, grid20)
+      // and the metric being visualized.
+      this.props._setMaxValue(maxValue);
       Object.keys(config.mapLayers['exposure'].layers.ids).forEach((key) => {
         // add layer
         let layerIdBase = config.mapLayers['exposure'].layers.ids[key];
