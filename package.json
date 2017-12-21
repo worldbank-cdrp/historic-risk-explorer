@@ -9,7 +9,7 @@
   "license": "MIT",
   "scripts": {
     "postinstall": "[ -f app/assets/scripts/config/local.js ] || echo \"'use strict';\n\nexport default {\n  environment: 'development'\n};\" > app/assets/scripts/config/local.js",
-    "serve": "DS_ENV=development gulp collecticons && gulp serve",
+    "serve": "DS_ENV=development gulp serve",
     "build": "DS_ENV=production NODE_ENV=production gulp",
     "stage": "DS_ENV=staging NODE_ENV=staging gulp",
     "process-scenes": "./lib/process-scenes.sh",
@@ -43,7 +43,6 @@
     "babelify": "^7.3.0",
     "browser-sync": "^2.18.8",
     "browserify": "^14.1.0",
-    "collecticons-processor": "^3.1.0",
     "decimal.js": "^7.3.0",
     "del": "^2.2.2",
     "envify": "^4.0.0",
