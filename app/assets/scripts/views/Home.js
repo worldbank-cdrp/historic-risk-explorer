@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import CentralAmericaExplorer from '../components/CentralAmericaExplorer';
 import DisastersList from '../components/DisastersList';
@@ -29,7 +30,7 @@ class Home extends Component {
               <div className='text-column'>
                 <h2>Compare Historic and Modelled Risk Data</h2>
                 <p>Use our interactive maps to explore the effects of past disasters and their modelled losses if they occured today.</p>
-                <button className='button button--large button--base-bounded'> Learn More</button>
+                <Link to='/about'><button className='button button--large button--base-bounded'>Learn More</button></Link>
               </div>
             </div>
             <div className='img-column'>
