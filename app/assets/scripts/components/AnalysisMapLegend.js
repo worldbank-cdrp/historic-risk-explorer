@@ -10,7 +10,8 @@ class AnalysisMapLegend extends Component {
     currentName: PropTypes.string,
     visibleLayer: PropTypes.object.isRequired,
     overlayMetric: PropTypes.object.isRequired,
-    maxValue: PropTypes.number
+    maxValue: PropTypes.number,
+    overlayFootprintState: PropTypes.bool
   }
 
   render () {
@@ -32,7 +33,7 @@ class AnalysisMapLegend extends Component {
     return (
         <div className='map-legend'>
           <p className='map-layer__title'>{overlayMetricTitle}</p>
-          {maxValue
+          {maxValue && !this.props.overlayFootprintState
             ? <div>
               <div style={{height: '15px', width: '100px', opacity: 0.5, backgroundImage: `linear-gradient(to right, ${config.minColor}, ${config.maxColor})`}}></div>
               <p>0 to {`${numeral(maxValue).format('0.0a')} ${overlayMetricIdUnits}`}</p>
@@ -43,6 +44,13 @@ class AnalysisMapLegend extends Component {
             ? <div>
               <p>{this.props.currentName}</p>
               <p>{overlayMetricText}</p>
+            </div>
+            : ''
+          }
+          {this.props.overlayFootprintState
+            ? <div>
+              <div style={{height: '15px', width: '100px', opacity: 0.5, backgroundImage: `linear-gradient(to right, #000, #fff)`}}></div>
+              <p>Low to High Impact</p>
             </div>
             : ''
           }
@@ -57,7 +65,8 @@ const selector = (state) => {
     overlayMetric: state.overlayMetric,
     currentMapVal: state.map.val,
     currentName: state.map.name,
-    maxValue: state.map.maxValue
+    maxValue: state.map.maxValue,
+    overlayFootprintState: state.overlayFootprint.enabled
   };
 };
 
