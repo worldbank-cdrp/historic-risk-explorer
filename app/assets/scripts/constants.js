@@ -396,7 +396,23 @@ export const DISASTERS = [
       Modelled: '0.63'
     },
     staticXYZ: [34.37072753905, -16.70792094935, 7],
-    maxValues: null,
+    maxValues: {
+      exp:
+      { admin: 0,
+        grid1km: 0,
+        grid20km: 0,
+        grid5km: 0 },
+      aloss:
+      { admin: 0,
+        grid1km: 0,
+        grid20km: 0,
+        grid5km: 0 },
+      lr:
+      { admin: 0,
+        grid1km: 0,
+        grid20km: 0,
+        grid5km: 0 }
+    },
     footprint: {
       name: 'MoMa_FL_2015_floodedArea',
       bbox: [
