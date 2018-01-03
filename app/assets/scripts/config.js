@@ -19,8 +19,8 @@ export default {
   'disaster-cover': 'mapbox://styles/wbg-cdrp/cj7c8ii6d002w2rlgcwwsvbie',
   'disaster-data': 'mapbox://styles/wbg-cdrp/cj7c8ii6d002w2rlgcwwsvbie',
   // map coloring
-  minColor: '#EECBE7',
-  maxColor: '#A50081',
+  minColor: '#E3CDE3',
+  maxColor: '#59035A',
   // glob padding
   boundsPadding: 15,
   // ------------------ //

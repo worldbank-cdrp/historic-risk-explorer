@@ -46,11 +46,12 @@
   }
 }
 
-.map-layer__title {
+p.map-layer__title {
   margin-bottom: $global-spacing/2;
   color: $base-color;
   text-transform: uppercase;
   font-size: 0.75rem;
+  width: 100%;
   @include media(xxlarge-up) {
     font-size: 1rem;
   }
@@ -63,4 +64,11 @@
   bottom: $global-spacing * 2;
   box-shadow: $base-shadow;
   padding: $global-spacing;
+  width: 200px;
+}
+
+.legend-note {
+  width: 100%;
+  font-size: 0.875rem;
+  margin-bottom: $global-spacing/4;
 }

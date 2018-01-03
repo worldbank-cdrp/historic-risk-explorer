@@ -26,14 +26,15 @@ class Home extends Component {
         </header>
         <section className='index__body'>
           <section className='about-tease'>
-            <div className='inner'>
-              <div className='text-column'>
+            <div className='inner text-column'>
+              <div>
                 <h2>Compare Historic and Modelled Risk Data</h2>
                 <p>Use our interactive maps to explore the effects of past disasters and their modelled losses if they occured today.</p>
                 <Link to='/about'><button className='button button--large button--base-bounded'>Learn More</button></Link>
               </div>
             </div>
             <div className='img-column'>
+              <img src='assets/graphics/content/homepage-tease.png' height='350px'/>
             </div>
           </section>
           <section className='featured-disasters'>
