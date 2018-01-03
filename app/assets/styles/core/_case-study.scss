@@ -1,3 +1,9 @@
+.page--disaster-profile {
+  .inpage__body {
+    padding-bottom: 0;
+  }
+}
+
 .inpage__header {
   padding: ($global-spacing * 8) 0;
   background-color: $secondary-color;
@@ -24,8 +30,8 @@
   background-repeat: no-repeat;
   background-image: 
     linear-gradient(
-      rgba(0, 0, 0, 0.7),
-      rgba(0, 0, 0, 0.7)
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)
     ), url('/assets/graphics/content/Haiti-2010.jpg');
 }
 
@@ -87,18 +93,19 @@
 
 .metrics__item {
   display: inline-block;
-  @include column(5/12);
+  @include column(4/12, $cycle: 3);
   @include media(small-down) {
     @include column(12/12);
   }
   h1 {
     font-family: $base-font-family;
-    font-size: 1rem;
+    font-size: 1.15rem;
     line-height: 1.25rem;
     font-weight: $base-font-light;
     margin-bottom: 0;
   }
   p {
+    font-size: 1.5rem;
     font-weight: $base-font-bold;
     color: $primary-color;
   }
@@ -119,14 +126,15 @@
 .national-metrics__item { 
   box-shadow: $base-shadow;
   @include column(4/12);
+  margin-right: 1%;
   padding: $global-spacing * 2;
   li {
     list-style: none;
     float: left;
     margin-top: $global-spacing;
     &:last-child {
-      margin-left: $global-spacing;
-      padding-left: $global-spacing;
+      margin-left: $global-spacing/2;
+      padding-left: $global-spacing/2;
       border-left: solid 1px darken($secondary-color, 5%);
     }
     h3 {

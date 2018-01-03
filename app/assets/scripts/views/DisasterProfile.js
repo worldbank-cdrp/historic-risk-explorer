@@ -151,7 +151,7 @@ class DisasterProfile extends Component {
 
   renderDisasterProfile () {
     return (
-      <div>
+      <div className='page--disaster-profile'>
         <section className='inpage__header' style={makeImage(this.props.disaster)}>
           <div className='inner'>
             <h1 className='heading--xxlarge'>{this.props.disaster.n} {this.props.disaster.t}, {this.props.disaster.y}</h1>

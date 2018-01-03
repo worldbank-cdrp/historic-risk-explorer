@@ -35,8 +35,8 @@ class AnalysisMapLegend extends Component {
           <p className='map-layer__title'>{overlayMetricTitle}</p>
           {maxValue && !this.props.overlayFootprintState
             ? <div>
-              <div style={{height: '15px', width: '100px', opacity: 0.5, backgroundImage: `linear-gradient(to right, ${config.minColor}, ${config.maxColor})`}}></div>
-              <p>0 to {`${numeral(maxValue).format('0.0a')} ${overlayMetricIdUnits}`}</p>
+              <div style={{height: '15px', width: '170px', opacity: 0.5, backgroundImage: `linear-gradient(to right, ${config.minColor}, ${config.maxColor})`}}></div>
+              <p className='legend-note'>0 to {`${numeral(maxValue).format('0.0a')} ${overlayMetricIdUnits}`}</p>
             </div>
             : ''
           }
@@ -50,7 +50,7 @@ class AnalysisMapLegend extends Component {
           {this.props.overlayFootprintState
             ? <div>
               <div style={{height: '15px', width: '100px', opacity: 0.5, backgroundImage: `linear-gradient(to right, #000, #fff)`}}></div>
-              <p>Low to High Impact</p>
+              <p className='legend-note'>Low to High Impact</p>
             </div>
             : ''
           }
