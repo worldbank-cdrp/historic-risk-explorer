@@ -4,9 +4,13 @@ jobs:
     working_directory: ~/historic-risk-explorer
     docker:
       - image: circleci/node:8.0.0
-      - image: circleci/python:3.6.1
-    steps:
+      # - image: circleci/python:3.6.1
 
+    environment:
+      - STAGING_BRANCH: develop
+      - PRODUCTION_BRANCH: master
+
+    steps:
       - checkout
 
       - restore_cache:
@@ -19,20 +23,52 @@ jobs:
           paths:
             - ~/.cache/yarn
 
-      # get pip and download flake
-      - run: curl https://bootstrap.pypa.io/get-pip.py > get-pip.py
-      - run: sudo python get-pip.py
-      - run: sudo pip install flake8
-
-      # get apt-add-respoitory
-      - run: sudo apt-get install software-properties-common && sudo apt-get install python3-software-properties
-
-      # get shellcheck
-      - run: |
-          sudo apt-add-repository "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe"
-          sudo apt-get update
-          sudo apt-get install -t trusty-backports shellcheck
-      # lint
+      - run: yarn test
       - run: yarn lint
+
+      - run:
+          name: Building site
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "${PRODUCTION_BRANCH}" ]; then
+              yarn build
+            else
+              echo "Skip building site"
+            fi
+
+      - add_ssh_keys:
+          fingerprints:
+            - "cf:4f:9b:14:78:e1:12:34:55:d7:66:b5:74:b5:eb:16"
+
+      - deploy:
+          name: Deploying production to GH Pages
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "${PRODUCTION_BRANCH}" ]; then
+              cd dist
+              git init
+              git config user.name "Historic Risk Deploy bot"
+              git config user.email "dev@developmentseed.org"
+              git add .
+              git commit -m "CI deploy [skip ci]"
+              git remote add origin git@github.com:worldbank-cdrp/historic-risk-explorer.git
+              git push origin --force --quiet HEAD:gh-pages
+              rm -rf .git
+            else
+              echo "Not the branch you're looking for, skipping deploy"
+            fi
+
+      # get pip and download flake
+      # - run: curl https://bootstrap.pypa.io/get-pip.py > get-pip.py
+      # - run: sudo python get-pip.py
+      # - run: sudo pip install flake8
+
+      # # get apt-add-respoitory
+      # - run: sudo apt-get install software-properties-common && sudo apt-get install python3-software-properties
+
+      # # get shellcheck
+      # - run: |
+      #     sudo apt-add-repository "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe"
+      #     sudo apt-get update
+      #     sudo apt-get install -t trusty-backports shellcheck
+      # lint
       #- run: flake8 lib/*.py
       #- run: shellcheck -e SC2044 lib/*.sh
