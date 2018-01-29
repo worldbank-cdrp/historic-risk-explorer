@@ -104,7 +104,7 @@ class DisasterProfile extends Component {
         <button className={cl}
           onClick={() => {
             this.props._setOverlayFootprintState(!this.props.overlayFootprintState);
-          }}>Footprint</button>
+          }}>Hazard Footprint</button>
       </li>
     );
     return btns;
