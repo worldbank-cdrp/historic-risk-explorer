@@ -18,6 +18,9 @@ export default {
   // map styles
   'disaster-cover': 'mapbox://styles/wbg-cdrp/cj7c8ii6d002w2rlgcwwsvbie',
   'disaster-data': 'mapbox://styles/wbg-cdrp/cj7c8ii6d002w2rlgcwwsvbie',
+  // map coloring
+  minColor: '#E3CDE3',
+  maxColor: '#59035A',
   // glob padding
   boundsPadding: 15,
   // ------------------ //
@@ -27,16 +30,16 @@ export default {
    *
    * mapLayers: {
    *  // layer group - generalized group of layers that exist for multiple DISASTERS
-   *  'exposure-loss': {
+   *  'exposure': {
    *     // id - base id used to generate id and source-layer in map
-   *     id: 'exposure-loss',
+   *     id: 'exposure',
    *     // layers - object with spec for given layer group
    *     layers: {
    *       // main - base tileset id for layers in layer group
    *       //   c = country, dcode = distaster code, y = year
    *       main: 'c_dcode_y_grid',
    *       // ids - layer group specifc identifiers found in specific tileset ids
-   *       ids: ['1km', '5km', '25km']
+   *       ids: ['1km', '5km', '20km']
    *     }
    *   }
    * }
@@ -44,7 +47,7 @@ export default {
    */
   mapLayers: {
     // TODO: simplify overlay layers into their own obj
-    'exposure-loss': {
+    'exposure': {
       id: 'exposure-loss',
       layers: {
         main: 'c_dcode_y_',
@@ -52,72 +55,19 @@ export default {
           'admin': 'admin',
           '1km': 'grid1km',
           '5km': 'grid5km',
-          '25km': 'grid25km'
+          '20km': 'grid20km'
         },
         zooms: {
           'grid1km': {
             minZoom: 9,
-            maxZoom: 0
+            maxZoom: 13.01
           },
           'grid5km': {
             minZoom: 6,
             maxZoom: 9
           },
-          'grid25km': {
-            maxZoom: 6
-          }
-        },
-        geomType: 'fill',
-        type: 'vector'
-      }
-    },
-    'annualized-loss': {
-      id: 'annualized-loss',
-      layers: {
-        main: 'c_dcode_y_',
-        ids: {
-          'admin': 'admin',
-          '1km': 'grid1km',
-          '5km': 'grid5km',
-          '25km': 'grid25km'
-        },
-        zooms: {
-          'grid1km': {
-            minZoom: 9,
-            maxZoom: 0
-          },
-          'grid5km': {
-            minZoom: 6,
-            maxZoom: 9
-          },
-          'grid25km': {
-            maxZoom: 6
-          }
-        },
-        geomType: 'fill',
-        type: 'vector'
-      }
-    },
-    'loss-ratio': {
-      id: 'loss-ratio',
-      layers: {
-        main: 'c_dcode_y_',
-        ids: {
-          'admin': 'admin',
-          '1km': 'grid1km',
-          '5km': 'grid5km',
-          '25km': 'grid25km'
-        },
-        zooms: {
-          'grid1km': {
-            minZoom: 9,
-            maxZoom: 0
-          },
-          'grid5km': {
-            minZoom: 6,
-            maxZoom: 9
-          },
-          'grid25km': {
+          'grid20km': {
+            minZoom: 4,
             maxZoom: 6
           }
         },
@@ -171,12 +121,12 @@ export default {
    *
    * control: {
    *   layer group - generalized group of layers that exist for multiple DISASTERS
-   *   'exposure-loss' : {
+   *   'exposure' : {
    *     // textIds - text to match button triggering matching layer id's rendering
    *     textIds: {
    *      '1km': 'Sub National',
    *      '2km': 'National',
-   *      '25km': 'Regional
+   *      '20km': 'Regional
    *     }
    *   }
    *   ....
@@ -184,9 +134,9 @@ export default {
    *
    */
   control: {
-    'exposure-loss': {
-      admin: 'National',
-      grid: 'Sub National'
+    'exposure': {
+      admin: 'Administrative',
+      grid: 'Gridded'
     }
   },
   // ------------------------ //
@@ -196,33 +146,33 @@ export default {
    *
    * legend: {
    *   layer group - generalized group of layers that exist for multiple DISASTERS
-   *   'exposure-loss': {
+   *   'exposure': {
    *     // title - legend title for layer group
    *     title: 'Building Stock Exposure',
    *     // idUnits units for specif id in layer group
    *     idUnits: {
    *       '1km': '?',
    *       '2km': '?',
-   *       '25km': '?'
+   *       '20km': '?'
    *     }
    *   },
    *   ....
    * }
    */
   legend: {
-    'exposure-loss': {
+    'exposure': {
       title: 'Building Stock Exposure',
-      idUnits: 'some unit',
+      idUnits: 'USD',
       layerProp: 'exp'
     },
-    'annualized-loss': {
-      title: 'Annualized Loss',
-      idUnits: 'some unit',
+    'loss': {
+      title: 'Loss',
+      idUnits: 'USD',
       layerProp: 'aloss'
     },
     'loss-ratio': {
       title: 'Loss Ratio',
-      idUnits: 'some unit',
+      idUnits: '%',
       layerProp: 'lr'
     }
   }

@@ -23,6 +23,13 @@ export function setOverlayMetric (text) {
   };
 }
 
+export function setOverlayFootprintState (enabled) {
+  return {
+    type: actions.SET_OVERLAY_FOOTPRINT_STATE,
+    enabled
+  };
+}
+
 export function setDisaster (disaster) {
   return {
     type: actions.SET_DISASTER,
@@ -50,6 +57,22 @@ export function setCurrentLegendMetricVal (val) {
   return {
     type: actions.SET_CURRENT_LEGEND_METRIC_VAL,
     val: val,
+    receivedAt: Date.now()
+  };
+}
+
+export function setMaxValue (maxValue) {
+  return {
+    type: actions.SET_MAX_VALUE,
+    maxValue: maxValue,
+    receivedAt: Date.now()
+  };
+}
+
+export function setCurrentLegendName (name) {
+  return {
+    type: actions.SET_CURRENT_LEGEND_NAME,
+    name: name,
     receivedAt: Date.now()
   };
 }

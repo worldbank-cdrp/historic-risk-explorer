@@ -17,7 +17,6 @@ var rev = require('gulp-rev');
 var revReplace = require('gulp-rev-replace');
 var SassString = require('node-sass').types.String;
 var notifier = require('node-notifier');
-var cp = require('child_process');
 
 // /////////////////////////////////////////////////////////////////////////////
 // --------------------------- Variables -------------------------------------//
@@ -77,7 +76,6 @@ gulp.task('serve', ['vendorScripts', 'javascript', 'styles', 'fonts'], function 
   gulp.watch('app/assets/styles/**/*.scss', ['styles']);
   gulp.watch('app/assets/fonts/**/*', ['fonts']);
   gulp.watch('package.json', ['vendorScripts']);
-  gulp.watch('app/assets/graphics/collecticons/**', ['collecticons']);
 });
 
 gulp.task('clean', function () {
@@ -156,43 +154,11 @@ gulp.task('vendorScripts', function () {
     .pipe(reload({stream: true}));
 });
 
-// /////////////////////////////////////////////////////////////////////////////
-// ------------------------- Collecticon tasks -------------------------------//
-// --------------------- (Font generation related) ---------------------------//
-// ---------------------------------------------------------------------------//
-gulp.task('collecticons', function (done) {
-  var args = [
-    'node_modules/collecticons-processor/bin/collecticons.js',
-    'compile',
-    'app/assets/graphics/collecticons/',
-    '--font-embed',
-    '--font-dest', 'app/assets/fonts',
-    '--font-name', 'Collecticons',
-    '--font-types', 'woff',
-    '--style-format', 'sass',
-    '--style-dest', 'app/assets/styles/core/',
-    '--style-name', 'collecticons',
-    '--class-name', 'collecticon',
-    '--author-name', 'Development Seed',
-    '--author-url', 'https://developmentseed.org/',
-    '--no-preview'
-  ];
-  // a .woff file needs to exist in the fonts folder for the above to
-  // execute correctly
-  var makeFile = 'touch app/assets/fonts/Collecticons.woff';
-  return cp.exec(makeFile, function (error) {
-    if (!error) {
-      cp.spawn('node', args, {stdio: 'inherit'})
-      .on('close', done);
-    }
-  });
-});
-
 // //////////////////////////////////////////////////////////////////////////////
 // --------------------------- Helper tasks -----------------------------------//
 // ----------------------------------------------------------------------------//
 
-gulp.task('build', ['vendorScripts', 'javascript', 'collecticons'], function () {
+gulp.task('build', ['vendorScripts', 'javascript'], function () {
   gulp.start(['html', 'images', 'fonts', 'extras'], function () {
     return gulp.src('dist/**/*')
       .pipe($.size({title: 'build', gzip: true}))
@@ -235,7 +201,9 @@ gulp.task('styles', function () {
 gulp.task('html', ['styles'], function () {
   return gulp.src('app/*.html')
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
-    .pipe($.if('*.js', $.uglify()))
+    // Do not compress comparisons, to avoid MapboxGLJS minification issue
+    // https://github.com/mapbox/mapbox-gl-js/issues/4359#issuecomment-286277540
+    .pipe($.if('*.js', $.uglify({compress: {comparisons: false}})))
     .pipe($.if('*.css', $.csso()))
     .pipe($.if(/\.(css|js)$/, rev()))
     .pipe(revReplace())

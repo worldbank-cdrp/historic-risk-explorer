@@ -12,7 +12,11 @@ const disasters = function (state = DISASTERS, action) {
   return state;
 };
 
-const visibleLayer = function (state = {}, action) {
+const defaultVisibleLayer = {
+  layer: 'admin'
+};
+
+const visibleLayer = function (state = defaultVisibleLayer, action) {
   switch (action.type) {
     case actions.SET_VISIBLE_LAYER:
       state = Object.assign({}, state);
@@ -22,7 +26,7 @@ const visibleLayer = function (state = {}, action) {
 };
 
 const defaultOverlayMetric = {
-  metric: 'exposure-loss'
+  metric: 'exposure'
 };
 
 const overlayMetric = function (state = defaultOverlayMetric, action) {
@@ -30,6 +34,19 @@ const overlayMetric = function (state = defaultOverlayMetric, action) {
     case actions.SET_OVERLAY_METRIC:
       state = Object.assign({}, state);
       state.metric = action.text !== 'exposure' ? action.text : defaultOverlayMetric.metric;
+  }
+  return state;
+};
+
+const defaultOverlayFootprint = {
+  enabled: false
+};
+
+const overlayFootprint = function (state = defaultOverlayFootprint, action) {
+  switch (action.type) {
+    case actions.SET_OVERLAY_FOOTPRINT_STATE:
+      state = Object.assign({}, state);
+      state.enabled = action.enabled;
   }
   return state;
 };
@@ -61,13 +78,26 @@ const initialDisaster = function (state = defaultDisasterIndex, action) {
   return state;
 };
 
-const defaultMap = { val: 0, valType: 'absolute' };
+const defaultMap = {
+  val: null,
+  name: null,
+  maxValue: null,
+  valType: 'absolute'
+};
 
 const map = function (state = defaultMap, action) {
   switch (action.type) {
     case actions.SET_CURRENT_LEGEND_METRIC_VAL:
       state = Object.assign({}, state);
       state.val = action.val;
+      break;
+    case actions.SET_CURRENT_LEGEND_NAME:
+      state = Object.assign({}, state);
+      state.name = action.name;
+      break;
+    case actions.SET_MAX_VALUE:
+      state = Object.assign({}, state);
+      state.maxValue = action.maxValue;
       break;
     case actions.SET_VALUE_TYPE:
       state = Object.assign({}, state);
@@ -84,7 +114,8 @@ const reducer = combineReducers({
   overlayMetric,
   map,
   routing: routerReducer,
-  visibleLayer
+  visibleLayer,
+  overlayFootprint
 });
 
 export default reducer;

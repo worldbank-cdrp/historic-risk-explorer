@@ -7,23 +7,35 @@ import config from '../config';
  * @param {object} disaster disaster object with data needed fro map making
  * @return {object} mapboxgl style object for exposure layer
  */
-export function makeExposureLayer (disaster, layerIdBase) {
+export function makeExposureLayer (disaster, layerIdBase, metric) {
   // make source and source layer needed to generate id, source.url, and source-layer
-  const sourceBase = `${config.mapLayers['exposure-loss'].layers.main}${layerIdBase}`;
+  const sourceBase = `${config.mapLayers['exposure'].layers.main}${layerIdBase}`;
   let source = makeDisasterSource(sourceBase, disaster);
-  let sourceLayer = `${config.mapLayers['exposure-loss'].id}`;
+  let sourceLayer = config.mapLayers['exposure'].id;
   // use source, sourceLayer, geomType, and type to make base styleSpec
   let styleSpec = {
     id: `${sourceLayer}-${layerIdBase}`,
-    type: config.mapLayers['exposure-loss'].layers.geomType,
+    type: config.mapLayers['exposure'].layers.geomType,
     source: {
-      type: config.mapLayers['exposure-loss'].layers.type,
+      type: config.mapLayers['exposure'].layers.type,
       url: `mapbox://${config.mapboxAccountName}.${source}`
     },
-    'source-layer': sourceLayer
+    'source-layer': sourceLayer,
+    paint: {
+      'fill-color': {
+        property: metric,
+        type: 'exponential',
+        colorSpace: 'lab',
+        stops: [
+          [0, config.minColor],
+          [disaster.maxValues[metric][layerIdBase], config.maxColor]
+        ]
+      },
+      'fill-opacity': 0.5
+    }
   };
   // add layer specific zoom
-  let zoom = config.mapLayers['exposure-loss'].layers.zooms[layerIdBase];
+  let zoom = config.mapLayers['exposure'].layers.zooms[layerIdBase];
   if (zoom) {
     if (zoom.maxZoom) {
       styleSpec.maxzoom = zoom.maxZoom;
@@ -58,7 +70,7 @@ export function makeFootPrintLayer (disaster, id) {
     type: 'raster',
     source: id,
     paint: {
-      'raster-opacity': 0.06
+      'raster-opacity': 0.88
     }
   };
 }
@@ -85,13 +97,10 @@ export function makeSliderLayer (id) {
 }
 
 export function makeFootPrintSource (disaster) {
-  // TOFIX: currently this is set to work for only armenia, once data has consistent
-  // nomenclature in mapbox, will switch back to using config
-  // let sourceBase = config.mapLayers[disaster.dmetric].layers.main;
-  // let source = makeDisasterSource(sourceBase, disaster);
   return {
-    type: 'raster',
-    url: `mapbox://${config.mapboxAccountName}.Armenia_EQ_1988_Intensity`
+    type: 'image',
+    url: `/assets/graphics/footprints/${disaster.footprint.name}.png`,
+    coordinates: disaster.footprint.bbox
   };
 }
 

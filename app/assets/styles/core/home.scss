@@ -12,14 +12,14 @@
   	color: rgba(#FFF, 0.0);
     width: 60%;
     position: relative;
-    animation: 3s ease 2s 1 text-load;
+    animation: 2s ease 1s 1 text-load;
     animation-fill-mode: forwards;
     @include media(small-down) {
       width: 90%;
     }
   }
   hr {
-    animation: 3s ease 2s 1 deco-load;
+    animation: 2s ease 1s 1 deco-load;
     animation-fill-mode: forwards;
   }
   background-size: cover;
@@ -43,21 +43,25 @@
 }
 
 .text-column {
-  @include column(4/12);
+  @include column(5/12);
+  margin-bottom: 0;
   @include media(small-down){
     @include column(12/12);
+    margin-bottom: $global-spacing * 2;
   }
 }
 
 .img-column {
-  @include column (8/12);
+  @include column (7/12);
   @include media(small-down){
     @include column(12/12);
   }
 }
 
 .about-tease {
+  @include column(12/12);
   box-shadow: 0 4px 3px -1px rgba($base-color, 0.06);
+  margin-bottom: $global-spacing * 4;
 }
 
 .risk-explorer-tease {
@@ -118,7 +122,7 @@
 .disasters-list__item {
   box-shadow: $base-shadow;
   height: 250px;
-  @include column(5.5/12, $offset: -0.05/12);
+  @include column(6/12, $cycle: 2);
   margin-right: $global-spacing;
   margin-top: $global-spacing;
   overflow: hidden;

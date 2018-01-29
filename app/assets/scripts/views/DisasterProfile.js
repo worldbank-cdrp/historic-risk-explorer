@@ -2,15 +2,18 @@
 'use strict';
 import React, { Component } from 'react';
 import config from '../config';
-import { map, pickBy } from 'lodash';
+import { map } from 'lodash';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import c from 'classnames';
 import {
   clearDisaster,
   setOverlayMetric,
   setDisaster,
   setPaginationDirection,
-  setCurrentLegendMetricVal
+  setCurrentLegendMetricVal,
+  setCurrentLegendName,
+  setOverlayFootprintState
 } from '../actions/action-creators';
 
 import {
@@ -38,13 +41,17 @@ class DisasterProfile extends Component {
     disasters: PropTypes.array.isRequired,
     disaster: PropTypes.object.isRequired,
     initialDisasterIndex: PropTypes.number.isRequired,
+    overlayMetric: PropTypes.string.isRequired,
     match: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
+    overlayFootprintState: PropTypes.bool.isRequired,
     _clearDisaster: PropTypes.func.isRequired,
     _setDisaster: PropTypes.func.isRequired,
     _setOverlayMetric: PropTypes.func.isRequired,
-    _setCurrentLegendMetricVal: PropTypes.func.isRequired
+    _setCurrentLegendMetricVal: PropTypes.func.isRequired,
+    _setCurrentLegendName: PropTypes.func.isRequired,
+    _setOverlayFootprintState: PropTypes.func.isRequired
   }
 
   componentWillMount () {
@@ -69,24 +76,44 @@ class DisasterProfile extends Component {
   }
 
   makeMetricButtons () {
-    return ['Exposure', 'Annualized Loss', 'Loss Ratio'].map((m, i) => {
+    let btns = ['Loss', 'Exposure', 'Loss Ratio'].map((m, i) => {
+      const metricName = m.replace(' ', '-').toLowerCase();
+      const cl = c('button button--large', {
+        'button--base-bounded': this.props.overlayMetric !== metricName,
+        'button--base': this.props.overlayMetric === metricName,
+        'disabled': !this.props.disaster.maxValues
+      });
       return (
-        <li key={m}><button className='button button--large button--base-bounded'
-          value={m.replace(' ', '-').toLowerCase()}
-          onClick={(e) => {
-            e.preventDefault();
-            this.props._setOverlayMetric(e.target.value);
-            this.props._setCurrentLegendMetricVal(0);
+        <li key={m}><button className={cl}
+          onClick={() => {
+            this.props._setOverlayMetric(metricName);
+            this.props._setCurrentLegendMetricVal(null);
+            this.props._setCurrentLegendName(null);
           }}>{m}</button></li>
       );
     });
+
+    const cl = c('button button--large button--footprint', {
+      'button--base-bounded': !this.props.overlayFootprintState,
+      'button--base': this.props.overlayFootprintState,
+      'disabled': !this.props.disaster.footprint
+    });
+
+    btns.push(
+      <li key='footprint'>
+        <button className={cl}
+          onClick={() => {
+            this.props._setOverlayFootprintState(!this.props.overlayFootprintState);
+          }}>Footprint</button>
+      </li>
+    );
+    return btns;
   }
 
   makeDataListElements (metric) {
     let metricData = this.props.disaster[metric];
-    // filter only those in list with property values
-    metricData = pickBy(metricData, (m, k) => { return m; });
     return map(metricData, (m, k) => {
+      if (!m) { return (<li key={`${k}-${m}`} ><h3 className='heading--small'>unknown<small>{k}</small></h3></li>); }
       if (metric === 'lossratio') { return (<li key={`${k}-${m}`}><h3 className='heading--small'>{`${m}%`}<small>{k}</small></h3></li>); }
       return (<li key={`${k}-${m}`} ><h3 className='heading--small'>{`$${m}M`}<small>{k}</small></h3></li>);
     });
@@ -95,12 +122,16 @@ class DisasterProfile extends Component {
   makeProfilePath (profile) { return `assets/profiles/${profile}.pdf`; }
 
   makeHeaderListElements () {
-    return config.profileHeader.map((element) => (
-      <li key={`${this.props.disaster.c}-${element.header}`} className='metrics__item'>
-        <h1>{element.header}</h1>
-        <p>{this.props.disaster[element.info] || 'N/A'}</p>
-      </li>
-    ));
+    return config.profileHeader.map((element) =>
+      this.props.disaster[element.info]
+      ? (
+          <li key={`${this.props.disaster.c}-${element.header}`} className='metrics__item'>
+            <h1>{element.header}</h1>
+            <p>{this.props.disaster[element.info]}</p>
+          </li>
+        )
+      : ''
+    );
   }
 
   renderSliderMap () {
@@ -120,12 +151,11 @@ class DisasterProfile extends Component {
 
   renderDisasterProfile () {
     return (
-      <div>
+      <div className='page--disaster-profile'>
         <section className='inpage__header' style={makeImage(this.props.disaster)}>
           <div className='inner'>
-            <p className='subheading'>{this.props.disaster.m} {this.props.disaster.y}</p>
-            <h1 className='heading--xxlarge'>{this.props.disaster.n} {this.props.disaster.y} {this.props.disaster.t}</h1>
-            <hr align='left'></hr>
+            <h1 className='heading--xxlarge'>{this.props.disaster.n} {this.props.disaster.t}, {this.props.disaster.y}</h1>
+            <hr></hr>
             <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum tempor ornare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempu</p>
           </div>
         </section>
@@ -142,10 +172,10 @@ class DisasterProfile extends Component {
           </section>
           <section className='national-overview'>
             <div className='inner'>
-              <h2>National Historic Losses vs. Modelled</h2>
+              <h2>National Residential Stock, and Disaster Impact</h2>
               <ul className='national-metrics'>
                 <li className='national-metrics__item'>
-                  <h2 className='alt-heading'>Annualized Loss</h2>
+                  <h2 className='alt-heading'>Loss</h2>
                   <ul>
                     {this.makeDataListElements('annloss')}
                   </ul>
@@ -205,7 +235,9 @@ const selector = (state) => {
   return {
     disasters: state.disasters,
     disaster: state.disaster,
-    initialDisasterIndex: state.initialDisaster.index
+    initialDisasterIndex: state.initialDisaster.index,
+    overlayMetric: state.overlayMetric.metric,
+    overlayFootprintState: state.overlayFootprint.enabled
   };
 };
 
@@ -215,7 +247,9 @@ const dispatcher = (dispatch) => {
     _setOverlayMetric: (metric) => dispatch(setOverlayMetric(metric)),
     _setDisaster: (disaster) => dispatch(setDisaster(disaster)),
     _setPaginationDirection: (direction) => dispatch(setPaginationDirection(direction)),
-    _setCurrentLegendMetricVal: (val) => dispatch(setCurrentLegendMetricVal(val))
+    _setCurrentLegendMetricVal: (val) => dispatch(setCurrentLegendMetricVal(val)),
+    _setCurrentLegendName: (name) => dispatch(setCurrentLegendName(name)),
+    _setOverlayFootprintState: (...args) => dispatch(setOverlayFootprintState(...args))
   };
 };
 
