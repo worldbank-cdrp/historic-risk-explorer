@@ -73,7 +73,8 @@ class AnalysisMap extends Component {
     if (props.disaster.footprint) {
       let id = `ft-${props.disaster.footprint.name}`;
       this.querySource = id;
-      let footprintSource = makeFootPrintSource(props.disaster);
+      let footprintSource = makeFootPrintSource(props.disaster);      
+      footprintSource.url=document.location.origin+document.location.pathname+footprintSource.url;
       this._map.addSource(id, footprintSource);
       this._map.addLayer(makeFootPrintLayer(props.disaster, id));
       this.layers.push(id);
