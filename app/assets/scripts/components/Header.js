@@ -9,9 +9,6 @@ class Header extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired
   }
-  componentWillMount() {
-    document.title = 'Historic Disaster Explorer';
-  }
   render () {
     const pageNav = c('page__nav', { 'main__nav': this.props.history.location.pathname === '/' });
     return (
