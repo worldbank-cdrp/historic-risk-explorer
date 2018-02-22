@@ -18,7 +18,7 @@ def process_scene_list(scene_list, hazard_path, sensor, relTime):
             return
         # make gippy GeoImage w/image bands
         image_path = os.path.join(hazard_path, image)
-        out_image = 'corrected-' + image
+        out_image = 'corrected-' + relTime + '-' + image
         out_image_path = os.path.join(hazard_path, out_image)
         bands = get_bands(image_path, sensor)
         band_names = ['blue', 'green', 'red']

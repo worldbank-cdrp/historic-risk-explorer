@@ -52,3 +52,7 @@ shell
 
 pak-2010/
 hti-2010/
+moz-2015/
+
+*.pyc
+*.tif
