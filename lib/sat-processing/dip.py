@@ -13,7 +13,8 @@ def process_scene_list(scene_list, hazard_path, sensor, relTime):
         if sensor == 'dg':
             mosaic_out = relTime + hazard_path.split('/')[-1] + '.tif'
             mosaic_out_path = os.path.join(hazard_path, mosaic_out)
-            mosaic_images(scene_list, mosaic_out_path)
+            path_images = os.path.join(hazard_path, relTime)
+            mosaic_images(path_images, scene_list, mosaic_out_path)
             return
         # make gippy GeoImage w/image bands
         image_path = os.path.join(hazard_path, image)
@@ -51,18 +52,25 @@ def match_histograms(source, truth, match):
         output name for matched image
     """
     rio_hist_command = 'rio hist -c RGB -b 1,2,3 ' + source + ' ' + truth  + ' ' +  match
+    print('\nrio_hist_command : ' + rio_hist_command)
     # match histograms per rgb values
     rio_hist_exec = Popen([rio_hist_command], shell=True)
     rio_hist_exec.communicate()
 
-def mosaic_images(image_list, mosaic):
+def mosaic_images(path_images, image_list, mosaic):
+
     """
     :image_list:
         list of images being mosaiced together
     :mosaic:
         path to mosaic being created
     """
-    merge_command = 'gdalwarp -dstnodata 0 -of GTiff ' + ' '.join([img for img in image_list]) + ' ' + mosaic
+    array_images=[]
+    for img in image_list:
+        img_in = str(img) + '.tif'
+        array_images.append(os.path.join(path_images, img_in))
+    merge_command = 'gdalwarp -dstnodata 0 -of GTiff ' + ' '.join(array_images)  + ' ' + mosaic
+    print('\nmerge_command : ' + merge_command)
     merge_exec = Popen([merge_command], shell=True);
     merge_exec.communicate()
 
@@ -123,6 +131,7 @@ def remove_nulls(hazard_path, image):
     no_null_image = os.path.join(hazard_path, no_null_image)
     overwrite_command = ' '.join(['gdal_translate', '-of', 'GTiff', '-a_nodata', '0', image + '.tif', no_null_image + '.tif'])
     print('\nProcessing: converting null values to 0')
+    print('\noverwrite_command: ' + overwrite_command)
     overwrite_command = Popen([overwrite_command], shell=True) 
     overwrite_command.communicate()
 

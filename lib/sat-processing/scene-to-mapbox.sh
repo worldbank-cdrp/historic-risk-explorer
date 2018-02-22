@@ -11,18 +11,18 @@ python processing-downloading.py processing-config.yml process
 echo "Uploading scenes to mapbox"
 
 # get hazard names
-HAZARDS=$(for sensor in $(cat ./processing-config.yml | shyaml keys sensors); do cat ./processing-config.yml | shyaml keys sensors.$sensor.hazards; done)
+# HAZARDS=$(for sensor in $(cat ./processing-config.yml | shyaml keys sensors); do cat ./processing-config.yml | shyaml keys sensors.$sensor.hazards; done)
 
-# output folder where images are held
+# # output folder where images are held
 
-for HAZARD in $HAZARDS;
-do
-  for PREFIX in pre post;
-  do
-    FILENAME=$PREFIX-$HAZARD
-    FILEPATH=./$HAZARD/$FILENAME.tif
-    echo "Uploading ${MAPBOX_ACCOUNT}.${LOCATION}-${FILENAME}"
-    # mapbox upload "${MAPBOX_ACCOUNT}.${LOCATION}-${FILENAME}" "$FILEPATH"
-  done;
-done
-echo "Files sent to mapbox"
+# for HAZARD in $HAZARDS;
+# do
+#   for PREFIX in pre post;
+#   do
+#     FILENAME=$PREFIX-$HAZARD
+#     FILEPATH=./$HAZARD/$FILENAME.tif
+#     echo "Uploading ${MAPBOX_ACCOUNT}.${LOCATION}-${FILENAME}"
+#     # mapbox upload "${MAPBOX_ACCOUNT}.${LOCATION}-${FILENAME}" "$FILEPATH"
+#   done;
+# done
+# echo "Files sent to mapbox"
