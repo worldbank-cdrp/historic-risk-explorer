@@ -6,10 +6,7 @@ def download_scene_list(scene_list, sensor, hazard, hazard_path, relTime):
         image = str(image)
         image_sensor = Sensor(sensor, [image], hazard, hazard_path)
         print('Downloading: ' + image)
-        if sensor != 'dg':
-            image_sensor.downloader(relTime)
-        else:
-            image_sensor.downloader(relTime)
+        image_sensor.downloader(relTime)
 
 def download_scenes(sensor, hazard, hazard_path, config):
     """
