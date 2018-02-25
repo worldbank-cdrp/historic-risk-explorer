@@ -49,7 +49,7 @@ class AnalysisMapLegend extends Component {
           }
           {this.props.overlayFootprintState
             ? <div>
-              <div style={{height: '15px', width: '100px', opacity: 0.5, backgroundImage: `linear-gradient(to right, #000, #fff)`}}></div>
+              <div style={{height: '15px', width: '170px', opacity: 0.5, backgroundImage: `linear-gradient(to right, #fff, #000)`}}></div>
               <p className='legend-note'>Low to High Impact</p>
             </div>
             : ''
