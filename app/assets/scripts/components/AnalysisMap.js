@@ -1,7 +1,12 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {
+  Component
+} from 'react';
+import {
+  connect
+} from 'react-redux';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import ReactDOM from 'react-dom'
 
 import mapboxgl from 'mapbox-gl';
 import config from '../config';
@@ -10,7 +15,7 @@ import {
   makeExposureLayer,
   makeFootPrintSource,
   makeFootPrintLayer
- } from '../utils/map';
+} from '../utils/map';
 
 import {
   setCurrentLegendMetricVal,
@@ -20,7 +25,7 @@ import {
 
 import AnalysisLayerControl from './AnalysisLayerControl';
 import AnalysisMapLegend from './AnalysisMapLegend';
-
+import AnalysisMapToltip from './AnalysisMapToltip';
 const METRICS = {
   exposure: 'exp',
   loss: 'aloss',
@@ -28,7 +33,7 @@ const METRICS = {
 };
 
 class AnalysisMap extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     this._loadLayers = this._loadLayers.bind(this);
     this._removeLayers = this._removeLayers.bind(this);
@@ -45,7 +50,7 @@ class AnalysisMap extends Component {
     visibleLayer: PropTypes.object.isRequired,
     overlayFootprintState: PropTypes.bool.isRequired
   }
-  _loadLayers (props) {
+  _loadLayers(props) {
     if (props.disaster.maxValues) {
       // add & hide overlay layers
       const level = this._getLayerLevel(props.visibleLayer, this._map.getZoom());
@@ -73,8 +78,8 @@ class AnalysisMap extends Component {
     if (props.disaster.footprint) {
       let id = `ft-${props.disaster.footprint.name}`;
       this.querySource = id;
-      let footprintSource = makeFootPrintSource(props.disaster);      
-      footprintSource.url=document.location.origin+document.location.pathname+footprintSource.url;
+      let footprintSource = makeFootPrintSource(props.disaster);
+      footprintSource.url = document.location.origin + document.location.pathname + footprintSource.url;
       this._map.addSource(id, footprintSource);
       this._map.addLayer(makeFootPrintLayer(props.disaster, id));
       this.layers.push(id);
@@ -83,19 +88,29 @@ class AnalysisMap extends Component {
     }
   }
 
-  _removeLayers () {
-    this.layers.forEach(layer => { if (this._map.getLayer(layer)) { this._map.removeLayer(layer); } });
+  _removeLayers() {
+    this.layers.forEach(layer => {
+      if (this._map.getLayer(layer)) {
+        this._map.removeLayer(layer);
+      }
+    });
     Object.keys(this._map.style.sourceCaches).forEach((source) => {
-      if (source !== 'composite') { if (this._map.getSource(source)) { this._map.removeSource(source); } }
+      if (source !== 'composite') {
+        if (this._map.getSource(source)) {
+          this._map.removeSource(source);
+        }
+      }
     });
   }
 
-  _addNavigation () {
+  _addNavigation() {
     this._map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
   }
 
-  _updateVisibleLayers (current, next) {
-    if (current.overlayMetric !== next.overlayMetric) { return; }
+  _updateVisibleLayers(current, next) {
+    if (current.overlayMetric !== next.overlayMetric) {
+      return;
+    }
 
     let nextLayer = new RegExp(next.visibleLayer.layer);
     const idKeys = Object.keys(config.mapLayers['exposure'].layers.ids);
@@ -120,7 +135,7 @@ class AnalysisMap extends Component {
     });
   }
 
-  _getLayerLevel (visibleLayer, zoom) {
+  _getLayerLevel(visibleLayer, zoom) {
     let level = visibleLayer.layer || 'admin';
     if (level === 'grid') {
       const zooms = config.mapLayers.exposure.layers.zooms;
@@ -129,12 +144,28 @@ class AnalysisMap extends Component {
     return level;
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.sources = [];
     this.layers = [];
   }
 
-  componentDidMount () {
+  tooltipContainer
+  setTooltip(feature) {
+    if (feature) {
+      ReactDOM.render(
+        React.createElement(
+          AnalysisMapToltip, {
+            feature
+          }
+        ),
+        this.tooltipContainer
+      );
+    } else {
+      this.tooltipContainer.innerHTML = '';
+    }
+  }
+
+  componentDidMount() {
     mapboxgl.accessToken = config.mapboxApiKey;
     this._map = new mapboxgl.Map({
       container: 'analysisMap',
@@ -153,6 +184,13 @@ class AnalysisMap extends Component {
     this._map.on('load', () => {
       this._loadLayers(this.props);
     });
+
+    //toltip
+    this.tooltipContainer = document.createElement('div');
+    const tooltip = new mapboxgl.Marker(this.tooltipContainer, {
+      offset: [-120, 0]
+    }).setLngLat([0, 0]).addTo(this._map);
+
     this._map.on('mousemove', (e) => {
       let queriedFeatures = this._map.queryRenderedFeatures(e.point);
       queriedFeatures = queriedFeatures.find((f) => this.layers.includes(f.layer.id));
@@ -162,10 +200,20 @@ class AnalysisMap extends Component {
         this.props._setCurrentLegendMetricVal(metricVal);
         if (queriedFeatures.properties.name) {
           this.props._setCurrentLegendName(queriedFeatures.properties.name);
+          //toltip
+          tooltip.setLngLat(e.lngLat);
+          this._map.getCanvas().style.cursor = queriedFeatures.length ? 'pointer' : '';
+          queriedFeatures.properties.props ={
+            disaster:this.props.disaster,
+            metricPropKey,
+            metricVal
+          }
+          this.setTooltip(queriedFeatures);
         }
       } else {
         this.props._setCurrentLegendMetricVal(null);
         this.props._setCurrentLegendName(null);
+        this.setTooltip(null);
       }
     });
     this._map.on('zoomend', () => {
@@ -175,7 +223,7 @@ class AnalysisMap extends Component {
       this.props._setMaxValue(layerMaxValue);
     });
   }
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (this.props.disaster !== nextProps.disaster) {
       this._map.fitBounds(nextProps.disaster.bbox, {
         animate: false,
@@ -221,15 +269,22 @@ class AnalysisMap extends Component {
     }
   }
 
-  render () {
-    return (
-      <div className='map-canvas'>
-        <div className='inner'>
-          <AnalysisLayerControl disaster={this.props.disaster} />
-          <AnalysisMapLegend />
-        </div>
-        <div id='analysisMap'/>
-      </div>
+  render() {
+    return ( <
+      div className = 'map-canvas' >
+      <
+      div className = 'inner' >
+      <
+      AnalysisLayerControl disaster = {
+        this.props.disaster
+      }
+      /> <
+      AnalysisMapLegend / >
+      <
+      /div> <
+      div id = 'analysisMap' / >
+      <
+      /div>
     );
   }
 }

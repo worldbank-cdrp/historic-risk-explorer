@@ -16,8 +16,12 @@ class AnalysisMapLegend extends Component {
 
   render () {
     let overlayMetric = this.props.overlayMetric.metric;
+    console.log(overlayMetric)
     let overlayMetricTitle = config.legend[overlayMetric].title;
+
+    console.log(overlayMetricTitle)
     let overlayMetricIdUnits = config.legend[overlayMetric].idUnits;
+    console.log(overlayMetricIdUnits)
 
     // `loss-ratio` values are in the 0–1 domain, but should be shown in the 0–100 domain
     let currentMapVal = this.props.currentMapVal;
