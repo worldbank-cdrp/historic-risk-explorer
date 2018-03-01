@@ -72,3 +72,10 @@ p.map-layer__title {
   font-size: 0.875rem;
   margin-bottom: $global-spacing/4;
 }
+
+.mapboxgl-popup {
+  max-width: 200px;
+  width: 200px;
+  height:150px;
+  max-height: 150px;
+}

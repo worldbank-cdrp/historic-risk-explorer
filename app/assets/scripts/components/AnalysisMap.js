@@ -188,7 +188,7 @@ class AnalysisMap extends Component {
     //toltip
     this.tooltipContainer = document.createElement('div');
     const tooltip = new mapboxgl.Marker(this.tooltipContainer, {
-      offset: [-120, 0]
+      offset: [-100, -160]
     }).setLngLat([0, 0]).addTo(this._map);
 
     this._map.on('mousemove', (e) => {
