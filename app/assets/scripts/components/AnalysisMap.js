@@ -269,22 +269,15 @@ class AnalysisMap extends Component {
     }
   }
 
-  render() {
-    return ( <
-      div className = 'map-canvas' >
-      <
-      div className = 'inner' >
-      <
-      AnalysisLayerControl disaster = {
-        this.props.disaster
-      }
-      /> <
-      AnalysisMapLegend / >
-      <
-      /div> <
-      div id = 'analysisMap' / >
-      <
-      /div>
+  render () {
+    return (
+      <div className='map-canvas'>
+        <div className='inner'>
+          <AnalysisLayerControl disaster={this.props.disaster} />
+          <AnalysisMapLegend />
+        </div>
+        <div id='analysisMap'/>
+      </div>
     );
   }
 }
