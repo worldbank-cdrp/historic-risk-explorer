@@ -206,7 +206,7 @@ dolor si  t amet, consectetur adipiscing elit. Duis sed nisl augue</p>
               </ul>
             </div>
             <div>
-             <AnalysisMap disaster={this.props.disaster} />
+             <AnalysisMap />
             </div>
           </section>
           <section className='images'>

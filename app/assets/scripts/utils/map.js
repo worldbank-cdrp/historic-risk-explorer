@@ -22,15 +22,7 @@ export function makeExposureLayer (disaster, layerIdBase, metric) {
     },
     'source-layer': sourceLayer,
     paint: {
-      'fill-color': {
-        property: metric,
-        type: 'exponential',
-        colorSpace: 'lab',
-        stops: [
-          [0, config.minColor],
-          [disaster.maxValues[metric][layerIdBase], config.maxColor]
-        ]
-      },
+      'fill-color': getExposureLayerFill(disaster, layerIdBase, metric),
       'fill-opacity': 0.5
     }
   };
@@ -45,6 +37,18 @@ export function makeExposureLayer (disaster, layerIdBase, metric) {
     }
   }
   return styleSpec;
+}
+
+export function getExposureLayerFill (disaster, layerIdBase, metric) {
+  return {
+    property: metric,
+    type: 'exponential',
+    colorSpace: 'lab',
+    stops: [
+      [0, config.minColor],
+      [disaster.maxValues[metric][layerIdBase], config.maxColor]
+    ]
+  };
 }
 
 export function getVisibleExposureLayers (layerId, layers, id) {
@@ -63,12 +67,15 @@ export function getVisibleExposureLayers (layerId, layers, id) {
   return visibleLayers;
 }
 
-// TOFIX: remove disaster parameter
-export function makeFootPrintLayer (disaster, id) {
+export function makeFootPrintLayer (id, disaster) {
   return {
     id: id,
     type: 'raster',
-    source: id,
+    source: {
+      type: 'image',
+      url: document.location.origin + document.location.pathname + `/assets/graphics/footprints/${disaster.footprint.name}.png`,
+      coordinates: disaster.footprint.bbox
+    },
     paint: {
       'raster-opacity': 0.88
     }
@@ -93,14 +100,6 @@ export function makeSliderLayer (id) {
     type: 'raster',
     source: id,
     paint: {}
-  };
-}
-
-export function makeFootPrintSource (disaster) {
-  return {
-    type: 'image',
-    url: `/assets/graphics/footprints/${disaster.footprint.name}.png`,
-    coordinates: disaster.footprint.bbox
   };
 }
 
