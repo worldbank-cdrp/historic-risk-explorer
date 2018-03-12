@@ -1,10 +1,10 @@
-
 'use strict';
+
 import React, { Component } from 'react';
+import T from 'prop-types';
 import config from '../config';
 import { map } from 'lodash';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import c from 'classnames';
 import {
   clearDisaster,
@@ -36,22 +36,6 @@ class DisasterProfile extends Component {
     this.renderSliderMap = this.renderSliderMap.bind(this);
     this.makeHeaderListElements = this.makeHeaderListElements.bind(this);
     this.makeDataListElements = this.makeDataListElements.bind(this);
-  }
-  static propTypes = {
-    disasters: PropTypes.array.isRequired,
-    disaster: PropTypes.object.isRequired,
-    initialDisasterIndex: PropTypes.number.isRequired,
-    overlayMetric: PropTypes.string.isRequired,
-    match: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
-    overlayFootprintState: PropTypes.bool.isRequired,
-    _clearDisaster: PropTypes.func.isRequired,
-    _setDisaster: PropTypes.func.isRequired,
-    _setOverlayMetric: PropTypes.func.isRequired,
-    _setCurrentLegendMetricVal: PropTypes.func.isRequired,
-    _setCurrentLegendName: PropTypes.func.isRequired,
-    _setOverlayFootprintState: PropTypes.func.isRequired
   }
 
   componentWillMount () {
@@ -230,6 +214,23 @@ dolor si  t amet, consectetur adipiscing elit. Duis sed nisl augue</p>
     return this.props.disaster.set ? this.renderDisasterProfile() : (<div/>);
   }
 }
+
+DisasterProfile.propTypes = {
+  disasters: T.array.isRequired,
+  disaster: T.object.isRequired,
+  initialDisasterIndex: T.number.isRequired,
+  overlayMetric: T.string.isRequired,
+  match: T.object.isRequired,
+  location: T.object.isRequired,
+  history: T.object.isRequired,
+  overlayFootprintState: T.bool.isRequired,
+  _clearDisaster: T.func.isRequired,
+  _setDisaster: T.func.isRequired,
+  _setOverlayMetric: T.func.isRequired,
+  _setCurrentLegendMetricVal: T.func.isRequired,
+  _setCurrentLegendName: T.func.isRequired,
+  _setOverlayFootprintState: T.func.isRequired
+};
 
 const selector = (state) => {
   return {
