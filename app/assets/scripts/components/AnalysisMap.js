@@ -1,7 +1,10 @@
-import React, { Component } from 'react';
+'use strict';
+import React from 'react';
+import { render } from 'react-dom';
 import { connect } from 'react-redux';
 import T from 'prop-types';
 import _ from 'lodash';
+import numeral from 'numeral';
 
 import mapboxgl from 'mapbox-gl';
 import config from '../config';
@@ -13,9 +16,7 @@ import {
  } from '../utils/map';
 
 import {
-  setVisibleLayer,
-  setCurrentLegendMetricVal,
-  setCurrentLegendName
+  setVisibleLayer
 } from '../actions/action-creators';
 
 import AnalysisLayerControl from './AnalysisLayerControl';
@@ -56,7 +57,7 @@ const getLayerLevel = (level, zoom) => {
   return level;
 };
 
-class AnalysisMap extends Component {
+class AnalysisMap extends React.Component {
   constructor (props) {
     super(props);
 
@@ -74,6 +75,7 @@ class AnalysisMap extends Component {
   }
 
   setupMap () {
+    this.popover = null;
     this.mapLoaded = false;
 
     this.theMap = new mapboxgl.Map({
@@ -112,16 +114,17 @@ class AnalysisMap extends Component {
 
       const queriedFeature = this.theMap.queryRenderedFeatures(e.point, {layers: layerNames})[0];
       if (queriedFeature) {
+        this.theMap.getCanvas().style.cursor = 'pointer';
         const featProps = queriedFeature.properties;
         const metricPropKey = config.legend[this.props.overlayMetric].layerProp;
         const metricVal = featProps[metricPropKey];
-        this.props._setCurrentLegendMetricVal(metricVal);
-        if (featProps.name) {
-          this.props._setCurrentLegendName(featProps.name);
-        }
+        this.showPopover({
+          name: featProps.name,
+          value: metricVal
+        }, e.lngLat);
       } else {
-        this.props._setCurrentLegendMetricVal(null);
-        this.props._setCurrentLegendName(null);
+        this.theMap.getCanvas().style.cursor = '';
+        this.popover && this.popover.remove();
       }
     });
 
@@ -165,6 +168,26 @@ class AnalysisMap extends Component {
       const visibility = exposureLevel === layerType ? 'visible' : 'none';
       this.theMap.setLayoutProperty(fullName, 'visibility', visibility);
     });
+  }
+
+  showPopover ({name, value}, lngLat) {
+    let popoverContent = document.createElement('div');
+
+    render(<MapPopover
+            name={name}
+            value={value}
+            overlayMetric={this.props.overlayMetric} />, popoverContent);
+
+    // Populate the popup and set its coordinates
+    // based on the feature found.
+    if (this.popover != null) {
+      this.popover.remove();
+    }
+
+    this.popover = new mapboxgl.Popup({closeButton: false})
+      .setLngLat(lngLat)
+      .setDOMContent(popoverContent)
+      .addTo(this.theMap);
   }
 
   componentDidMount () {
@@ -252,8 +275,6 @@ class AnalysisMap extends Component {
           <AnalysisMapLegend
             overlayFootprintState={this.props.overlayFootprintState}
             overlayMetric={this.props.overlayMetric}
-            currentMapVal={this.props.currentMapVal}
-            currentName={this.props.currentName}
             maxValue={maxValue} />
         </div>
         <div id='analysisMap' ref='map'>{/* Map injected here */}</div>
@@ -279,18 +300,48 @@ const selector = (state) => {
     disaster: state.disaster,
     overlayMetric: state.overlayMetric.metric,
     overlayFootprintState: state.overlayFootprint.enabled,
-    exposureLevel: state.visibleLayer.layer,
-    currentMapVal: state.map.val,
-    currentName: state.map.name
+    exposureLevel: state.visibleLayer.layer
   };
 };
 
 const dispatcher = (dispatch) => {
   return {
-    _setVisibleLayer: (...args) => dispatch(setVisibleLayer(...args)),
-    _setCurrentLegendMetricVal: (...args) => dispatch(setCurrentLegendMetricVal(...args)),
-    _setCurrentLegendName: (...args) => dispatch(setCurrentLegendName(...args))
+    _setVisibleLayer: (...args) => dispatch(setVisibleLayer(...args))
   };
 };
 
 export default connect(selector, dispatcher)(AnalysisMap);
+
+class MapPopover extends React.Component {
+  render () {
+    const { name, value, overlayMetric } = this.props;
+    const overlayMetricIdUnits = config.legend[overlayMetric].idUnits;
+    // `loss-ratio` values are in the 0–1 domain, but should be shown in the 0–100 domain
+    const currVal = overlayMetric === 'loss-ratio' ? value * 100 : value;
+    const formatVal = numeral(currVal).format('0.0a');
+
+    // If the value is too small (like 1.64870050785193e-9) the format will return "NaN"
+    const overlayMetricText = `${formatVal === 'NaN' ? 0 : formatVal} ${overlayMetricIdUnits}`;
+
+    return (
+      <article className='popover'>
+        <div className='popover__contents'>
+          <header className='popover__header'>
+            <div className='popover__headline'>
+              <h3 className='popover__title'>{name}</h3>
+            </div>
+          </header>
+          <div className='popover__body'>
+            <p>{overlayMetricText}</p>
+          </div>
+        </div>
+      </article>
+    );
+  }
+}
+
+MapPopover.propTypes = {
+  name: T.string,
+  value: T.number,
+  overlayMetric: T.string
+};
