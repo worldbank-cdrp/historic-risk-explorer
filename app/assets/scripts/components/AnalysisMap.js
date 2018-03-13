@@ -4,7 +4,6 @@ import { render } from 'react-dom';
 import { connect } from 'react-redux';
 import T from 'prop-types';
 import _ from 'lodash';
-import numeral from 'numeral';
 
 import mapboxgl from 'mapbox-gl';
 import config from '../config';
@@ -21,6 +20,7 @@ import {
 
 import AnalysisLayerControl from './AnalysisLayerControl';
 import AnalysisMapLegend from './AnalysisMapLegend';
+import AnalysisMapPopover from './AnalysisMapPopover';
 
 mapboxgl.accessToken = config.mapboxApiKey;
 
@@ -172,10 +172,13 @@ class AnalysisMap extends React.Component {
 
   showPopover ({name, value}, lngLat) {
     let popoverContent = document.createElement('div');
-
-    render(<MapPopover
+    const metricPropKey = config.legend[this.props.overlayMetric].layerProp;
+    const level = getLayerLevel(this.props.exposureLevel, this.theMap.getZoom());
+    const maxValue = this.props.disaster.maxValues[metricPropKey][level];
+    render(<AnalysisMapPopover
             name={name}
             value={value}
+            maxValue={maxValue}
             overlayMetric={this.props.overlayMetric} />, popoverContent);
 
     // Populate the popup and set its coordinates
@@ -311,37 +314,3 @@ const dispatcher = (dispatch) => {
 };
 
 export default connect(selector, dispatcher)(AnalysisMap);
-
-class MapPopover extends React.Component {
-  render () {
-    const { name, value, overlayMetric } = this.props;
-    const overlayMetricIdUnits = config.legend[overlayMetric].idUnits;
-    // `loss-ratio` values are in the 0–1 domain, but should be shown in the 0–100 domain
-    const currVal = overlayMetric === 'loss-ratio' ? value * 100 : value;
-    const formatVal = numeral(currVal).format('0.0a');
-
-    // If the value is too small (like 1.64870050785193e-9) the format will return "NaN"
-    const overlayMetricText = `${formatVal === 'NaN' ? 0 : formatVal} ${overlayMetricIdUnits}`;
-
-    return (
-      <article className='popover'>
-        <div className='popover__contents'>
-          <header className='popover__header'>
-            <div className='popover__headline'>
-              <h3 className='popover__title'>{name}</h3>
-            </div>
-          </header>
-          <div className='popover__body'>
-            <p>{overlayMetricText}</p>
-          </div>
-        </div>
-      </article>
-    );
-  }
-}
-
-MapPopover.propTypes = {
-  name: T.string,
-  value: T.number,
-  overlayMetric: T.string
-};
