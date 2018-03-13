@@ -8,7 +8,7 @@
   position: relative;
 }
 
-.map-canvas, compare-map-cavas {
+.map-canvas, .compare-map-canvas {
   position: relative;
   border-top: solid 1px $secondary-color;
   border-bottom: solid 1px $secondary-color;
@@ -71,4 +71,6 @@ p.map-layer__title {
   width: 100%;
   font-size: 0.875rem;
   margin-bottom: $global-spacing/4;
+
 }
+

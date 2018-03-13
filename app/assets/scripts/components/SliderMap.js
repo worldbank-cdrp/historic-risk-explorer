@@ -1,7 +1,6 @@
 'use-strict';
 
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import mapboxgl from 'mapbox-gl';
 import Compare from 'mapbox-gl-compare';
@@ -13,10 +12,6 @@ import {
  } from '../utils/map';
 
 class SliderMap extends Component {
-  static propTypes = {
-    disaster: PropTypes.object.isRequired
-  }
-
   _loadLayers (props, map, time) {
     // base layer
     let id = props.disaster[time];
@@ -41,13 +36,13 @@ class SliderMap extends Component {
   componentDidMount () {
     mapboxgl.accessToken = config.mapboxApiKey;
     this._preDisasterMap = new mapboxgl.Map({
-      container: 'pre-disaster',
+      container: this.refs.before,
       style: config['disaster-data'],
       center: this.props.disaster.sliderCenter,
       zoom: this.props.disaster.sliderZoom
     });
     this._postDisasterMap = new mapboxgl.Map({
-      container: 'post-disaster',
+      container: this.refs.after,
       style: config['disaster-data'],
       center: this.props.disaster.sliderCenter,
       zoom: this.props.disaster.sliderZoom
@@ -80,17 +75,15 @@ class SliderMap extends Component {
   render () {
     return (
       <div id="compareMap" className='compare-map-canvas'>
-        <div id='pre-disaster' className='compare-map-canvas' />
-        <div id='post-disaster' className='compare-map-canvas' />
+        <div id='pre-disaster' className='compare-map-canvas' ref='before' />
+        <div id='post-disaster' className='compare-map-canvas' ref='after' />
       </div>
     );
   }
 }
 
-function selector (state) {
-  return {
-    disaster: state.disaster
-  };
-}
+SliderMap.propTypes = {
+  disaster: PropTypes.object.isRequired
+};
 
-export default connect(selector)(SliderMap);
+export default SliderMap;
