@@ -72,3 +72,17 @@ p.map-layer__title {
   font-size: 0.875rem;
   margin-bottom: $global-spacing/4;
 }
+
+.popover {
+  min-width: 8rem;
+}
+
+.popover__title {
+  font-size: 1rem;
+  font-family: $base-font-family;
+  margin-bottom: 0;
+}
+
+.popover__body {
+  font-size: 1rem;
+}
