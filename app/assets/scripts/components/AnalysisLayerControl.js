@@ -1,57 +1,36 @@
-import React, { Component} from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React from 'react';
+import T from 'prop-types';
 import c from 'classnames';
-import { setVisibleLayer } from '../actions/action-creators';
 import config from '../config';
 
-class AnalysisLayerControl extends Component {
-  constructor (props) {
-    super(props);
-    this.renderExposureLayerSelect = this.renderExposureLayerSelect.bind(this);
-  }
-  static propTypes = {
-    disaster: PropTypes.object.isRequired,
-    exposureLayer: PropTypes.object.isRequired,
-    _setVisibleLayer: PropTypes.func.isRequired
-  }
-
-  renderExposureLayerSelect () {
-    const layer = this.props.exposureLayer.layer || '';
-    return Object.keys(config.control['exposure']).map((k, i) => {
-      return (
-        <li key={k}>
-          <label className={c('form__option form__option--custom-radio', {disabled: !this.props.disaster.maxValues})}>
-            <input type='radio' name='exposure-layer' value={k} onChange={(e) => { this.props._setVisibleLayer(e.target.value); }} checked={k === layer}/>
-            <span className='form__option__text'>{config.control['exposure'][k]}</span>
-            <span className='form__option__ui'></span>
-          </label>
-        </li>
-      );
-    });
-  }
+class AnalysisLayerControl extends React.Component {
   render () {
+    const { onLevelChange, disaster, exposureLevel } = this.props;
+    const options = Object.keys(config.control['exposure']);
+
     return (
         <div className='map-layer__actions'>
           <p className='map-layer__title'>LEVEL</p>
           <ul>
-           {this.renderExposureLayerSelect()}
+            {options.map(option => (
+              <li key={option}>
+                <label className={c('form__option form__option--custom-radio', {disabled: !disaster.maxValues})}>
+                  <input type='radio' name='exposure-layer' value={option} onChange={() => { onLevelChange(option); }} checked={option === exposureLevel}/>
+                  <span className='form__option__text'>{config.control['exposure'][option]}</span>
+                  <span className='form__option__ui'></span>
+                </label>
+              </li>
+            ))}
           </ul>
         </div>
     );
   }
 }
 
-const selector = (state) => {
-  return {
-    exposureLayer: state.visibleLayer
-  };
+AnalysisLayerControl.propTypes = {
+  onLevelChange: T.func,
+  disaster: T.object,
+  exposureLevel: T.string
 };
 
-const dispatcher = (dispatch) => {
-  return {
-    _setVisibleLayer: (layer) => { dispatch(setVisibleLayer(layer)); }
-  };
-};
-
-export default connect(selector, dispatcher)(AnalysisLayerControl);
+export default AnalysisLayerControl;
