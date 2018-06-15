@@ -255,8 +255,8 @@ export const DISASTERS = [
     n: 'Tambora',
     c: 'idn',
     bbox: [
-      [117.62120269711221, -8.516058128670451],
-      [118.34934125267489, -8.028534209442213]
+      [93.4716796875, -11.350796722383672],
+      [141.5478515625, 7.144498849647335]
     ],
     dmetric: 'Ashfallring',
     profile: 'Risk Profile - Indonesia - 1815 VO Scenario vFinal',
@@ -430,7 +430,10 @@ export const DISASTERS = [
     dcode: 'EQ',
     n: 'Pakistan',
     c: 'pak',
-    bbox: [[62.4682617187, 23.3825982842], [72.1362304687, 30.0500765217]],
+    bbox: [
+      [59.9194, 23.8456],
+      [77.4975, 37.0025]
+    ],
     dmetric: 'Intensity',
     profile: 'Risk Profile - Pakistan - 2005 EQ Scenario vFinal',
     pop: '15,416,700',
