@@ -141,7 +141,7 @@ class DisasterProfile extends Component {
           <div className='inner'>
             <h1 className='heading--xxlarge'>{this.props.disaster.n} {this.props.disaster.t}, {this.props.disaster.y}</h1>
             <hr></hr>
-            {HTMLParser(this.props.disaster.disasterDescription)}
+            {HTMLParser(this.props.disaster.disasterIntro)}
           </div>
         </section>
         <section className='inpage__body'>
@@ -151,7 +151,10 @@ class DisasterProfile extends Component {
                {this.makeHeaderListElements()}
               </ul>
               <div className='download-profile'>
-            <a href={this.makeProfilePath(this.props.disaster.profile)} download className='button button--large button--base-bounded'>Download Disaster Profile</a>
+                <a href={this.makeProfilePath(this.props.disaster.profile)} download className='button button--large button--base-bounded'>Download Disaster Profile</a>
+              </div>
+              <div className='overview-text'>
+                {HTMLParser(this.props.disaster.disasterDescription)}
               </div>
             </div>
           </section>
