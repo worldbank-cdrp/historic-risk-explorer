@@ -6,6 +6,7 @@ import config from '../config';
 import { map } from 'lodash';
 import { connect } from 'react-redux';
 import c from 'classnames';
+import HTMLParser from 'react-html-parser';
 import {
   clearDisaster,
   setOverlayMetric,
@@ -140,7 +141,7 @@ class DisasterProfile extends Component {
           <div className='inner'>
             <h1 className='heading--xxlarge'>{this.props.disaster.n} {this.props.disaster.t}, {this.props.disaster.y}</h1>
             <hr></hr>
-            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum tempor ornare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempu</p>
+            {HTMLParser(this.props.disaster.disasterDescription)}
           </div>
         </section>
         <section className='inpage__body'>
@@ -182,9 +183,7 @@ class DisasterProfile extends Component {
           <section className='explore'>
             <div className='inner'>
               <h2>Disaster Risk Explorer</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum
-tempor o  rnare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempus. Lorem ipsum
-dolor si  t amet, consectetur adipiscing elit. Duis sed nisl augue</p>
+              {HTMLParser(this.props.disaster.damageDescription)}
               <ul className='map-actions'>
                 {this.makeMetricButtons()}
               </ul>
