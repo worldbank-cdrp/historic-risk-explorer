@@ -60,7 +60,7 @@ class DisasterProfile extends Component {
   }
 
   makeMetricButtons () {
-    let btns = ['Loss', 'Exposure', 'Loss Ratio'].map((m, i) => {
+    let btns = ['Loss', 'Exposure', 'Loss Ratio', 'No Data'].map((m, i) => {
       const metricName = m.replace(' ', '-').toLowerCase();
       const cl = c('button button--large', {
         'button--base-bounded': this.props.overlayMetric !== metricName,

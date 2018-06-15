@@ -21,7 +21,9 @@ class Home extends Component {
           <div className='inner'>
             <h1 className='heading--xxlarge'>Historic Risk Explorer</h1>
             <hr></hr>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum tempor ornare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempus</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum tempor ornare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempus
+            </p>
+            <Link to='/disasters'><button className='button button--secondary-bounded'>Explore Disasters</button></Link>
           </div>
         </header>
         <section className='index__body'>
