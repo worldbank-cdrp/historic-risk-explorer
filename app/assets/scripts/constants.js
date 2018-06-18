@@ -577,7 +577,10 @@ export const DISASTERS = [
     dcode: 'FL',
     n: 'Pakistan',
     c: 'pak',
-    bbox: [[68.6810302734, 26.819168595], [75.3607177734, 33.7745813637]],
+    bbox: [
+      [59.9194, 23.8456],
+      [77.4975, 37.0025]
+    ],
     dmetric: 'water_depth',
     profile: 'Risk Profile - Pakistan - 2010 EQ Scenario vFinal',
     pop: '170,920,000',

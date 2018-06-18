@@ -134,6 +134,11 @@ class DisasterProfile extends Component {
     return (<div/>);
   }
 
+  // Temporarily disabled the before and after slider
+  //        <section className='images'>
+  //          {this.renderSliderMap()}
+  //        </section>
+
   renderDisasterProfile () {
     return (
       <div className='page--disaster-profile'>
@@ -194,9 +199,6 @@ class DisasterProfile extends Component {
             <div>
              <AnalysisMap />
             </div>
-          </section>
-          <section className='images'>
-            {this.renderSliderMap()}
           </section>
         </section>
         <section className='inpage__footer'>
