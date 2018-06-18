@@ -69,6 +69,7 @@
   @include column(12/12);
   box-shadow: 0 4px 3px -1px rgba($base-color, 0.06);
   margin-bottom: $global-spacing * 4;
+  overflow: hidden;
 }
 
 .risk-explorer-tease {

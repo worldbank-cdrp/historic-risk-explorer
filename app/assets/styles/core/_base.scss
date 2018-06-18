@@ -195,5 +195,7 @@ main {
 
 .about-page {
   margin-top: $global-spacing * 4;
-  width: 75%;
+  .about-prose {
+    width: 70%;
+  }
 }
