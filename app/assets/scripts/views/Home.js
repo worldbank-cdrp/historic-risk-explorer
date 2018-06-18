@@ -21,26 +21,28 @@ class Home extends Component {
           <div className='inner'>
             <h1 className='heading--xxlarge'>Historic Risk Explorer</h1>
             <hr></hr>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum tempor ornare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempus</p>
+            <p>Explore the potential damages and losses of 10 historic disasters, if they were to occur today.</p>
+            <Link to='/disasters'><button className='button button--secondary-bounded'>Explore Disasters</button></Link>
           </div>
         </header>
         <section className='index__body'>
           <section className='about-tease'>
-            <div className='inner text-column'>
-              <div>
-                <h2>Compare Historic and Modelled Risk Data</h2>
-                <p>Use our interactive maps to explore the effects of past disasters and their modelled losses if they occured today.</p>
-                <Link to='/about'><button className='button button--large button--base-bounded'>Learn More</button></Link>
+            <div className='inner'>
+              <div className='text-column'>
+                <div>
+                  <h2>Compare Historic and Modelled Risk Data</h2>
+                  <p>Use our interactive maps to explore the effects of past disasters and their modelled losses if they occured today.</p>
+                  <Link to='/about'><button className='button button--large button--base-bounded'>Learn More</button></Link>
+                </div>
               </div>
-            </div>
-            <div className='img-column'>
-              <img src='assets/graphics/content/homepage-tease.png' height='350px'/>
-            </div>
+              <div className='img-column'>
+                <img src='assets/graphics/content/homepage-tease.png' height='350px'/>
+              </div>
+           </div>
           </section>
           <section className='featured-disasters'>
             <div className='inner'>
               <h2>Featured Historic Disasters</h2>
-              <p>orem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue.</p>
               <DisastersList disasters={featuredDisasters}/>
             </div>
           </section>

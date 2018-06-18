@@ -192,3 +192,10 @@ main {
   display: block;
   overflow: hidden;
 }
+
+.about-page {
+  margin-top: $global-spacing * 4;
+  .about-prose {
+    width: 70%;
+  }
+}

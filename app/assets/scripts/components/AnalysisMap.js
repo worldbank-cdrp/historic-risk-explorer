@@ -235,8 +235,12 @@ class AnalysisMap extends React.Component {
       this.theMap.setLayoutProperty('footprint-image', 'visibility', visibility);
     }
 
+    if (this.props.overlayMetric !== nextProps.overlayMetric && nextProps.overlayMetric === 'no-data') {
+      forEachConfigLayer((id, fullName) => this.theMap.setLayoutProperty(fullName, 'visibility', 'none'));
+    }
+
     // Repaint the layers when the metric changes.
-    if (this.props.overlayMetric !== nextProps.overlayMetric) {
+    if (this.props.overlayMetric !== nextProps.overlayMetric && nextProps.overlayMetric !== 'no-data') {
       // Get all the layers
       const metric = METRICS[nextProps.overlayMetric];
       forEachConfigLayer((id, fullName) => {
@@ -246,7 +250,9 @@ class AnalysisMap extends React.Component {
     }
 
     // Switch layers based on exposure (admin | grid)
-    if (this.props.exposureLevel !== nextProps.exposureLevel) {
+    // Or if we changed from no-data.
+    if (this.props.exposureLevel !== nextProps.exposureLevel ||
+    (this.props.overlayMetric !== nextProps.overlayMetric && this.props.overlayMetric === 'no-data')) {
       forEachConfigLayer((id, fullName) => {
         // Initial visibility.
         const layerType = id === 'admin' ? 'admin' : 'grid';
@@ -262,16 +268,16 @@ class AnalysisMap extends React.Component {
     if (this.theMap) {
       const level = getLayerLevel(this.props.exposureLevel, this.theMap.getZoom());
       const metric = METRICS[this.props.overlayMetric];
-      maxValue = this.props.disaster.maxValues[metric][level];
+      maxValue = _.get(this.props.disaster.maxValues, [metric, level], 0);
     }
 
     return (
       <div className='map-canvas'>
         <div className='inner'>
-          <AnalysisLayerControl
+          {this.props.overlayMetric !== 'no-data' ? <AnalysisLayerControl
             onLevelChange={this.onLevelChange}
             disaster={this.props.disaster}
-            exposureLevel={this.props.exposureLevel} />
+            exposureLevel={this.props.exposureLevel} /> : null}
           <AnalysisMapLegend
             overlayFootprintState={this.props.overlayFootprintState}
             overlayMetric={this.props.overlayMetric}

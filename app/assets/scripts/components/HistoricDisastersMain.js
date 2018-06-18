@@ -15,7 +15,6 @@ class HistoricDisastersMain extends Component {
         <header className='inpage__header--alt'>
           <div className='inner'>
             <h1 className='heading--large'>Historic Disasters</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum tempor ornare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempus</p>
           </div>
         </header>
         <section className='inpage__body'>
