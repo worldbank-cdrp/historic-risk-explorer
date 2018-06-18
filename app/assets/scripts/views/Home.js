@@ -21,8 +21,7 @@ class Home extends Component {
           <div className='inner'>
             <h1 className='heading--xxlarge'>Historic Risk Explorer</h1>
             <hr></hr>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum tempor ornare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempus
-            </p>
+            <p>Explore the potential damages and losses of 10 historic disasters, if they were to occur today.</p>
             <Link to='/disasters'><button className='button button--secondary-bounded'>Explore Disasters</button></Link>
           </div>
         </header>
@@ -42,7 +41,6 @@ class Home extends Component {
           <section className='featured-disasters'>
             <div className='inner'>
               <h2>Featured Historic Disasters</h2>
-              <p>orem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue.</p>
               <DisastersList disasters={featuredDisasters}/>
             </div>
           </section>
