@@ -22,6 +22,13 @@
     animation: 2s ease 1s 1 deco-load;
     animation-fill-mode: forwards;
   }
+  button {
+    margin-top: $global-spacing;
+    color: rgba(#FFF, 0.0);
+    position: relative;
+    animation: 2s ease 1s 1 text-load;
+    animation-fill-mode: forwards; 
+  }
   background-size: cover;
   background-repeat: no-repeat;
   background-image:
