@@ -24,6 +24,7 @@
   }
   button {
     margin-top: $global-spacing;
+    background-color: transparent;
     color: rgba(#FFF, 0.0);
     position: relative;
     animation: 2s ease 1s 1 text-load;
@@ -78,6 +79,7 @@
   h2, p {
     color: #FFF;
     width: 60%;
+    margin-bottom: $global-spacing;
     @include media(small-down) {
       width: 90%;
     }
