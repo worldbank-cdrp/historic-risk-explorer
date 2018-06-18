@@ -278,10 +278,10 @@ class AnalysisMap extends React.Component {
             onLevelChange={this.onLevelChange}
             disaster={this.props.disaster}
             exposureLevel={this.props.exposureLevel} /> : null}
-          {this.props.overlayMetric !== 'no-data' ? <AnalysisMapLegend
+          <AnalysisMapLegend
             overlayFootprintState={this.props.overlayFootprintState}
             overlayMetric={this.props.overlayMetric}
-            maxValue={maxValue} /> : null}
+            maxValue={maxValue} />
         </div>
         <div id='analysisMap' ref='map'>{/* Map injected here */}</div>
       </div>
