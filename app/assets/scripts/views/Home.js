@@ -22,7 +22,7 @@ class Home extends Component {
             <h1 className='heading--xxlarge'>Historic Risk Explorer</h1>
             <hr></hr>
             <p>Explore the potential damages and losses of 10 historic disasters, if they were to occur today.</p>
-            <Link to='/disasters'><button className='button button--secondary-bounded'>Explore Disasters</button></Link>
+            <Link to='/disasters'><button className='button button--large button--secondary-bounded'>Explore Disasters</button></Link>
           </div>
         </header>
         <section className='index__body'>
