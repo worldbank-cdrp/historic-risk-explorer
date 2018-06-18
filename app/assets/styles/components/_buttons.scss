@@ -80,6 +80,7 @@
 
 .button--secondary-bounded {
   @include button-variation("bounded", null, #FFF);
+  background-color: transparent !important;
 }
 
 
