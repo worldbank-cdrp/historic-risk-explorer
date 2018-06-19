@@ -124,20 +124,13 @@ class DisasterProfile extends Component {
       return (
       <div className='inner'>
         <h2>Before and After the Disaster</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed nisl augue. Morbi condimentum
-    tempor o  rnare. Sed rutrum pretium accumsan. Duis iaculis consequat nunc a tempus. Lorem ipsum
-    dolor si  t amet, consectetur adipiscing elit. Duis sed nisl augue</p>
         <SliderMap disaster={this.props.disaster} />
+        {this.props.disaster.sliderAttribution ? <p>{this.props.disaster.sliderAttribution}</p> : null}
       </div>
       );
     }
     return (<div/>);
   }
-
-  // Temporarily disabled the before and after slider
-  //        <section className='images'>
-  //          {this.renderSliderMap()}
-  //        </section>
 
   renderDisasterProfile () {
     return (
@@ -199,6 +192,9 @@ class DisasterProfile extends Component {
             <div>
              <AnalysisMap />
             </div>
+          </section>
+          <section className='images'>
+            {this.renderSliderMap()}
           </section>
         </section>
         <section className='inpage__footer'>

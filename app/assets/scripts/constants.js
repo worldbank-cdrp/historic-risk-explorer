@@ -401,6 +401,12 @@ export const DISASTERS = [
     deaths: '215',
     homeless: '157000',
     housesDestroyed: '12,612',
+    pre: 'mozambique_tmo_2014032_geo-pre',
+    post: 'mozambique_tmo_2015017_geo-post',
+    sliderBbox: [[29.7784423828, -19.6684529744], [38.9630126953, -13.7473889243]],
+    sliderCenter: [38.00153192860081, -16.973705993896203],
+    sliderZoom: [7],
+    sliderAttribution: 'NASA images courtesy the MODIS Rapid Response Team at NASA GSFC. Pre-disaster imagery acquired February 1, 2014. Post-disaster acquired January 17, 2015.',
     annloss: {
       Historic: '56',
       Modelled: '61'
@@ -602,11 +608,12 @@ export const DISASTERS = [
       Historic: '1.26',
       Modelled: '1.44'
     },
-    pre: '-pre-pak-2010',
-    post: '-post-pak-2010',
+    pre: 'pakistan_tmo_2009213_geo-pre',
+    post: 'pakistan_tmo_2010212_geo-post',
     sliderBbox: [[69.700513, 34.140129], [30.76625, 72.482998]],
     sliderCenter: [71.11724975524088, 32.460008863242194],
     sliderZoom: [8],
+    sliderAttribution: 'NASA images courtesy the MODIS Rapid Response Team at NASA GSFC. Pre-disaster imagery acquired August 1, 2009. Post-disaster acquired July 31, 2010.',
     image: 'pakistan-flood-2010.jpg',
     maxValues: {
       exp:
