@@ -414,6 +414,11 @@ export const DISASTERS = [
       Modelled: '0.63'
     },
     staticXYZ: [34.37072753905, -16.70792094935, 7],
+    pre: 'landsat8-hazards-moz-2015-pre',
+    post: 'landsat8-hazards-moz-2015-post',
+    sliderBbox: [[35, -17.3], [35, -17.3]],
+    sliderCenter: [35, -17.3],
+    sliderZoom: [8],
     maxValues: {
       exp:
       { admin: 0,
@@ -540,6 +545,11 @@ export const DISASTERS = [
       Modelled: '15.04'
     },
     image: 'Haiti-2010.jpg',
+    pre: 'dg-pre-hti-2010',
+    post: 'dg-post-hti-2010',
+    sliderBbox: [[-72.4, 18.45], [-72.4, 18.45]],
+    sliderCenter: [-72.4, 18.45],
+    sliderZoom: [12],
     maxValues: {
       exp:
       { admin: 16754791640.16,
@@ -602,10 +612,10 @@ export const DISASTERS = [
       Historic: '1.26',
       Modelled: '1.44'
     },
-    pre: '-pre-pak-2010',
-    post: '-post-pak-2010',
-    sliderBbox: [[69.700513, 34.140129], [30.76625, 72.482998]],
-    sliderCenter: [71.11724975524088, 32.460008863242194],
+    pre: 'landsat5-hazards-pak-2010-pre',
+    post: 'landsat5-hazards-pak-2010-post',
+    sliderBbox: [[71, 33], [71, 33]],
+    sliderCenter: [71, 33],
     sliderZoom: [8],
     image: 'pakistan-flood-2010.jpg',
     maxValues: {

@@ -31,9 +31,13 @@ class DG:
             relative time for disaster. used to build base url
         """
         scene_urls = [ build_scene_urls(scene, relTimes[relTime]) for scene in scenes ]
-        image_path = os.path.join(self.download_dir, relTimes[relTime])
-        for scene in scene_urls:
-            download(scene, image_path)
+        image_path = os.path.join(self.download_dir, relTime)
+        for scene_url in scene_urls:
+            if not os.path.exists(image_path):
+                os.makedirs(image_path)
+            image_path_tif=image_path +'/'+ scene_url.split("/")[-1]
+            print( 'Right Path:' + image_path_tif )
+            download(scene_url, image_path_tif)
 
 def build_scene_urls(scene, relTime):
     return DG_BASE + relTime + '/' + scene + '.tif'
