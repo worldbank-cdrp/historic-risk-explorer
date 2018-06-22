@@ -254,7 +254,15 @@ export const DISASTERS = [
         grid20km: 0.902641348133092,
         grid5km: 0.902641348133092 }
     },
-    footprint: null,
+    footprint: {
+      name: 'Fiji_HU_2016_Winston',
+      bbox: [
+        [176.8292541, -16.029183],
+        [180.6315770, -16.029183],
+        [180.6315770, -18.902845],
+        [176.8292541, -18.902845]
+      ]
+    },
     disasterIntro: '<p>Winston was the most intense tropical cyclone, as well as the strongest that has ever made landfall in the Southern Hemisphere and became the costliest in the South Pacific’s history. The tropical system formed on February 7, 2016 and followed a looping track in the area between Tonga and Fiji. </p>',
     disasterDescription: '<p>First heading northeast towards Tonga, tracking well to the south of Fiji and then after stalling over Tonga on February 17 (where it caused damage as a category 2 to 3 cyclone), it turned sharp to the west heading directly towards Fiji and made landfall as a category 5 storm on February 20. Upon reaching Fiji, the storm first passed over the outlying small island chain of the Lau Islands. The storm passed directly over Vanua Balavu, where a wind gust of 306 km/h was observed. Koro, Ovalau and Taveuni Islands sustained severe damage before the storm moved towards the main island of Viti Levu. Just before making landfall on the Ra province (northern part of Viti Levu), Winston attained its peak intensity, with ten-minute sustained winds of 280 km/h and minimum pressure of 884 mbar.</p>',
     damageDescription: '<p>The storm destroyed 11,500 and damaged 19,700 housing units (8% and 13.5% of Fiji’s housing stock respectively). The number of homeless was 55,000 (6.2% of the population), while 44 people lost their lives (a strict curfew had been imposed prior to the storm’s arrival). The quality of construction of the houses is highly varied. Around 40% of the houses are built with concrete block or concrete panel walls and are more cyclone resistant, with the remaining 58% being made from various types and quality of wood frame, with outer walls either from corrugated metal sheets (housing of the poor) or wood panels, while about 2% are traditional thatched houses (bure-type).</p><p>Our analysis using the reported numbers of destroyed and partially damaged housing units in each province found the ratio of destroyed housing units at 48% in Ra, nearly 30% and 27% in Bua and Cakaudrove (in Vanua Levu Island), 26% in Lomaiviti, 16% in Tailevu, 10% in Lau and 7.7% in Ba. In the south of Viti Levu Island (where 42% of Fijians live) the ratio of destroyed houses was much less, at 2.6% in Namosi, 2.1% in Naitasiri, 1.1% in Nadroga Navosai, 0.9% in Serua and 0.4% in Rewa (where the capital, Suva, is situated). These ratios correspond well to the assessed wind speeds and to the quality of the housing stock in each of the 13 affected provinces. The lowest ratio of destroyed houses in Rewa province is related to the better quality of construction in the capital region, but also to the fact that the storm’s track was well to the north of Suva.</p><p>We estimated the value of the Fiji’s building capital stock at $6.5 billion. A re-analysis of the storm’s impact showed damage to the residential and non-residential buildings very similar to the PDNA (modelled residential/non-residential loss ratios at 8.2% and 5.47%, vs. 8.7% and 4.19% respectively by the PDNA).</p>'
@@ -421,21 +429,24 @@ export const DISASTERS = [
     },
     staticXYZ: [34.37072753905, -16.70792094935, 7],
     maxValues: {
-      exp:
-      { admin: 0,
-        grid1km: 0,
-        grid20km: 0,
-        grid5km: 0 },
-      aloss:
-      { admin: 0,
-        grid1km: 0,
-        grid20km: 0,
-        grid5km: 0 },
-      lr:
-      { admin: 0,
-        grid1km: 0,
-        grid20km: 0,
-        grid5km: 0 }
+      exp: {
+        admin: 4516641821.15873,
+        grid1km: 120204667.051,
+        grid20km: 3580005419.94189,
+        grid5km: 675721540.31687
+      },
+      aloss: {
+        admin: 53055901.7143177,
+        grid1km: 4429307.10451999,
+        grid20km: 11030937.3464617,
+        grid5km: 6733576.67962398
+      },
+      lr: {
+        admin: 0.0169451136780382,
+        grid1km: 0.256764053779535,
+        grid20km: 0.235240413382303,
+        grid5km: 0.256764053778048
+      }
     },
     footprint: {
       name: 'MoMa_FL_2015_floodedArea',
