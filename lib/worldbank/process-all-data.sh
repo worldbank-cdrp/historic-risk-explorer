@@ -97,8 +97,7 @@ while read -r f; do
 		"FJI") country_iso="FJ"; if [[ "$f" != *"Point Format"* ]]; then continue; fi; ;;
 		"HTI") country_iso="HT"; if [[ "$f" != *"Point Format"* ]]; then continue; fi; ;;
 		"IDN") country_iso="ID" ;;
-		# "MOZ") country_iso="MZ" ;;
-		"MOZ") continue ;;
+		"MOZ") country_iso="MZ" ;;
 		"PAK") country_iso="PK" ;;
 		"SLV") country_iso="SV"; if [[ "$f" != *"Point Format"* ]]; then continue; fi; ;;
 	esac
